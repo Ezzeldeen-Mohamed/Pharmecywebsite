@@ -1,0 +1,66 @@
+﻿@model ServiceRequest
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        Request Health Service
+                    </h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="RequestService" method="post">
+
+                        <input type="hidden" asp-for="ServiceId" />
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label"></label>
+
+                            <input asp-for="Address"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Address"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ContactPhoneNumber" class="form-label"></label>
+
+                            <input asp-for="ContactPhoneNumber"
+                                   class="form-control" />
+
+                            <span asp-validation-for="ContactPhoneNumber"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Notes" class="form-label"></label>
+
+                            <textarea asp-for="Notes"
+                                      class="form-control"
+                                      rows="4"></textarea>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-success px-4">
+                            Confirm Request
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

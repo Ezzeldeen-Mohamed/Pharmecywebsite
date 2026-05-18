@@ -1,0 +1,101 @@
+﻿@using ePharma_asp_mvc.Models.Enums
+@model List<Order>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<div class="bg-light py-3 border-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted">Home</a>
+                <span class="mx-2 text-secondary">/</span>
+                <strong class="text-dark">My Orders</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h3 class="fw-bold text-dark mb-1"><i class="fas fa-history text-primary me-2"></i>My Orders History</h3>
+                <p class="text-muted small">Track and view the statuses of your purchases.</p>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="card shadow-sm border-0 bg-white rounded-3 overflow-hidden">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light border-bottom">
+                                <tr class="text-dark">
+                                    <th class="ps-4 py-3">Order ID</th>
+                                    <th>Total Price</th>
+                                    <th>Date Ordered</th>
+                                    <th>Status</th>
+                                    <th class="text-end pe-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model == null || !Model.Any())
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center py-5 text-muted">
+                                            <i class="fas fa-shopping-bag fa-3x mb-3 d-block text-secondary opacity-50"></i>
+                                            You haven't placed any orders yet.
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="ps-4 fw-bold text-secondary">#@item.Id</td>
+                                            <td class="fw-bold text-dark">@item.TotalPrice.ToString("C2")</td>
+                                            <td class="text-muted small">@item.TimeOrdered.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                            <td>
+                                                @{
+                                                    // تم تعديل الألوان هنا لتهندل الـ 4 حالات بتوعك بالظبط بالملي!
+                                                    var statusColor = item.Status switch
+                                                    {
+                                                        OrderStatus.Pending => "bg-warning text-dark",
+                                                        OrderStatus.Accepted => "bg-info text-white",
+                                                        OrderStatus.Completed => "bg-success text-white",
+                                                        OrderStatus.Cancelled => "bg-danger text-white",
+                                                        _ => "bg-dark text-white"
+                                                    };
+                                                }
+                                                <span class="badge @statusColor px-3 py-2 rounded-pill" style="min-width: 100px; text-align: center; font-size: 0.8rem;">
+                                                    <i class="fas fa-circle me-1" style="font-size: 6px; vertical-align: middle;"></i> @item.Status
+                                                </span>
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <a asp-controller="Order" asp-action="OrderDetails" asp-route-id="@item.Id"
+                                                   class="btn btn-outline-dark btn-sm px-3 rounded-pill shadow-sm">
+                                                    <i class="fas fa-file-invoice me-1"></i> View Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <a asp-controller="Home" asp-action="Shop" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

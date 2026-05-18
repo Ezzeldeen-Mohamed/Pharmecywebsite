@@ -1,0 +1,284 @@
+﻿@using ePharma_asp_mvc.Models.Enums
+@model Order
+
+<div class="container py-5">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="text-dark fw-bold mb-1">
+                <i class="fas fa-receipt me-2 text-primary"></i>
+                Order Details #@Model.Id
+            </h2>
+            <p class="text-muted small mb-0">Review transactional values and track real-time order states.</p>
+        </div>
+        <a asp-action="Index" asp-controller="Admin" class="btn btn-outline-dark shadow-sm rounded-pill px-3">
+            <i class="fas fa-arrow-left me-1"></i> Back to List
+        </a>
+    </div>
+
+    <!-- Order Progress Tracker (مبني تماماً على الـ Enum بتاعك) -->
+    <div class="card shadow-sm border-0 mb-5 py-4">
+        <div class="step-wizard">
+            @if (Model.Status == OrderStatus.Cancelled)
+            {
+                <div class="step-wizard-item cancelled-step active-step">
+                    <span class="progress-count"><i class="fas fa-times"></i></span>
+                    <span class="step-label">Order Cancelled</span>
+                </div>
+            }
+            else
+            {
+                <div class="step-wizard-item @(Model.Status >= OrderStatus.Pending ? "active-step" : "")">
+                    <span class="progress-count">1</span>
+                    <span class="step-label">Pending</span>
+                </div>
+                <div class="step-wizard-item @(Model.Status == OrderStatus.Accepted || Model.Status == OrderStatus.Completed ? "active-step" : "")">
+                    <span class="progress-count">2</span>
+                    <span class="step-label">Accepted</span>
+                </div>
+                <div class="step-wizard-item @(Model.Status == OrderStatus.Completed ? "active-step" : "")">
+                    <span class="progress-count">3</span>
+                    <span class="step-label">Completed</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left Side: Customer & Products -->
+        <div class="col-md-8">
+            <!-- Customer Information -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-dark text-white py-3">
+                    <h5 class="mb-0 text-white"><i class="fas fa-user-circle me-2"></i> Customer Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 mb-3"><strong>Full Name:</strong> <p class="text-muted mb-0">@(Model.User != null ? $"{Model.User.FirstName} {Model.User.LastName}" : "Guest User")</p></div>
+                        <div class="col-sm-6 mb-3"><strong>Contact Email:</strong> <p class="text-muted mb-0">@(Model.User?.Email ?? "N/A")</p></div>
+                        <div class="col-sm-6 mb-3"><strong>Phone Number:</strong> <p class="text-muted mb-0">@(Model.User?.PhoneNumber ?? "N/A")</p></div>
+                        <div class="col-sm-6 mb-3"><strong>Delivery Address:</strong> <p class="text-muted mb-0">@(Model.CustomAddress ?? Model.User?.Address ?? "Not Specified")</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ordered Products -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-secondary text-white py-3">
+                    <h5 class="mb-0 text-white"><i class="fas fa-box-open me-2"></i> Ordered Items</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3">Product</th>
+                                    <th>Preview</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th class="pe-3">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.OrderItems != null && Model.OrderItems.Any())
+                                {
+                                    foreach (var item in Model.OrderItems)
+                                    {
+                                        <tr>
+                                            <td class="ps-3 fw-bold text-dark">@item.Product?.Name</td>
+                                            <td><img src="@item.Product?.ImageUrl" width="55" height="55" class="rounded shadow-sm border" style="object-fit:cover;" /></td>
+                                            <td>@item.Product?.Price.ToString("C2")</td>
+                                            <td><span class="badge bg-light text-dark border">x @item.Quantity</span></td>
+                                            <td class="pe-3 fw-bold text-primary">@((item.Product != null ? (item.Product.Price * item.Quantity) : 0).ToString("C2"))</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light text-end py-3">
+                    <h4 class="mb-0 fw-bold">Grand Total: <span class="text-success">@Model.TotalPrice.ToString("C2")</span></h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Smart Actions (تحديث الحالات الفعلي) -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 mb-4 border-top border-primary border-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 fw-bold text-dark">Next Step</h5>
+
+                    <form asp-action="UpdateStatus" asp-controller="Admin" method="post" id="statusForm">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="hidden" name="status" id="statusValue" />
+
+                        <div class="d-grid gap-2">
+                            @if (Model.Status == OrderStatus.Pending)
+                            {
+                                <button type="button" onclick="updateStatus('@OrderStatus.Accepted')" class="btn btn-info text-white btn-lg shadow-sm">
+                                    <i class="fas fa-check me-2"></i> Accept Order
+                                </button>
+                            }
+                            else if (Model.Status == OrderStatus.Accepted)
+                            {
+                                <button type="button" onclick="updateStatus('@OrderStatus.Completed')" class="btn btn-success btn-lg shadow-sm">
+                                    <i class="fas fa-check-double me-2"></i> Mark as Completed
+                                </button>
+                            }
+                            else if (Model.Status == OrderStatus.Completed)
+                            {
+                                <div class="alert alert-success border-0 mb-0 text-center py-3 shadow-sm">
+                                    <i class="fas fa-check-circle me-2"></i> Order Completed
+                                </div>
+                            }
+
+                            @if (Model.Status != OrderStatus.Completed && Model.Status != OrderStatus.Cancelled)
+                            {
+                                <hr class="my-3 text-muted" />
+                                <button type="button" class="btn btn-outline-danger btn-sm border-0" onclick="updateStatus('@OrderStatus.Cancelled')">
+                                    <i class="fas fa-ban me-1"></i> Cancel Order
+                                </button>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Prescription Display -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-info text-white py-3">
+                    <h6 class="mb-0 text-white"><i class="fas fa-file-medical me-2"></i> Prescription Verification</h6>
+                </div>
+                <div class="card-body text-center bg-light">
+                    @if (!string.IsNullOrEmpty(Model.PrescriptionPhoto))
+                    {
+                        <a href="@Url.Content(Model.PrescriptionPhoto)" target="_blank" class="d-block position-relative prescription-container">
+                            <img src="@Url.Content(Model.PrescriptionPhoto)" class="img-fluid rounded shadow-sm border" style="max-height: 280px; object-fit: contain;" alt="Prescription" />
+                            <div class="prescription-overlay">
+                                <i class="fas fa-search-plus fa-2x text-white"></i>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="py-4 text-muted">
+                            <i class="fas fa-comment-slash fa-2x mb-2 text-secondary opacity-50"></i>
+                            <p class="mb-0 small">No prescription provided.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Wizard Styles تتماشى مع الـ 3 خطوات الجديدة */
+    .step-wizard {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .step-wizard-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        z-index: 10;
+    }
+
+        .step-wizard-item::after {
+            content: "";
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #e1e1e1;
+            left: 50%;
+            top: 20px;
+            z-index: -1;
+            transition: 0.4s;
+        }
+
+        .step-wizard-item:last-child::after {
+            display: none;
+        }
+
+    .progress-count {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e1e1e1;
+        color: #fff;
+        margin-bottom: 10px;
+        border: 3px solid #fff;
+        transition: 0.4s;
+    }
+
+    .active-step .progress-count {
+        background: #28a745;
+        box-shadow: 0 0 10px rgba(40,167,69,0.3);
+    }
+
+    .active-step .step-label {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .active-step::after {
+        background: #28a745;
+    }
+
+    .step-label {
+        font-size: 12px;
+        color: #888;
+    }
+
+    .cancelled-step .progress-count {
+        background: #dc3545 !important;
+    }
+
+    .cancelled-step .step-label {
+        color: #dc3545 !important;
+        font-weight: bold;
+    }
+
+    .prescription-container {
+        overflow: hidden;
+    }
+
+    .prescription-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: 0.3s;
+        border-radius: 0.25rem;
+    }
+
+    .prescription-container:hover .prescription-overlay {
+        opacity: 1;
+    }
+</style>
+
+<script>
+    function updateStatus(statusString) {
+        let msg = (statusString === 'Cancelled') ? "Are you sure you want to cancel this order?" : "Confirm status update?";
+        if (confirm(msg)) {
+            document.getElementById('statusValue').value = statusString;
+            document.getElementById('statusForm').submit();
+        }
+    }
+</script>

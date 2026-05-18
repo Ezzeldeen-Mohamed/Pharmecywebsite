@@ -1,0 +1,57 @@
+﻿@using ePharma_asp_mvc.Models.Enums
+@model IEnumerable<ServiceRequest>
+
+<div class="container py-5">
+    <h2 class="mb-4 text-primary">
+        My Service Requests
+    </h2>
+
+    <div class="card shadow border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th>Service</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model)
+                    {
+                        <!-- إضافة onclick و style لتغيير شكل الماوس -->
+                        <tr onclick="window.location.href='@Url.Action("Details", "HealthServices", new { id = request.Id })'"
+                            style="cursor: pointer;"
+                            title="Click to view details">
+
+                            <td class="fw-bold">@request.Service.Name</td>
+                            <td>@request.Address</td>
+                            <td>@request.ContactPhoneNumber</td>
+                            <td>@request.RequestTime.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                @if (request.Status == ServiceRequestStatus.Pending)
+                                {
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                }
+                                else if (request.Status == ServiceRequestStatus.Accepted)
+                                {
+                                    <span class="badge bg-info text-white">Accepted</span>
+                                }
+                                else if (request.Status == ServiceRequestStatus.Completed)
+                                {
+                                    <span class="badge bg-success text-white">Completed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger text-white">Cancelled</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

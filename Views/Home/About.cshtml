@@ -1,0 +1,147 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+}
+
+@* التعديل هنا: استخدام ~ لضمان الوصول للمجلد الرئيسي *@
+<div class="site-blocks-cover inner-page" style="background-image: url('@Url.Content("~/images/hero_1.jpg")');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 mx-auto align-self-center">
+                <div class="text-center">
+                    <h1>About Us</h1>
+                    <p>We are dedicated to providing the best healthcare solutions and effective medicine for your everyday needs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section bg-light custom-border-bottom" data-aos="fade">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <div class="block-16">
+                    <figure>
+                        <img src="~/images/bg_1.jpg" alt="About Our Pharmacy" class="img-fluid rounded">
+                    </figure>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <div class="site-section-heading pt-3 mb-4">
+                    <h2 class="text-black">How We Started</h2>
+                </div>
+                <p>
+                    Pharma started with a simple mission: to make high-quality medical supplies and prescriptions accessible to everyone.
+                    From a local pharmacy to a digital platform, our focus has always been on accuracy and patient care.
+                </p>
+                <p>
+                    We believe that technology can bridge the gap between healthcare providers and patients,
+                    ensuring that you get your medicine safely and on time.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section bg-light custom-border-bottom" data-aos="fade">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-6 order-md-2">
+                <div class="block-16">
+                    <figure>
+                        <img src="~/images/hero_1.jpg" alt="Trusted Pharma" class="img-fluid rounded">
+                    </figure>
+                </div>
+            </div>
+            <div class="col-md-5 mr-auto">
+                <div class="site-section-heading pt-3 mb-4">
+                    <h2 class="text-black">We Are a Trusted Company</h2>
+                </div>
+                <p class="text-black">
+                    Our team works closely with certified professionals to ensure that every product listed on our platform meets international standards.
+                </p>
+                <p class="text-black">
+                    With thousands of satisfied customers, we continue to grow while maintaining the same level of trust and quality service we started with.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Service Features Section *@
+<div class="site-section site-section-sm site-blocks-1 border-0" data-aos="fade">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up">
+                <div class="icon mr-4 align-self-start">
+                    <span class="icon-truck text-primary"></span>
+                </div>
+                <div class="text">
+                    <h2>Free Shipping</h2>
+                    <p>Quick and safe delivery right to your doorstep for all medical supplies.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon mr-4 align-self-start">
+                    <span class="icon-refresh2 text-primary"></span>
+                </div>
+                <div class="text">
+                    <h2>Free Returns</h2>
+                    <p>Easy return policy within 30 days if you are not satisfied with your purchase.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon mr-4 align-self-start">
+                    <span class="icon-help text-primary"></span>
+                </div>
+                <div class="text">
+                    <h2>Customer Support</h2>
+                    <p>Our pharmacists and support team are available 24/7 to answer your questions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Team Section *@
+<div class="site-section bg-light custom-border-bottom" data-aos="fade">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 site-section-heading text-center pt-4">
+                <h2>The Team</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6 mb-5">
+                <div class="block-38 text-center">
+                    <div class="block-38-img">
+                        <div class="block-38-header">
+                            <img src="~/images/person_1.jpg" alt="Elizabeth Graham" class="mb-4 rounded-circle shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                            <h3 class="block-38-heading h4">Elizabeth Graham</h3>
+                            <p class="block-38-subheading text-uppercase small font-weight-bold">CEO/Co-Founder</p>
+                        </div>
+                        <div class="block-38-body">
+                            <p>Leading the vision to digitalize healthcare access across the region.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 mb-5">
+                <div class="block-38 text-center">
+                    <div class="block-38-img">
+                        <div class="block-38-header">
+                            <img src="~/images/person_2.jpg" alt="Jennifer Greive" class="mb-4 rounded-circle shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                            <h3 class="block-38-heading h4">Jennifer Greive</h3>
+                            <p class="block-38-subheading text-uppercase small font-weight-bold">Operations Director</p>
+                        </div>
+                        <div class="block-38-body">
+                            <p>Ensuring every order is processed with 100% accuracy and care.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* يمكنك إضافة باقي الفريق بنفس الطريقة *@
+        </div>
+    </div>
+</div>

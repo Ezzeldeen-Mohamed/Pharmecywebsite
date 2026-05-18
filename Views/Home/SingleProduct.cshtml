@@ -1,0 +1,247 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<!-- Breadcrumb -->
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0">
+
+                <a asp-controller="Home"
+                   asp-action="Index">
+                    Home
+                </a>
+
+                <span class="mx-2 mb-0">/</span>
+
+                <a asp-controller="Product"
+                   asp-action="Index">
+                    Store
+                </a>
+
+                <span class="mx-2 mb-0">/</span>
+
+                <strong class="text-black">
+                    @Model.Name
+                </strong>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Product Section -->
+<div class="site-section">
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Product Image -->
+            <div class="col-md-5 mr-auto">
+
+                <div class="border rounded shadow-sm text-center p-4 bg-white">
+
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Url.Content(Model.ImageUrl)"
+                             class="img-fluid"
+                             style="max-height: 400px; object-fit: contain;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/no-image.png"
+                             class="img-fluid"
+                             style="max-height: 400px;" />
+                    }
+
+                </div>
+
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-md-6">
+
+                <h2 class="text-black font-weight-bold mb-3">
+                    @Model.Name
+                </h2>
+
+                <p class="text-muted">
+                    @Model.Description
+                </p>
+
+                <h3 class="text-primary mb-4">
+                    $@Model.Price
+                </h3>
+
+                <!-- Availability -->
+                @if (Model.Stock > 0)
+                {
+                    <div class="alert alert-success py-2">
+                        In Stock (@Model.Stock Available)
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger py-2">
+                        Out Of Stock
+                    </div>
+                }
+
+                <!-- Buttons -->
+                <div class="d-flex flex-wrap gap-2 mb-4">
+
+                    <!-- Add To Cart -->
+                    @if (Model.Stock > 0)
+                    {
+                        <a asp-controller="Order"
+                           asp-action="AddToShoppingCart"
+                           asp-route-id="@Model.Id"
+                           class="btn btn-primary px-4 py-2">
+
+                            <i class="fa fa-shopping-cart"></i>
+                            Add To Cart
+
+                        </a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-danger px-4 py-2" disabled>
+                            Out Of Stock
+                        </button>
+                    }
+
+                    <!-- Edit -->
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Product"
+                           asp-action="Edit"
+                           asp-route-id="@Model.Id"
+                           class="btn btn-warning px-4 py-2">
+
+                            Edit
+
+                        </a>
+
+                        <!-- Delete -->
+                        <form asp-controller="Product"
+                              asp-action="Delete"
+                              asp-route-id="@Model.Id"
+                              method="post"
+                              onsubmit="return confirm('Are you sure you want to delete this product?')">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="btn btn-danger px-4 py-2">
+
+                                Delete
+
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+
+                <!-- Product Info -->
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-header bg-primary text-white">
+                        Product Information
+                    </div>
+
+                    <div class="card-body">
+
+                        <table class="table table-bordered mb-0">
+
+                            <tbody>
+
+                                <tr>
+                                    <th width="30%">
+                                        Product ID
+                                    </th>
+
+                                    <td>
+                                        #@Model.Id
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Product Name
+                                    </th>
+
+                                    <td>
+                                        @Model.Name
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Price
+                                    </th>
+
+                                    <td class="text-success font-weight-bold">
+                                        $@Model.Price
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Category
+                                    </th>
+
+                                    <td>
+                                        @Model.Category
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Stock
+                                    </th>
+
+                                    <td>
+                                        @Model.Stock
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Availability
+                                    </th>
+
+                                    <td>
+                                        @if (Model.Stock > 0)
+                                        {
+                                            <span class="text-success font-weight-bold">
+                                                In Stock
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger font-weight-bold">
+                                                Out Of Stock
+                                            </span>
+                                        }
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

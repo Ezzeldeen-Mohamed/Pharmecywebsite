@@ -1,0 +1,128 @@
+﻿@using ePharma_asp_mvc.Data.ViewModels;
+@model SignUpViewModel;
+
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<style>
+    .signup-container {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid #eee;
+    }
+
+    .password-hint {
+        font-size: 0.8rem;
+        color: #6c757d;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        border-left: 3px solid #17a2b8;
+    }
+</style>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            @* 1. رسالة نجاح التسجيل - تظهر فقط لو الـ Model تم بنجاح *@
+            @if (ViewBag.RegistrationSuccess == true)
+            {
+                <div class="site-section p-0 mb-5">
+                    <div class="text-center signup-container">
+                        <span class="icon-check_circle display-3 text-success"></span>
+                        <h2 class="display-4 text-black">Registration Completed!</h2>
+                        <p class="lead mb-4">You can now log in to your account using your email and password.</p>
+                        <p><a asp-controller="ApplicationUser" asp-action="LogIn" class="btn btn-primary px-5 py-3">Login Now</a></p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @* 2. عرض أخطاء السيرفر *@
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <strong>Sorry!</strong> @TempData["Error"]
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                }
+
+                @* 3. فورم التسجيل *@
+                <div class="signup-container">
+                    <div class="card-header bg-primary text-white mb-4 text-center">
+                        <h4 class="mb-0">Create New Account</h4>
+                    </div>
+
+                    <form asp-action="SignUp" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="FirstName" class="text-black font-weight-bold">First Name</label>
+                                <input asp-for="FirstName" class="form-control" placeholder="E.g. Ahmed">
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="LastName" class="text-black font-weight-bold">Last Name</label>
+                                <input asp-for="LastName" class="form-control" placeholder="E.g. Mohamed">
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="UserName" class="text-black font-weight-bold">Username</label>
+                            <input asp-for="UserName" class="form-control" placeholder="Username123">
+                            <span asp-validation-for="UserName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="EmailAddress" class="text-black font-weight-bold">Email</label>
+                            <input asp-for="EmailAddress" type="email" class="form-control" placeholder="name@example.com">
+                            <span asp-validation-for="EmailAddress" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber" class="text-black font-weight-bold">Phone Number</label>
+                            <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="e.g. +1234567890">
+                            <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Address" class="text-black font-weight-bold">Delivery Address</label>
+                            <input asp-for="Address" class="form-control" placeholder="City, Street, Building">
+                            <span asp-validation-for="Address" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="Password" class="text-black font-weight-bold">Password</label>
+                                <input asp-for="Password" type="password" class="form-control">
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="ConfirmPassword" class="text-black font-weight-bold">Confirm</label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control">
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="password-hint mb-4">
+                            <i class="icon-info-circle mr-1"></i>
+                            Must be 6+ characters, with a digit, uppercase, lowercase, and a symbol (e.g., #, $, !).
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg btn-block shadow-sm">Sign Up</button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted small">Already have an account? <a asp-action="LogIn" class="text-primary font-weight-bold">Log In</a></p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

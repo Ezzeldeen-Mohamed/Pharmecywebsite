@@ -1,0 +1,175 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> UserManager;
+
+@{
+    var isAuthenticated = User.Identity.IsAuthenticated;
+    var user = isAuthenticated ? await UserManager.GetUserAsync(User) : null;
+    var firstName = user?.FirstName ?? "زائر";
+}
+
+<style>
+    /* تأثيرات متطورة ومخصصة لقائمة الحساب */
+    .auth-dropdown-nav {
+        position: relative;
+        list-style: none;
+    }
+
+    .auth-trigger-link {
+        color: #333;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+        .auth-trigger-link:hover {
+            background: rgba(13, 110, 253, 0.08);
+            color: #0d6efd;
+        }
+
+    /* الـ Dropdown الفاخر بتقنية الـ Glassmorphism */
+    .advanced-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0; /* في الـ RTL الـ left 0 يخليها تفتح لبرة بشكل منضبط */
+        right: auto;
+        min-width: 220px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 10px;
+        margin-top: 10px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px);
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1050;
+    }
+
+    /* حركات الأنيميشن عند الوقوف على زر الحساب */
+    .auth-dropdown-nav:hover .advanced-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .advanced-dropdown li {
+        list-style: none;
+        margin-bottom: 4px;
+    }
+
+        .advanced-dropdown li:last-child {
+            margin-bottom: 0;
+        }
+
+    .advanced-dropdown a,
+    .advanced-dropdown .logout-btn-custom {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        color: #495057;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+        width: 100%;
+        text-align: right;
+        border: none;
+        background: none;
+    }
+
+        .advanced-dropdown a:hover {
+            background: #0d6efd;
+            color: #ffffff !important;
+            transform: translateX(-4px); /* حركة تفاعلية لليمين في الـ RTL */
+        }
+
+        .advanced-dropdown .logout-btn-custom:hover {
+            background: #dc3545;
+            color: #ffffff !important;
+            transform: translateX(-4px);
+        }
+
+    /* لضمان التناسق الدقيق للفورم الخاص بالخروج */
+    .logout-form-wrapper {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+</style>
+
+@if (isAuthenticated)
+{
+    var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
+
+    <li class="auth-dropdown-nav">
+        <a class="auth-trigger-link text-decoration-none">
+            <i class="fas fa-user-circle fs-5 text-primary"></i>
+            <span>أهلاً بك، <span class="text-primary">@firstName</span> ✨</span>
+            <i class="fas fa-chevron-down fs-7 opacity-50 ms-1"></i>
+        </a>
+
+        <ul class="advanced-dropdown m-0">
+            <li>
+                <a asp-controller="Order" asp-action="MyOrders">
+                    <i class="fas fa-shopping-bag text-secondary"></i> طلبتي الدوائية
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Prescription" asp-action="MyPrescriptions">
+                    <i class="fas fa-file-medical text-secondary"></i> روشتاتي المسجلة
+                </a>
+            </li>
+
+            @if (isAdmin)
+            {
+                <li>
+                    <a asp-controller="Admin" asp-action="Index" class="border-top pt-2 mt-2 rounded-0">
+                        <i class="fas fa-chart-line text-danger"></i> لوحة التحكم (الأدمن)
+                    </a>
+                </li>
+            }
+
+            <li class="border-top pt-2 mt-2">
+                <form asp-controller="ApplicationUser" asp-action="Logout" method="post" class="logout-form-wrapper">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="logout-btn-custom">
+                        <i class="fas fa-sign-out-alt text-danger"></i> تسجيل الخروج
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </li>
+}
+else
+{
+    <li class="auth-dropdown-nav">
+        <a class="auth-trigger-link text-decoration-none">
+            <i class="far fa-user fs-5 text-secondary"></i>
+            <span>حسابي (<span class="text-secondary">زائر</span>)</span>
+            <i class="fas fa-chevron-down fs-7 opacity-50 ms-1"></i>
+        </a>
+        <ul class="advanced-dropdown m-0">
+            <li>
+                <a asp-controller="ApplicationUser" asp-action="LogIn">
+                    <i class="fas fa-sign-in-alt text-success"></i> تسجيل الدخول
+                </a>
+            </li>
+            <li>
+                <a asp-controller="ApplicationUser" asp-action="SignUp">
+                    <i class="fas fa-user-plus text-primary"></i> إنشاء حساب جديد
+                </a>
+            </li>
+        </ul>
+    </li>
+}

@@ -1,0 +1,273 @@
+﻿@model ePharma_asp_mvc.Models.Prescription
+
+@{
+    ViewData["Title"] = "Prescription Details";
+}
+
+<!-- Breadcrumb -->
+<div class="bg-light py-3 border-bottom">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12 mb-0">
+
+                <a asp-controller="Home"
+                   asp-action="Index">
+
+                    Home
+
+                </a>
+
+                <span class="mx-2">/</span>
+
+                <a asp-controller="Prescription"
+                   asp-action="MyPrescriptions">
+
+                    My Prescriptions
+
+                </a>
+
+                <span class="mx-2">/</span>
+
+                <strong class="text-black">
+                    Prescription #@Model.Id
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Details -->
+<div class="site-section bg-light">
+
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Image -->
+            <div class="col-lg-5 mb-4">
+
+                <div class="card border-0 shadow-sm rounded-lg overflow-hidden">
+
+                    <div class="card-header bg-primary text-white">
+
+                        <h5 class="mb-0">
+                            Prescription Image
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body text-center bg-white">
+
+                        @if (!string.IsNullOrEmpty(Model.ImagePath))
+                        {
+                            <img src="@Url.Content(Model.ImagePath)"
+                                 class="img-fluid rounded shadow-sm"
+                                 style="max-height:500px; object-fit:contain;" />
+                        }
+                        else
+                        {
+                            <img src="~/images/no-image.png"
+                                 class="img-fluid"
+                                 style="max-height:400px;" />
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Info -->
+            <div class="col-lg-7">
+
+                <div class="card border-0 shadow-sm rounded-lg">
+
+                    <div class="card-header bg-dark text-white">
+
+                        <h5 class="mb-0">
+                            Prescription Information
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <table class="table table-bordered mb-0">
+
+                            <tbody>
+
+                                <tr>
+                                    <th>Status</th>
+                                    <td>
+                                        @if (Model.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Accepted) // فرضاً إن دي القيم عندك
+                                        {
+                                            <span class="badge bg-warning text-dark">Accepted</span>
+                                        }
+                                        else if (Model.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Pending)
+                                        {
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        }   
+                                        else if (Model.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Cancelled)
+                                        {
+                                            <span class="badge bg-danger">Cancelled</span>
+                                        }
+                                        else if (Model.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Completed)
+                                        {
+                                            <span class="badge bg-success">Completed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">@Model.Status</span>
+                                        }
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <th width="35%">
+                                        Prescription ID
+                                    </th>
+
+                                    <td>
+                                        #@Model.Id
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Uploaded At
+                                    </th>
+
+                                    <td>
+                                        @Model.CreatedAt.ToString("dd MMM yyyy - hh:mm tt")
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Address
+                                    </th>
+
+                                    <td>
+                                        @Model.Address
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Phone Number
+                                    </th>
+
+                                    <td>
+                                        @Model.PhoneNumber
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Notes
+                                    </th>
+
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(Model.Notes))
+                                        {
+                                            @Model.Notes
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                No notes added.
+                                            </span>
+                                        }
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Uploaded By
+                                    </th>
+
+                                    <td>
+                                        @Model.User?.UserName
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="mt-4 d-flex flex-wrap gap-2">
+
+                    <a asp-controller="Prescription"
+                       asp-action="MyPrescriptions"
+                       class="btn btn-outline-primary">
+
+                        <i class="fa fa-arrow-left mr-2"></i>
+                        Back
+
+                    </a>
+
+                    <a href="@Url.Content(Model.ImagePath)"
+                       target="_blank"
+                       class="btn btn-primary">
+
+                        <i class="fa fa-eye mr-2"></i>
+                        View Full Image
+
+                    </a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <form asp-controller="Prescription"
+                              asp-action="Delete"
+                              asp-route-id="@Model.Id"
+                              method="post"
+                              onsubmit="return confirm('Delete this prescription?')">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+
+                                <i class="fa fa-trash mr-2"></i>
+                                Delete
+
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    .gap-2 {
+        gap: .5rem;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        white-space: nowrap;
+    }
+
+</style>

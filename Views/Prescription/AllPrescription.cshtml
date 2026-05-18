@@ -1,0 +1,175 @@
+﻿@model IEnumerable<Prescription>
+
+@{
+    ViewData["Title"] = User.IsInRole("Admin") ? "Manage Prescriptions" : "My Prescriptions";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark">@(User.IsInRole("Admin") ? "Prescription Service Requests" : "Your Uploaded Prescriptions")</h2>
+            <p class="text-muted small">
+                @(User.IsInRole("Admin") ? "Review, approve, or reject user health service prescriptions." : "Track the status of your uploaded medical prescriptions.")
+            </p>
+        </div>
+        @if (!User.IsInRole("Admin"))
+        {
+            <a asp-action="Upload" asp-controller="Prescription" class="btn btn-primary"><i class="fas fa-upload me-2"></i>Upload New One</a>
+        }
+    </div>
+
+    <!-- Alert Messages -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Image</th>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <th>User</th>
+                            }
+                            <th>Contact Info</th>
+                            <th>Notes</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="@(User.IsInRole("Admin") ? 7 : 6)" class="text-center py-5 text-muted">
+                                    <i class="fas fa-folder-open fa-3x mb-3 d-block text-secondary"></i>
+                                    No prescriptions found.
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <!-- Image Column -->
+                                    <td class="ps-4">
+                                        <a href="@Url.Content(item.ImagePath)" target="_blank">
+                                            <img src="@Url.Content(item.ImagePath)" class="rounded border shadow-sm img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;" alt="Prescription" />
+                                        </a>
+                                    </td>
+
+                                    <!-- User Column (Admin Only) -->
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <td>
+                                            <span class="fw-bold d-block text-dark">@(item.User?.UserName ?? "Guest User")</span>
+                                            <small class="text-muted">Email: @(item.User?.Email ?? "N/A")</small>
+                                        </td>
+                                    }
+
+                                    <!-- Contact Info Column -->
+                                    <td>
+                                        <span class="d-block small text-dark"><i class="fas fa-phone text-muted me-1"></i> @item.PhoneNumber</span>
+                                        <span class="d-block small text-muted"><i class="fas fa-map-marker-alt text-muted me-1"></i> @item.Address</span>
+                                    </td>
+
+                                    <!-- Notes Column -->
+                                    <td>
+                                        <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@item.Notes">
+                                            @(string.IsNullOrEmpty(item.Notes) ? "No notes provided" : item.Notes)
+                                        </span>
+                                    </td>
+
+                                    <!-- Status Badge Column -->
+                                    <td>
+                                        @{
+                                            var badgeClass = item.Status switch
+                                            {
+                                                ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Pending => "bg-warning text-dark",
+                                                ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Accepted => "bg-info text-white",
+                                                ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Completed => "bg-success text-white",
+                                                ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Cancelled => "bg-danger text-white",
+                                                _ => "bg-secondary text-white"
+                                            };
+                                        }
+                                        <span class="badge @badgeClass px-2 py-1.5" style="min-width: 85px;">@item.Status</span>
+                                    </td>
+
+                                    <!-- Date Column -->
+                                    <td class="text-muted small">
+                                        @item.CreatedAt.ToString("dd MMM yyyy, hh:mm tt")
+                                    </td>
+
+                                    <!-- Actions Column (التحكم الذكي حسب الـ Workflow) -->
+                                    <td class="text-end pe-4">
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <!-- زر التفاصيل متاح دائماً للجميع -->
+                                            <a asp-action="Details" asp-controller="Prescription" asp-route-id="@item.Id" class="btn btn-outline-secondary" title="View Full Details">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <!-- 1. لو الحالة لسه منتظرة المراجعة (Pending) -->
+                                                @if (item.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Pending)
+                                                {
+                                                    <form asp-action="UpdateStatus" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-status="Accepted" method="post" class="d-inline">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-outline-success" title="Accept & Prepare">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </form>
+
+                                                    <form asp-action="UpdateStatus" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-status="Cancelled" method="post" class="d-inline">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-outline-danger" title="Reject / Cancel Request">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                }
+
+                                                else if (item.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Accepted)
+                                                {
+                                                    <form asp-action="UpdateStatus" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-status="Completed" method="post" class="d-inline">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-success text-white" title="Mark as Completed">
+                                                            <i class="fas fa-check-double"></i>
+                                                        </button>
+                                                    </form>
+
+                                                    <form asp-action="UpdateStatus" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-status="Cancelled" method="post" class="d-inline">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-outline-danger" title="Cancel Request">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                }
+
+                                                <!-- زر الحذف النهائي للأدمن متوفر دائماً -->
+                                                <form asp-action="Delete" asp-controller="Prescription" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this record permanently?');">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="btn btn-outline-dark" title="Delete Permanently">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

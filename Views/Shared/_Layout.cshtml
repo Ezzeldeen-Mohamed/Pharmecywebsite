@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - صيدلية د. محمد عبدالله الشنواني</title>
+
+    <!-- Bootstrap 5 RTL لضمان انضباط الاتجاهات -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+
+    <!-- ملفات الـ Styles الأساسية للمشروع -->
+    <link href="~/fonts/icomoon/style.css" rel="stylesheet" />
+    <link href="~/css/magnific-popup.css" rel="stylesheet" />
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/css/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="~/css/aos.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+
+    <!-- الخطوط والأيقونات الممتازة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* نظام الـ Typography والـ Theme الفاخر */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* الـ Navbar المطور بتقنية الشفافية الزجاجية */
+        .site-navbar {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+            transition: all 0.3s ease;
+        }
+
+        /* الهيكل الدقيق لشعار الصيدلية الجديد */
+        .pharmacy-brand-wrapper {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none !important;
+            line-height: 1.3;
+        }
+
+        .pharmacy-main-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0284c7; /* لون طبي ذكي */
+            transition: color 0.3s ease;
+        }
+
+            .pharmacy-main-title i {
+                color: #10b981; /* الزمرد الطبي لإعطاء لمسة حيوية */
+            }
+
+        .pharmacy-sub-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #64748b;
+            padding-right: 2px;
+        }
+
+        /* حركات تفاعلية متطورة للقائمة العلوية (Advanced Hover FX) */
+        .site-menu li a {
+            font-weight: 700 !important;
+            color: #475569 !important;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 8px 12px !important;
+            transition: color 0.3s ease !important;
+        }
+
+            .site-menu li a:hover, .site-menu li.active a {
+                color: #0284c7 !important;
+            }
+
+            .site-menu li a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 3px;
+                bottom: -2px;
+                left: 50%;
+                background-color: #0284c7;
+                border-radius: 4px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .site-menu li a:hover::after, .site-menu li.active a::after {
+                width: 80%;
+                left: 10%;
+            }
+
+        /* تعديل أدوات الأيقونات (البحث والسلة) */
+        .icons-btn {
+            color: #475569 !important;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+            .icons-btn:hover {
+                color: #0284c7 !important;
+                background: rgba(2, 132, 199, 0.08);
+            }
+
+        /* البانرات الإعلانية الفاخرة (Advanced Section Cards) */
+        .advanced-banner-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+            .advanced-banner-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            }
+
+        .banner-overlay-dark {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.4));
+            width: 100%;
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        /* تزيين الـ Footer المطور */
+        .site-footer {
+            background-color: #0f172a !important;
+            color: #94a3b8 !important;
+            padding: 5em 0 3em 0 !important;
+        }
+
+            .site-footer h3 {
+                color: #f8fafc !important;
+                font-weight: 700;
+                font-size: 1.15rem;
+                border-right: 3px solid #10b981;
+                padding-right: 10px;
+            }
+
+            .site-footer a {
+                color: #cbd5e1 !important;
+                transition: all 0.2s ease;
+                text-decoration: none;
+            }
+
+                .site-footer a:hover {
+                    color: #10b981 !important;
+                    padding-right: 4px;
+                }
+    </style>
+</head>
+<body>
+    <div class="site-wrap">
+
+        <!-- الـ Navbar الرئيسي للبراند -->
+        <div class="site-navbar py-3 sticky-top">
+
+            <!-- شريط البحث المنسدل الفاخر -->
+            <div class="search-wrap">
+                <div class="container">
+                    <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+                    <form asp-controller="Home" asp-action="Search" method="post">
+                        <input type="text" name="searchString" class="form-control text-right" placeholder="اكتب اسم المنتج الدوائي أو المستحضر واضغط Enter...">
+                    </form>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between">
+
+                    <!-- لوجو وهوية الصيدلية المحدثة بالكامل -->
+                    <div class="logo">
+                        <a asp-controller="Home" asp-action="Index" class="pharmacy-brand-wrapper">
+                            <span class="pharmacy-main-title">
+                                <i class="fas fa-prescription-bottle-alt me-1"></i> صيدلية الدكتور محمد عبدالله الشنواني
+                            </span>
+                            <span class="pharmacy-sub-title">
+                                <i class="fas fa-user-md me-1"></i> إدارة د. عمر محمد
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- الـ Navigation Menu المعربة والمطورة -->
+                    <div class="main-nav d-none d-lg-block">
+                        <nav class="site-navigation text-center" role="navigation">
+                            <ul class="site-menu js-clone-nav d-flex align-items-center gap-2 m-0 p-0">
+                                <li class="active"><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                                <li><a asp-controller="Home" asp-action="Shop">المتجر الدوائي</a></li>
+                                <li><a asp-controller="HealthServices" asp-action="Index">الخدمات الطبية</a></li>
+                                <li><a asp-controller="Home" asp-action="About">عن الصيدلية</a></li>
+
+                                <!-- عنصر الهوية والـ Dropdown المطور سابقاً -->
+                                <partial name="_Identity.cshtml"></partial>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <!-- أيقونات التفاعل الذكية (بحث وسلة) -->
+                    <div class="icons d-flex align-items-center gap-2">
+                        <a href="#" class="icons-btn js-search-open"><span class="icon-search"></span></a>
+
+                        <!-- مكون سلة المشتريات المدمج الديناميكي -->
+                        @await Component.InvokeAsync("ShoppingCartCount")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الجزء الديناميكي لعرض محتوى الصفحات الداخلية -->
+        <main role="main">
+            @RenderBody()
+        </main>
+
+        <!-- قسم العروض والمميزات (Premium Banner View) -->
+        <div class="site-section bg-light py-5">
+            <div class="container">
+                <div class="row align-items-stretch g-4">
+                    <div class="col-lg-6">
+                        <div class="advanced-banner-card d-flex h-100" style="background: url('../images/bg_1.jpg') center/cover no-repeat;">
+                            <div class="banner-overlay-dark d-flex flex-column justify-content-center text-white h-100">
+                                <h2 class="fw-bold mb-3"><i class="fas fa-mortar-pestle text-success me-2"></i> المنتجات الطبية والرعاية</h2>
+                                <p class="opacity-85 fs-6">
+                                    نوفر لكم باقة متكاملة من الأدوية الأصلية ومستحضرات التجميل العالمية الخاضعة للرقابة الصحية الدقيقة والموثوقة.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="advanced-banner-card d-flex h-100" style="background: url('../images/bg_2.jpg') center/cover no-repeat;">
+                            <div class="banner-overlay-dark d-flex flex-column justify-content-center text-white h-100">
+                                <h2 class="fw-bold mb-3"><i class="fas fa-award text-info me-2"></i> تقييم الخبراء والأطباء</h2>
+                                <p class="opacity-85 fs-6">
+                                    خدمات استشارية ودوائية متميزة تحت إشراف نخبة من الصيادلة المتخصصين لضمان تقديم أعلى مستويات الرعاية الصحية لك ولعائلتك.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الـ Footer الاحترافي الجديد بالكامل -->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row g-5">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="block-7">
+                            <h3 class="mb-4">عن صيدليتنا</h3>
+                            <p class="lh-lg opacity-75">
+                                صيدلية الدكتور محمد عبدالله الشنواني (تحت إدارة د. عمر محمد) تسعى دائماً لتقديم منظومة رعاية صحية متكاملة، عبر توفير الخدمات الدوائية والاستشارات الطبية وتوصيل الطلبات بكل دقة وسرعة.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mx-auto">
+                        <h3 class="mb-4">روابط سريعة</h3>
+                        <ul class="list-unstyled d-flex flex-column gap-2 p-0">
+                            <li><a href="#"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> المكملات الغذائية</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> الفيتامينات والمعادن</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> رعاية الطفل والأم</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> قسم الحمية والرشاقة</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="block-5">
+                            <h3 class="mb-4">بيانات التواصل المباشر</h3>
+                            <ul class="list-unstyled d-flex flex-column gap-3 p-0 opacity-85">
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fas fa-map-marker-alt text-danger mt-1"></i>
+                                    <span>جمهورية مصر العربية، مدينة 6 أكتوبر / محافظة الغربية</span>
+                                </li>
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-phone-alt text-success"></i>
+                                    <a href="tel:+201200000000" dir="ltr">+20 120 000 0000</a>
+                                </li>
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-envelope text-info"></i>
+                                    <span>info@shanaouany-pharma.com</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pt-5 mt-5 border-top border-secondary text-center opacity-75">
+                    <div class="col-md-12">
+                        <p class="m-0">
+                            حقوق الطبع والنشر محفوظة &copy; <script>document.write(new Date().getFullYear());</script> | صيدلية د. محمد عبدالله الشنواني (إدارة د. عمر محمد)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- ملفات الـ JavaScript المحدثة والمنظمة -->
+        <script src="~/js/jquery-3.3.1.min.js"></script>
+        <script src="~/js/jquery-ui.js"></script>
+        <script src="~/js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/owl.carousel.min.js"></script>
+        <script src="~/js/jquery.magnific-popup.min.js"></script>
+        <script src="~/js/aos.js"></script>
+        <script src="~/js/main.js"></script>
+
+        @await RenderSectionAsync("Scripts", required: false)
+
+    </div>
+</body>
+</html>
