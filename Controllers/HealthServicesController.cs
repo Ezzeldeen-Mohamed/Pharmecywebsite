@@ -26,7 +26,7 @@ namespace ePharma_asp_mvc.Controllers
         public async Task<IActionResult> Index()
         {
             var services = await _healthService.GetAllAsync();
-            return View(services);
+            return View("Index", services);
         }
 
         // صفحة طلب الخدمة

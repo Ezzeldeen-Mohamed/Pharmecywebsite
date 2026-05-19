@@ -1,95 +1,92 @@
 ﻿@{
-    ViewData["Title"] = "Contact Us";
+    ViewData["Title"] = "اتصل بنا";
 }
 
-<div class="bg-light py-3">
+<!-- شريط التنقل الفرعي (Breadcrumb) -->
+<div class="bg-light py-3 border-bottom text-right">
     <div class="container">
         <div class="row">
             <div class="col-md-12 mb-0">
-                @* استخدام Tag Helpers للينكات *@
-                <a asp-controller="Home" asp-action="Index">Home</a> <span class="mx-2 mb-0">/</span>
-                <strong class="text-black">Contact</strong>
+                <a asp-controller="Home" asp-action="Index" class="text-primary font-weight-bold">الرئيسية</a>
+                <span class="mx-2 mb-0 text-muted">/</span>
+                <strong class="text-dark">اتصل بنا</strong>
             </div>
         </div>
     </div>
 </div>
 
-<div class="site-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="h3 mb-5 text-black">Get In Touch</h2>
+<!-- قسم الفورم والتواصل -->
+<div class="site-section bg-white">
+    <div class="container py-5">
+        <div class="row text-right">
+            <div class="col-md-12 mb-4">
+                <h2 class="h3 font-weight-bold text-black border-bottom d-inline-block pb-2">تواصل معنا الآن</h2>
             </div>
             <div class="col-md-12">
-
-                @* التعديل: توجيه الفورم لـ Action معين في الكنترولر *@
-                <form asp-controller="Home" asp-action="Contact" method="post">
-
-                    <div class="p-3 p-lg-5 border">
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_fname" name="FirstName" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_lname" name="LastName" required>
-                            </div>
+                <form asp-controller="Home" asp-action="Contact" method="post" class="shadow p-4 p-lg-5 border rounded bg-light">
+                    <div class="form-group row">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label for="c_fname" class="text-black font-weight-bold">الاسم الأول <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg rounded" id="c_fname" name="FirstName" required placeholder="مثال: أحمد">
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <label for="c_email" class="text-black">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="c_email" name="Email" placeholder="example@mail.com" required>
-                            </div>
+                        <div class="col-md-6">
+                            <label for="c_lname" class="text-black font-weight-bold">الاسم الأخير / العائلة <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg rounded" id="c_lname" name="LastName" required placeholder="مثال: حسن">
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <label for="c_subject" class="text-black">Subject </label>
-                                <input type="text" class="form-control" id="c_subject" name="Subject">
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label for="c_email" class="text-black font-weight-bold">البريد الإلكتروني <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control form-control-lg rounded" id="c_email" name="Email" placeholder="example@mail.com" required style="text-align: left;">
                         </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <label for="c_message" class="text-black">Message </label>
-                                <textarea name="Message" id="c_message" cols="30" rows="7" class="form-control" required></textarea>
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label for="c_subject" class="text-black font-weight-bold">عنوان الرسالة</label>
+                            <input type="text" class="form-control form-control-lg rounded" id="c_subject" name="Subject" placeholder="ما هو موضوع استفسارك؟">
                         </div>
-                        <div class="form-group row">
-                            <div class="col-lg-12">
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Send Message</button>
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label for="c_message" class="text-black font-weight-bold">نص الرسالة <span class="text-danger">*</span></label>
+                            <textarea name="Message" id="c_message" cols="30" rows="6" class="form-control rounded" required placeholder="اكتب تفاصيل رسالتك هنا..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <div class="col-lg-4 mr-auto">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block font-weight-bold rounded-pill shadow-sm">إرسال الرسالة</button>
                         </div>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
 
-<div class="site-section bg-primary">
+<!-- قسم الفروع والمكاتب -->
+<div class="site-section bg-primary text-right py-5 shadow-inner">
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <h2 class="text-white mb-4">Our Offices</h2>
+            <div class="col-12 text-center mb-4 text-white">
+                <h2 class="font-weight-bold text-white mb-2">مكاتبنا وفروعنا</h2>
+                <p class="text-white-50">نسعد دائمًا بزيارتكم لنا في أي من الفروع التالية</p>
             </div>
-            <div class="col-lg-4">
-                <div class="p-4 bg-white mb-3 rounded">
-                    <span class="d-block text-black h6 text-uppercase">Cairo</span>
-                    <p class="mb-0">Nasr City, Cairo, Egypt</p>
+            <div class="col-lg-4 mb-3 mb-lg-0">
+                <div class="p-4 bg-white rounded shadow-sm custom-card-hover h-100">
+                    <span class="d-block text-primary h5 font-weight-bold mb-2">القاهرة</span>
+                    <p class="mb-0 text-secondary"><i class="fa fa-map-marker-alt text-danger ml-2"></i>مدينة نصر، القاهرة، مصر</p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3 mb-lg-0">
+                <div class="p-4 bg-white rounded shadow-sm custom-card-hover h-100">
+                    <span class="d-block text-primary h5 font-weight-bold mb-2">طنطا</span>
+                    <p class="mb-0 text-secondary"><i class="fa fa-map-marker-alt text-danger ml-2"></i>شارع سعيد، طنطا، الغربية، مصر</p>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="p-4 bg-white mb-3 rounded">
-                    <span class="d-block text-black h6 text-uppercase">Tanta</span>
-                    <p class="mb-0">Saeed St, Tanta, Gharbia, Egypt</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="p-4 bg-white mb-3 rounded">
-                    <span class="d-block text-black h6 text-uppercase">6th of October</span>
-                    <p class="mb-0">Technological University Campus, Egypt</p>
+                <div class="p-4 bg-white rounded shadow-sm custom-card-hover h-100">
+                    <span class="d-block text-primary h5 font-weight-bold mb-2">6 أكتوبر</span>
+                    <p class="mb-0 text-secondary"><i class="fa fa-map-marker-alt text-danger ml-2"></i>داخل مجمع الجامعة التكنولوجية، مصر</p>
                 </div>
             </div>
         </div>

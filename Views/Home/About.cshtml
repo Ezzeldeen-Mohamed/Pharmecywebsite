@@ -1,147 +1,142 @@
 ﻿@{
-    ViewData["Title"] = "About Us";
+    ViewData["Title"] = "من نحن";
 }
 
-@* التعديل هنا: استخدام ~ لضمان الوصول للمجلد الرئيسي *@
-<div class="site-blocks-cover inner-page" style="background-image: url('@Url.Content("~/images/hero_1.jpg")');">
+<!-- غطاء الصفحة الرئيسي (Hero Section) -->
+<div class="site-blocks-cover inner-page" style="background-image: url('@Url.Content("~/images/hero_1.jpg")'); background-position: center; background-size: cover;">
     <div class="container">
         <div class="row">
             <div class="col-lg-7 mx-auto align-self-center">
-                <div class="text-center">
-                    <h1>About Us</h1>
-                    <p>We are dedicated to providing the best healthcare solutions and effective medicine for your everyday needs.</p>
+                <div class="text-center text-white py-5" style="background: rgba(0,0,0,0.4); border-radius: 15px;">
+                    <h1 class="display-4 font-weight-bold">من نحن</h1>
+                    <p class="lead">ملتزمون بتقديم أفضل الحلول الرعاية الصحية والأدوية الفعالة لتلبية احتياجاتك اليومية.</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- قسم قصة البداية -->
 <div class="site-section bg-light custom-border-bottom" data-aos="fade">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-md-6">
-                <div class="block-16">
-                    <figure>
-                        <img src="~/images/bg_1.jpg" alt="About Our Pharmacy" class="img-fluid rounded">
+    <div class="container py-5">
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div class="block-16 shadow rounded overflow-hidden">
+                    <figure class="mb-0">
+                        <img src="~/images/bg_1.jpg" alt="عن صيدليتنا" class="img-fluid transform-hover">
                     </figure>
                 </div>
             </div>
             <div class="col-md-1"></div>
-            <div class="col-md-5">
+            <div class="col-md-5 text-right">
                 <div class="site-section-heading pt-3 mb-4">
-                    <h2 class="text-black">How We Started</h2>
+                    <h2 class="text-black border-bottom pb-2 font-weight-bold">كيف كانت بدايتنا</h2>
                 </div>
-                <p>
-                    Pharma started with a simple mission: to make high-quality medical supplies and prescriptions accessible to everyone.
-                    From a local pharmacy to a digital platform, our focus has always been on accuracy and patient care.
+                <p class="text-secondary lead">
+                    بدأت صيدلية "فارما" بمهمة بسيطة: جعل المستلزمات الطبية والوصفات العلاجية عالية الجودة في متناول الجميع وبأسهل طريقة ممكنة.
                 </p>
-                <p>
-                    We believe that technology can bridge the gap between healthcare providers and patients,
-                    ensuring that you get your medicine safely and on time.
+                <p class="text-secondary">
+                    من صيدلية محلية صغيرة إلى منصة رقمية متكاملة، كان تركيزنا دائمًا ولا يزال ينصب على دقة المواعيد، وسلامة المريض، وتقديم رعاية صحية فائقة.
                 </p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="site-section bg-light custom-border-bottom" data-aos="fade">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-md-6 order-md-2">
-                <div class="block-16">
-                    <figure>
-                        <img src="~/images/hero_1.jpg" alt="Trusted Pharma" class="img-fluid rounded">
+<!-- قسم الشركة الموثوقة -->
+<div class="site-section bg-white custom-border-bottom" data-aos="fade">
+    <div class="container py-5">
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6 order-md-2 mb-4 mb-md-0">
+                <div class="block-16 shadow rounded overflow-hidden">
+                    <figure class="mb-0">
+                        <img src="~/images/hero_1.jpg" alt="صيدلية موثوقة" class="img-fluid transform-hover">
                     </figure>
                 </div>
             </div>
-            <div class="col-md-5 mr-auto">
+            <div class="col-md-5 mr-auto text-right">
                 <div class="site-section-heading pt-3 mb-4">
-                    <h2 class="text-black">We Are a Trusted Company</h2>
+                    <h2 class="text-black border-bottom pb-2 font-weight-bold">نحن شركة موثوقة بالكامل</h2>
                 </div>
-                <p class="text-black">
-                    Our team works closely with certified professionals to ensure that every product listed on our platform meets international standards.
+                <p class="text-dark font-weight-medium">
+                    يعمل فريقنا عن كثب مع خبراء ومحترفين معتمدين لضمان أن كل منتج يتم عرضه على منصتنا يطابق المعايير والمواصفات الطبية العالمية.
                 </p>
-                <p class="text-black">
-                    With thousands of satisfied customers, we continue to grow while maintaining the same level of trust and quality service we started with.
+                <p class="text-secondary">
+                    مع آلاف العملاء الراضين عن خدماتنا، نواصل النمو والتطور يومًا بعد يوم مع الحفاظ على نفس مستوى الثقة والجودة العالية التي بدأنا بها.
                 </p>
             </div>
         </div>
     </div>
 </div>
 
-@* Service Features Section *@
-<div class="site-section site-section-sm site-blocks-1 border-0" data-aos="fade">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up">
-                <div class="icon mr-4 align-self-start">
-                    <span class="icon-truck text-primary"></span>
+<!-- قسم مميزات الخدمة -->
+<div class="site-section site-section-sm site-blocks-1 border-0 bg-light" data-aos="fade">
+    <div class="container py-5">
+        <div class="row text-right">
+            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 px-4" data-aos="fade-up">
+                <div class="icon ml-3 align-self-start bg-primary text-white p-3 rounded-circle shadow-sm">
+                    <span class="icon-truck h4 mb-0"></span>
                 </div>
                 <div class="text">
-                    <h2>Free Shipping</h2>
-                    <p>Quick and safe delivery right to your doorstep for all medical supplies.</p>
+                    <h3 class="h5 font-weight-bold">شحن مجاني</h3>
+                    <p class="text-muted">توصيل سريع وآمن مباشرة إلى باب منزلك لجميع المستلزمات الطبية والأدوية.</p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="icon mr-4 align-self-start">
-                    <span class="icon-refresh2 text-primary"></span>
+            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 px-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon ml-3 align-self-start bg-success text-white p-3 rounded-circle shadow-sm">
+                    <span class="icon-refresh2 h4 mb-0"></span>
                 </div>
                 <div class="text">
-                    <h2>Free Returns</h2>
-                    <p>Easy return policy within 30 days if you are not satisfied with your purchase.</p>
+                    <h3 class="h5 font-weight-bold">إرجاع مجاني</h3>
+                    <p class="text-muted">سياسة إرجاع سهلة ومرنة خلال 30 يومًا إذا لم تكن راضيًا تمامًا عن طلبك.</p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="icon mr-4 align-self-start">
-                    <span class="icon-help text-primary"></span>
+            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 px-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon ml-3 align-self-start bg-warning text-white p-3 rounded-circle shadow-sm">
+                    <span class="icon-help h4 mb-0"></span>
                 </div>
                 <div class="text">
-                    <h2>Customer Support</h2>
-                    <p>Our pharmacists and support team are available 24/7 to answer your questions.</p>
+                    <h3 class="h5 font-weight-bold">دعم عملاء 24/7</h3>
+                    <p class="text-muted">طاقم من الصيادلة وفريق الدعم متواجدون على مدار الساعة للإجابة على استفساراتكم.</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@* Team Section *@
-<div class="site-section bg-light custom-border-bottom" data-aos="fade">
-    <div class="container">
+<!-- قسم فريق العمل -->
+<div class="site-section bg-white" data-aos="fade">
+    <div class="container py-5">
         <div class="row justify-content-center mb-5">
             <div class="col-md-7 site-section-heading text-center pt-4">
-                <h2>The Team</h2>
+                <h2 class="font-weight-bold border-bottom d-inline-block pb-2 px-4">فريق العمل</h2>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-6 mb-5">
-                <div class="block-38 text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-5">
+                <div class="block-38 text-center bg-light p-4 rounded shadow-sm custom-card-hover">
                     <div class="block-38-img">
-                        <div class="block-38-header">
-                            <img src="~/images/person_1.jpg" alt="Elizabeth Graham" class="mb-4 rounded-circle shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
-                            <h3 class="block-38-heading h4">Elizabeth Graham</h3>
-                            <p class="block-38-subheading text-uppercase small font-weight-bold">CEO/Co-Founder</p>
-                        </div>
-                        <div class="block-38-body">
-                            <p>Leading the vision to digitalize healthcare access across the region.</p>
-                        </div>
+                        <img src="~/images/person_1.jpg" alt="إليزابيث جراهام" class="mb-4 rounded-circle shadow" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;">
+                        <h3 class="block-38-heading h5 font-weight-bold mb-1">إليزابيث جراهام</h3>
+                        <p class="text-primary text-uppercase small font-weight-bold">الرئيس التنفيذي / المؤسس الشريك</p>
+                    </div>
+                    <div class="block-38-body mt-3">
+                        <p class="text-muted small">تقود الرؤية الطموحة لرقمنة الرعاية الصحية وتسهيل الوصول للأدوية في المنطقة.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 mb-5">
-                <div class="block-38 text-center">
+            <div class="col-md-4 mb-5">
+                <div class="block-38 text-center bg-light p-4 rounded shadow-sm custom-card-hover">
                     <div class="block-38-img">
-                        <div class="block-38-header">
-                            <img src="~/images/person_2.jpg" alt="Jennifer Greive" class="mb-4 rounded-circle shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
-                            <h3 class="block-38-heading h4">Jennifer Greive</h3>
-                            <p class="block-38-subheading text-uppercase small font-weight-bold">Operations Director</p>
-                        </div>
-                        <div class="block-38-body">
-                            <p>Ensuring every order is processed with 100% accuracy and care.</p>
-                        </div>
+                        <img src="~/images/person_2.jpg" alt="جينيفر جريف" class="mb-4 rounded-circle shadow" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;">
+                        <h3 class="block-38-heading h5 font-weight-bold mb-1">جينيفر جريف</h3>
+                        <p class="text-primary text-uppercase small font-weight-bold">مدير العمليات</p>
+                    </div>
+                    <div class="block-38-body mt-3">
+                        <p class="text-muted small">تضمن معالجة وتحضير كل طلب طبي بدقة متناهية تبلغ 100% ورعاية فائقة.</p>
                     </div>
                 </div>
             </div>
-            @* يمكنك إضافة باقي الفريق بنفس الطريقة *@
         </div>
     </div>
 </div>

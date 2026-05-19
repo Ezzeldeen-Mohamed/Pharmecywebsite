@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ePharma_asp_mvc.Migrations
 {
-    public partial class first : Migration
+    public partial class all : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,7 +57,7 @@ namespace ePharma_asp_mvc.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<double>(type: "float", nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,7 +196,6 @@ namespace ePharma_asp_mvc.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TimeOrdered = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PrescriptionPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CustomerNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CustomAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -207,6 +206,31 @@ namespace ePharma_asp_mvc.Migrations
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Prescriptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Prescriptions_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -323,12 +347,12 @@ namespace ePharma_asp_mvc.Migrations
             migrationBuilder.InsertData(
                 table: "HealthServices",
                 columns: new[] { "Id", "Description", "Name", "Price" },
-                values: new object[] { 1, "خدمة منزلية", "قياس ضغط وسكر", 20.0 });
+                values: new object[] { 1, "خدمة منزلية", "قياس ضغط وسكر", 20m });
 
             migrationBuilder.InsertData(
                 table: "HealthServices",
                 columns: new[] { "Id", "Description", "Name", "Price" },
-                values: new object[] { 2, "زيارة منزلية", "إعطاء حقنة عضل/وريد", 10.0 });
+                values: new object[] { 2, "زيارة منزلية", "إعطاء حقنة عضل/وريد", 10m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -385,6 +409,11 @@ namespace ePharma_asp_mvc.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Prescriptions_UserId",
+                table: "Prescriptions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ServiceRequests_ServiceId",
                 table: "ServiceRequests",
                 column: "ServiceId");
@@ -429,6 +458,9 @@ namespace ePharma_asp_mvc.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
+
+            migrationBuilder.DropTable(
+                name: "Prescriptions");
 
             migrationBuilder.DropTable(
                 name: "ServiceRequests");

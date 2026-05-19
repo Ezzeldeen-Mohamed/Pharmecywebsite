@@ -8,7 +8,7 @@ namespace ePharma_asp_mvc.Data.Services
     public interface IOrdersService
     {
         // إنشاء طلب جديد
-        Task CreateOrder(string userId, List<ShoppingCartItem> shoppingCartItems, string prescriptionPhotoPath, string customAddress, string? customerNotes = null);
+        Task CreateOrder(string userId, List<ShoppingCartItem> shoppingCartItems, string customAddress, string? customerNotes = null);
 
         // جلب طلبات يوزر معين
         Task<IEnumerable<Order>> GetAllOrdersByUserAsync(string userId);

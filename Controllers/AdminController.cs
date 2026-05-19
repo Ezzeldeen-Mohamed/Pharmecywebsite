@@ -79,7 +79,7 @@ namespace ePharma_asp_mvc.Controllers
         public async Task<IActionResult> Orders()
         {
             var orders = await _ordersService.GetAllOrdersForAdminAsync();
-            return View(orders);
+            return View("Orders", orders);
         }
 
         public async Task<IActionResult> OrderDetails(int id)

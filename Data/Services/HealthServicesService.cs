@@ -39,7 +39,7 @@ namespace ePharma_asp_mvc.Data.Services
             // 2. نملأ البيانات اللي مش جاية من الفورم
             request.RequestTime = DateTime.Now;
             request.Status = ServiceRequestStatus.Pending;
-            request.PriceAtTimeOfRequest = (decimal)service.Price;
+            request.PriceAtTimeOfRequest = service.Price;
 
             // 3. الحفظ
             await _context.ServiceRequests.AddAsync(request);

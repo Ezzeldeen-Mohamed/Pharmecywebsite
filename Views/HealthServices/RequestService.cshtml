@@ -1,66 +1,88 @@
 ﻿@model ServiceRequest
 
-<div class="container py-5">
+@{
+    ViewData["Title"] = "تأكيد طلب خدمة صحية";
+}
 
+<div class="container py-5" dir="rtl">
     <div class="row justify-content-center">
+        <div class="col-md-9 col-lg-7 text-right">
+            <div class="card shadow-sm border-0 signup-container bg-white">
 
-        <div class="col-md-8">
-
-            <div class="card shadow border-0">
-
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">
-                        Request Health Service
-                    </h4>
+                <div class="card-header-custom text-white text-center p-3 rounded-top-3">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-paper-plane ml-2"></i>طلب موعد خدمة صحية منزلية</h4>
                 </div>
 
-                <div class="card-body">
-
+                <div class="card-body p-4">
                     <form asp-action="RequestService" method="post">
-
                         <input type="hidden" asp-for="ServiceId" />
 
                         <div class="mb-3">
-                            <label asp-for="Address" class="form-label"></label>
-
-                            <input asp-for="Address"
-                                   class="form-control" />
-
-                            <span asp-validation-for="Address"
-                                  class="text-danger"></span>
+                            <label asp-for="Address" class="form-label fw-bold text-dark mb-2">العنوان بالتفصيل للمتابعة</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light rounded-right-custom"><i class="fas fa-map-marked-alt text-muted"></i></span>
+                                <input asp-for="Address" class="form-control border-right-0 rounded-left-custom text-right" placeholder="المحافظة، المدينة، الشارع، الشقة، علامة مميزة" required />
+                            </div>
+                            <span asp-validation-for="Address" class="text-danger small d-block mt-1"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="ContactPhoneNumber" class="form-label"></label>
-
-                            <input asp-for="ContactPhoneNumber"
-                                   class="form-control" />
-
-                            <span asp-validation-for="ContactPhoneNumber"
-                                  class="text-danger"></span>
+                            <label asp-for="ContactPhoneNumber" class="form-label fw-bold text-dark mb-2">رقم هاتف الطوارئ والتواصل</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light rounded-right-custom"><i class="fas fa-phone-alt text-muted"></i></span>
+                                <input asp-for="ContactPhoneNumber" type="tel" class="form-control border-right-0 rounded-left-custom text-left" dir="ltr" placeholder="01xxxxxxxxx" required />
+                            </div>
+                            <span asp-validation-for="ContactPhoneNumber" class="text-danger small d-block mt-1"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Notes" class="form-label"></label>
-
-                            <textarea asp-for="Notes"
-                                      class="form-control"
-                                      rows="4"></textarea>
+                        <div class="mb-4">
+                            <label asp-for="Notes" class="form-label fw-bold text-dark mb-2">تفاصيل إضافية أو حالة المريض الصحية (اختياري)</label>
+                            <textarea asp-for="Notes" class="form-control text-right" rows="4" placeholder="يرجى كتابة أي معلومات مهمة للطبيب أو الممرض (مثل العمر، الحساسية لبعض الأدوية، إلخ...)"></textarea>
                         </div>
 
-                        <button type="submit"
-                                class="btn btn-success px-4">
-                            Confirm Request
-                        </button>
-
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-lg flex-grow-1 shadow-sm fw-bold rounded-pill">
+                                <i class="fas fa-check-circle ml-1"></i> إرسال وتأكيد الطلب
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill px-4">إلغاء</a>
+                        </div>
                     </form>
-
                 </div>
 
             </div>
-
         </div>
-
     </div>
-
 </div>
+
+<style>
+    .signup-container {
+        border-radius: 16px !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .card-header-custom {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+    }
+
+    .rounded-right-custom {
+        border-top-right-radius: 8px !important;
+        border-bottom-right-radius: 8px !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .rounded-left-custom {
+        border-top-left-radius: 8px !important;
+        border-bottom-left-radius: 8px !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    .flex-grow-1 {
+        flex-grow: 1;
+    }
+
+    .gap-2 {
+        gap: 10px;
+    }
+</style>

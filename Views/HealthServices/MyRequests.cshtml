@@ -1,57 +1,92 @@
 ﻿@using ePharma_asp_mvc.Models.Enums
 @model IEnumerable<ServiceRequest>
 
-<div class="container py-5">
-    <h2 class="mb-4 text-primary">
-        My Service Requests
+@{
+    ViewData["Title"] = "طلباتي الطبية الشخصية";
+}
+
+<div class="container py-5" dir="rtl">
+    <h2 class="mb-4 text-primary text-right fw-bold">
+        <i class="fas fa-history ml-2"></i> سجل طلبات الخدمات الصحية الخاصة بي
     </h2>
 
-    <div class="card shadow border-0">
-        <div class="card-body p-0">
-            <table class="table table-hover mb-0">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th>Service</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var request in Model)
-                    {
-                        <!-- إضافة onclick و style لتغيير شكل الماوس -->
-                        <tr onclick="window.location.href='@Url.Action("Details", "HealthServices", new { id = request.Id })'"
-                            style="cursor: pointer;"
-                            title="Click to view details">
-
-                            <td class="fw-bold">@request.Service.Name</td>
-                            <td>@request.Address</td>
-                            <td>@request.ContactPhoneNumber</td>
-                            <td>@request.RequestTime.ToString("dd/MM/yyyy")</td>
-                            <td>
-                                @if (request.Status == ServiceRequestStatus.Pending)
-                                {
-                                    <span class="badge bg-warning text-dark">Pending</span>
-                                }
-                                else if (request.Status == ServiceRequestStatus.Accepted)
-                                {
-                                    <span class="badge bg-info text-white">Accepted</span>
-                                }
-                                else if (request.Status == ServiceRequestStatus.Completed)
-                                {
-                                    <span class="badge bg-success text-white">Completed</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-danger text-white">Cancelled</span>
-                                }
-                            </td>
+    <div class="card shadow-sm border-0 signup-container bg-white">
+        <div class="card-body p-0 text-right">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark-custom text-white">
+                        <tr>
+                            <th class="p-3">اسم الخدمة</th>
+                            <th class="p-3">عنوان التوصيل</th>
+                            <th class="p-3">رقم الهاتف</th>
+                            <th class="p-3">تاريخ الطلب</th>
+                            <th class="p-3 text-center">حالة الطلب</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            @foreach (var request in Model)
+                            {
+                                <tr onclick="window.location.href='@Url.Action("Details", "HealthServices", new { id = request.Id })'"
+                                    style="cursor: pointer;"
+                                    class="clickable-row-custom"
+                                    title="اضغط لمعاينة التفاصيل الكاملة">
+
+                                    <td class="fw-bold text-dark p-3"><i class="fas fa-check-md text-primary ml-2"></i>@request.Service.Name</td>
+                                    <td class="text-secondary p-3">@request.Address</td>
+                                    <td class="p-3" dir="ltr">@request.ContactPhoneNumber</td>
+                                    <td class="text-muted p-3">@request.RequestTime.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center p-3">
+                                        @if (request.Status == ServiceRequestStatus.Pending)
+                                        {
+                                            <span class="badge bg-warning text-dark px-2 py-2 rounded">قيد الانتظار</span>
+                                        }
+                                        else if (request.Status == ServiceRequestStatus.Accepted)
+                                        {
+                                            <span class="badge bg-info text-white px-2 py-2 rounded">تم القبول</span>
+                                        }
+                                        else if (request.Status == ServiceRequestStatus.Completed)
+                                        {
+                                            <span class="badge bg-success text-white px-2 py-2 rounded">مكتمل</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger text-white px-2 py-2 rounded">ملغي</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    <div class="alert alert-info border-0 shadow-sm d-inline-block px-5 mb-0">
+                                        <i class="fas fa-info-circle ml-2"></i> لم تقم بطلب خدمات طبية حتى الآن.
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .signup-container {
+        border-radius: 16px !important;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .table-dark-custom {
+        background: #212529;
+    }
+
+    .clickable-row-custom:hover {
+        background-color: #f8v9fa !important;
+    }
+</style>

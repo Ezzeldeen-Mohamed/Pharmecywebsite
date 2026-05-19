@@ -11,6 +11,6 @@ namespace ePharma_asp_mvc.Models
         [Display(Name = "الوصف")]
         public string Description { get; set; }
         [Display(Name = "السعر")]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
     }
 }

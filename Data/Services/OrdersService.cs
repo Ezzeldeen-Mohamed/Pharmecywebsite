@@ -19,7 +19,6 @@ namespace ePharma_asp_mvc.Data.Services
         public async Task CreateOrder(
             string userId,
             List<ShoppingCartItem> shoppingCartItems,
-            string prescriptionPhotoPath,
             string customAddress,
             string? customerNotes = null)
         {
@@ -29,7 +28,6 @@ namespace ePharma_asp_mvc.Data.Services
                 TimeOrdered = DateTime.Now,
                 Status = OrderStatus.Pending,
                 CustomAddress = customAddress,
-                PrescriptionPhoto = prescriptionPhotoPath,
                 CustomerNotes = customerNotes,
                 TotalPrice = shoppingCartItems.Sum(item =>
                     item.Product.Price * item.Quantity)

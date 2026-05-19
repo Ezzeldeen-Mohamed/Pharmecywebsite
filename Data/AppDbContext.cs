@@ -62,6 +62,13 @@ namespace ePharma_asp_mvc.Data
                         ImageUrl = "/images/product_02.png",
                         Price = 11m,
                         Stock = 50
+                    },
+                    new Product
+                    {
+                        Name = "Panadol",
+                        ImageUrl = "/images/products/panadol.png",
+                        Price = 8m,
+                        Stock = 23
                     }
                 );
                 await SaveChangesAsync();
@@ -84,12 +91,13 @@ namespace ePharma_asp_mvc.Data
             {
                 var admin = new ApplicationUser
                 {
-                    UserName = "admin-ezz",
+                    UserName = "Admin",
                     Email = adminEmail,
                     EmailConfirmed = true,
                     FirstName = "Admin",
-                    PhoneNumber = "01000000000",
-                    Address = "Cairo"
+                    LastName = "User",
+                    PhoneNumber = "01064864376",
+                    Address = "Sandabast"
                 };
 
                 var result = await userManager.CreateAsync(admin, "Admin@123");
@@ -103,10 +111,11 @@ namespace ePharma_asp_mvc.Data
             {
                 var user = new ApplicationUser
                 {
-                    UserName = "ezzeldeen",
+                    UserName = "Ezzeldeen",
                     Email = userEmail,
                     EmailConfirmed = true,
                     FirstName = "Ezzeldeen",
+                    LastName = "Mohamed",
                     PhoneNumber = "01151282446",
                     Address = "Cairo"
                 };

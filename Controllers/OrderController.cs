@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -138,80 +137,10 @@ namespace ePharma_asp_mvc.Controllers
 
             try
             {
-                string prescriptionPhotoPath = "";
-
-                // Check if prescription required
-                //bool needsPrescription =
-                //    items.Any(i => i.Product.NeedsPrescription);
-
-                //if (needsPrescription && prescriptionPhoto == null)
-                //{
-                //    ModelState.AddModelError(
-                //        "",
-                //        "Prescription photo is required.");
-
-                //    return View(items.ToList());
-                //}
-
-                // Upload image
-                if (prescriptionPhoto != null &&
-                    prescriptionPhoto.Length > 0)
-                {
-                    var allowedExtensions =
-                        new[] { ".jpg", ".jpeg", ".png" };
-
-                    var extension =
-                        Path.GetExtension(
-                            prescriptionPhoto.FileName)
-                        .ToLower();
-
-                    if (!allowedExtensions.Contains(extension))
-                    {
-                        ModelState.AddModelError(
-                            "",
-                            "Only JPG and PNG files are allowed.");
-
-                        return View(items.ToList());
-                    }
-
-                    string uploadsFolder = Path.Combine(
-                        _webHostEnvironment.WebRootPath,
-                        "images",
-                        "prescriptions");
-
-                    if (!Directory.Exists(uploadsFolder))
-                    {
-                        Directory.CreateDirectory(uploadsFolder);
-                    }
-
-                    string uniqueFileName =
-                        Guid.NewGuid() +
-                        "_" +
-                        prescriptionPhoto.FileName;
-
-                    string filePath =
-                        Path.Combine(
-                            uploadsFolder,
-                            uniqueFileName);
-
-                    using (var stream =
-                           new FileStream(
-                               filePath,
-                               FileMode.Create))
-                    {
-                        await prescriptionPhoto
-                            .CopyToAsync(stream);
-                    }
-
-                    prescriptionPhotoPath =
-                        "/images/prescriptions/" +
-                        uniqueFileName;
-                }
 
                 await _ordersService.CreateOrder(
                     userId,
                     items.ToList(),
-                    prescriptionPhotoPath,
                     customAddress,
                     customerNotes);
 

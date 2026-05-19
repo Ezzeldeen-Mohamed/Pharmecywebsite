@@ -2,78 +2,115 @@
 @model LogInViewModel;
 
 @{
-    ViewData["Title"] = "Log in your account";
+    ViewData["Title"] = "تسجيل الدخول إلى حسابك";
 }
 
-<style>
-    .login-container {
-        background: #ffffff; /* أبيض صريح عشان ينطق مع الـ Theme */
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        border: 1px solid #eee;
-    }
-
-    .card-header {
-        border-radius: 10px 10px 0 0 !important;
-        text-align: center;
-    }
-</style>
-
-<div class="container mt-5 mb-5">
+<div class="container mt-5 mb-5" dir="rtl">
     <div class="row justify-content-center">
-        <div class="col-md-5">
+        <div class="col-md-6 col-lg-5">
 
-            @* عرض رسائل الخطأ بشكل احترافي *@
+            @* عرض رسائل الخطأ من السيرفر *@
             @if (TempData["Error"] != null)
             {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Sorry!</strong> @TempData["Error"]
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm text-right" role="alert">
+                    <i class="fas fa-exclamation-circle ml-2"></i><strong>عذراً!</strong> @TempData["Error"]
+                    <button type="button" class="close mr-auto ml-0" data-dismiss="alert" aria-label="Close" style="right: auto; left: 15px;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
             }
 
-            <div class="login-container">
-                <div class="card-header bg-primary text-white mb-4">
-                    <h4 class="mb-0"><i class="icon-lock_outline mr-2"></i>LogIn</h4>
+            @* رسالة نجاح التسجيل - تظهر عند توجيه المستخدم بعد إنشاء الحساب *@
+            @if (ViewBag.RegistrationSuccess == true || TempData["RegistrationSuccess"] != null)
+            {
+                <div class="card border-0 shadow-sm text-center p-4 mb-4 border-top border-success border-4 bg-white">
+                    <div class="card-body">
+                        <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
+                        <h4 class="text-dark fw-bold mb-2">تم إنشاء الحساب بنجاح!</h4>
+                        <p class="text-muted small mb-0">يمكنك الآن تسجيل الدخول مباشرة باستخدام بريدك الإلكتروني وكلمة المرور.</p>
+                    </div>
+                </div>
+            }
+
+            <!-- حاوية تسجيل الدخول الفاخرة -->
+            <div class="login-container bg-white shadow-sm border rounded-3 p-4 text-right">
+                <div class="card-header-custom bg-primary text-white mb-4 text-center rounded p-3 shadow-sm">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-lock ml-2"></i>تسجيل الدخول</h4>
                 </div>
 
                 <div class="card-body p-0">
                     <form asp-action="LogIn" method="post">
-                        @* ملخص الأخطاء *@
+                        @* ملخص أخطاء التحقق *@
                         <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
 
-                        <div class="form-group">
-                            <label asp-for="EmailAddress" class="text-black font-weight-bold">Email Address</label>
-                            <input asp-for="EmailAddress" class="form-control" placeholder="Enter your email" required>
-                            <span asp-validation-for="EmailAddress" class="text-danger small"></span>
+                        <div class="form-group mb-3">
+                            <label asp-for="EmailAddress" class="text-dark fw-bold mb-2">البريد الإلكتروني</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-left-0 rounded-right-custom"><i class="fas fa-envelope text-muted"></i></span>
+                                <input asp-for="EmailAddress" class="form-control border-right-0 rounded-left-custom text-right" placeholder="name@example.com" required>
+                            </div>
+                            <span asp-validation-for="EmailAddress" class="text-danger small d-block mt-1"></span>
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="Password" class="text-black font-weight-bold">Password</label>
-                            @* تعديل نوع الـ Input لباسورد *@
-                            <input asp-for="Password" type="password" class="form-control" placeholder="••••••••" required>
-                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        <div class="form-group mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <label asp-for="Password" class="text-dark fw-bold mb-0">كلمة المرور</label>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-left-0 rounded-right-custom"><i class="fas fa-key text-muted"></i></span>
+                                <input asp-for="Password" type="password" class="form-control border-right-0 rounded-left-custom text-right" placeholder="••••••••" required>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small d-block mt-1"></span>
                         </div>
 
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg btn-block shadow-sm">Log In</button>
+                            <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm fw-bold py-2">دخول</button>
                         </div>
                     </form>
 
-                    <div class="text-center mt-4">
-                        <p class="text-muted small">Don't have an account?</p>
-                        <a class="btn btn-outline-primary btn-block" asp-controller="ApplicationUser" asp-action="SignUp">Create New Account</a>
+                    <div class="text-center mt-4 border-top pt-4">
+                        <p class="text-muted small mb-2">ليس لديك حساب شخصي حتى الآن؟</p>
+                        <a class="btn btn-outline-primary w-100 rounded-pill" asp-controller="ApplicationUser" asp-action="SignUp">إنشاء حساب جديد</a>
                     </div>
 
                     <div class="text-center mt-3">
-                        <a asp-controller="Home" asp-action="Index" class="text-primary small"><i class="icon-arrow-left mr-1"></i> Back to Home</a>
+                        <a asp-controller="Home" asp-action="Index" class="text-secondary small text-decoration-none hover-link">
+                            <i class="fas fa-arrow-right ml-1"></i> العودة للرئيسية
+                        </a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
-<br />
+
+<style>
+    .login-container {
+        border-radius: 16px !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .card-header-custom {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+    }
+
+    .rounded-right-custom {
+        border-top-right-radius: 8px !important;
+        border-bottom-right-radius: 8px !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .rounded-left-custom {
+        border-top-left-radius: 8px !important;
+        border-bottom-left-radius: 8px !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    .hover-link:hover {
+        color: #007bff !important;
+        text-decoration: underline !important;
+    }
+</style>

@@ -10,8 +10,8 @@ using ePharma_asp_mvc.Data;
 namespace ePharma_asp_mvc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260517161816_statusprespection")]
-    partial class statusprespection
+    [Migration("20260519002003_all")]
+    partial class all
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -241,8 +241,8 @@ namespace ePharma_asp_mvc.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -254,14 +254,14 @@ namespace ePharma_asp_mvc.Migrations
                             Id = 1,
                             Description = "خدمة منزلية",
                             Name = "قياس ضغط وسكر",
-                            Price = 20.0
+                            Price = 20m
                         },
                         new
                         {
                             Id = 2,
                             Description = "زيارة منزلية",
                             Name = "إعطاء حقنة عضل/وريد",
-                            Price = 10.0
+                            Price = 10m
                         });
                 });
 
@@ -276,9 +276,6 @@ namespace ePharma_asp_mvc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CustomerNotes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PrescriptionPhoto")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")

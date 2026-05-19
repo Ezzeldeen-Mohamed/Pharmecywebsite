@@ -4,244 +4,122 @@
     ViewData["Title"] = Model.Name;
 }
 
-<!-- Breadcrumb -->
-<div class="bg-light py-3">
+<!-- شريط التنقل (Breadcrumb) -->
+<div class="bg-light py-3 border-bottom text-right">
     <div class="container">
         <div class="row">
             <div class="col-md-12 mb-0">
-
-                <a asp-controller="Home"
-                   asp-action="Index">
-                    Home
-                </a>
-
-                <span class="mx-2 mb-0">/</span>
-
-                <a asp-controller="Product"
-                   asp-action="Index">
-                    Store
-                </a>
-
-                <span class="mx-2 mb-0">/</span>
-
-                <strong class="text-black">
-                    @Model.Name
-                </strong>
-
+                <a asp-controller="Home" asp-action="Index" class="text-primary font-weight-bold">الرئيسية</a>
+                <span class="mx-2 mb-0 text-muted">/</span>
+                <a asp-controller="Product" asp-action="Index" class="text-primary font-weight-bold">المتجر</a>
+                <span class="mx-2 mb-0 text-muted">/</span>
+                <strong class="text-dark">@Model.Name</strong>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Product Section -->
-<div class="site-section">
-    <div class="container">
+<!-- عرض تفاصيل المنتج الطبية -->
+<div class="site-section bg-white text-right">
+    <div class="container py-5">
+        <div class="row align-items-start">
 
-        <div class="row">
-
-            <!-- Product Image -->
-            <div class="col-md-5 mr-auto">
-
-                <div class="border rounded shadow-sm text-center p-4 bg-white">
-
+            <!-- صورة المنتج الجانبية -->
+            <div class="col-md-5 mb-4 mb-md-0 ml-auto">
+                <div class="border rounded shadow-sm text-center p-4 bg-light overflow-hidden position-relative">
                     @if (!string.IsNullOrEmpty(Model.ImageUrl))
                     {
-                        <img src="@Url.Content(Model.ImageUrl)"
-                             class="img-fluid"
-                             style="max-height: 400px; object-fit: contain;" />
+                        <img src="@Url.Content(Model.ImageUrl)" alt="@Model.Name" class="img-fluid transform-hover-lg" style="max-height: 380px; object-fit: contain;" />
                     }
                     else
                     {
-                        <img src="~/images/no-image.png"
-                             class="img-fluid"
-                             style="max-height: 400px;" />
+                        <img src="~/images/no-image.png" alt="لا توجد صورة" class="img-fluid" style="max-height: 380px;" />
                     }
-
                 </div>
-
             </div>
 
-            <!-- Product Details -->
+            <!-- معلومات وتفاصيل المنتج -->
             <div class="col-md-6">
+                <h2 class="text-black font-weight-bold mb-3">@Model.Name</h2>
+                <p class="text-secondary lead mb-4">@Model.Description</p>
 
-                <h2 class="text-black font-weight-bold mb-3">
-                    @Model.Name
-                </h2>
+                <div class="d-flex align-items-center mb-4">
+                    <span class="text-muted ml-3 h5 mb-0">السعر الحالي:</span>
+                    <h3 class="text-primary font-weight-bold mb-0 h2">$@Model.Price</h3>
+                </div>
 
-                <p class="text-muted">
-                    @Model.Description
-                </p>
-
-                <h3 class="text-primary mb-4">
-                    $@Model.Price
-                </h3>
-
-                <!-- Availability -->
-                @if (Model.Stock > 0)
-                {
-                    <div class="alert alert-success py-2">
-                        In Stock (@Model.Stock Available)
-                    </div>
-                }
-                else
-                {
-                    <div class="alert alert-danger py-2">
-                        Out Of Stock
-                    </div>
-                }
-
-                <!-- Buttons -->
-                <div class="d-flex flex-wrap gap-2 mb-4">
-
-                    <!-- Add To Cart -->
+                <!-- حالة التوفر الفوري في المخزن -->
+                <div class="mb-4">
                     @if (Model.Stock > 0)
                     {
-                        <a asp-controller="Order"
-                           asp-action="AddToShoppingCart"
-                           asp-route-id="@Model.Id"
-                           class="btn btn-primary px-4 py-2">
+                        <div class="alert alert-success d-inline-block px-4 py-2 rounded-pill font-weight-bold shadow-sm mb-0">
+                            <i class="fa fa-check-circle ml-2"></i> متوفر في المخزن حالياً (@Model.Stock قطعة متاحة)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger d-inline-block px-4 py-2 rounded-pill font-weight-bold shadow-sm mb-0">
+                            <i class="fa fa-times-circle ml-2"></i> عذراً، نفذت الكمية تماماً
+                        </div>
+                    }
+                </div>
 
-                            <i class="fa fa-shopping-cart"></i>
-                            Add To Cart
-
+                <!-- أزرار الإجراءات والشراء -->
+                <div class="d-flex flex-wrap gap-2 mb-5 align-items-center">
+                    @if (Model.Stock > 0)
+                    {
+                        <a asp-controller="Order" asp-action="AddToShoppingCart" asp-route-id="@Model.Id" class="btn btn-primary btn-lg rounded-pill shadow px-5 font-weight-bold ml-2 py-3">
+                            <i class="fa fa-shopping-cart ml-2"></i> أضف إلى سلة المشتريات
                         </a>
                     }
                     else
                     {
-                        <button class="btn btn-danger px-4 py-2" disabled>
-                            Out Of Stock
-                        </button>
+                        <button class="btn btn-secondary btn-lg rounded-pill px-5 py-3 ml-2 font-weight-bold shadow-sm" disabled>المنتج غير متاح</button>
                     }
 
-                    <!-- Edit -->
+                    <!-- خيارات لوحة الأدمن لتحديث بيانات الدواء -->
                     @if (User.IsInRole("Admin"))
                     {
-                        <a asp-controller="Product"
-                           asp-action="Edit"
-                           asp-route-id="@Model.Id"
-                           class="btn btn-warning px-4 py-2">
-
-                            Edit
-
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg rounded-pill shadow-sm px-4 ml-2 font-weight-bold text-dark py-3">
+                            <i class="fa fa-edit"></i> تعديل البيانات
                         </a>
-
-                        <!-- Delete -->
-                        <form asp-controller="Product"
-                              asp-action="Delete"
-                              asp-route-id="@Model.Id"
-                              method="post"
-                              onsubmit="return confirm('Are you sure you want to delete this product?')">
-
+                        <form asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline" onsubmit="return confirm('هل أنت متأكد تماماً من رغبتك في حذف هذا المنتج الطبي بشكل نهائي؟')">
                             @Html.AntiForgeryToken()
-
-                            <button type="submit"
-                                    class="btn btn-danger px-4 py-2">
-
-                                Delete
-
-                            </button>
-
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill shadow-sm px-4 font-weight-bold py-3">الحذف الحتمي</button>
                         </form>
                     }
-
                 </div>
 
-                <!-- Product Info -->
-                <div class="card shadow-sm border-0">
-
-                    <div class="card-header bg-primary text-white">
-                        Product Information
+                <!-- جدول المواصفات الفنية التفصيلي للمنتج -->
+                <div class="card shadow-sm border-0 rounded overflow-hidden">
+                    <div class="card-header bg-primary text-white font-weight-bold py-3">
+                        <i class="fa fa-info-circle ml-2"></i> بطاقة البيانات والمواصفات الطبية
                     </div>
-
-                    <div class="card-body">
-
-                        <table class="table table-bordered mb-0">
-
+                    <div class="card-body p-0">
+                        <table class="table table-striped table-bordered mb-0 text-right">
                             <tbody>
-
                                 <tr>
-                                    <th width="30%">
-                                        Product ID
-                                    </th>
-
-                                    <td>
-                                        #@Model.Id
-                                    </td>
+                                    <th width="35%" class="bg-light font-weight-bold">الرقم المرجعي (ID)</th>
+                                    <td class="text-monospace">#@Model.Id</td>
                                 </tr>
-
                                 <tr>
-                                    <th>
-                                        Product Name
-                                    </th>
-
-                                    <td>
-                                        @Model.Name
-                                    </td>
+                                    <th class="bg-light font-weight-bold">الاسم التجاري العلمي</th>
+                                    <td>@Model.Name</td>
                                 </tr>
-
                                 <tr>
-                                    <th>
-                                        Price
-                                    </th>
-
-                                    <td class="text-success font-weight-bold">
-                                        $@Model.Price
-                                    </td>
+                                    <th class="bg-light font-weight-bold">السعر النهائي للجمهور</th>
+                                    <td class="text-success font-weight-bold">$@Model.Price</td>
                                 </tr>
-
                                 <tr>
-                                    <th>
-                                        Category
-                                    </th>
-
-                                    <td>
-                                        @Model.Category
-                                    </td>
+                                    <th class="bg-light font-weight-bold">التصنيف العلاجي الرئيسي</th>
+                                    <td><span class="badge badge-info px-3 py-2 rounded-pill font-weight-bold text-white">@Model.Category</span></td>
                                 </tr>
-
-                                <tr>
-                                    <th>
-                                        Stock
-                                    </th>
-
-                                    <td>
-                                        @Model.Stock
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Availability
-                                    </th>
-
-                                    <td>
-                                        @if (Model.Stock > 0)
-                                        {
-                                            <span class="text-success font-weight-bold">
-                                                In Stock
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-danger font-weight-bold">
-                                                Out Of Stock
-                                            </span>
-                                        }
-                                    </td>
-                                </tr>
-
-
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
 
             </div>
-
         </div>
-
     </div>
 </div>

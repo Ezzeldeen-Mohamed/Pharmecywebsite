@@ -38,4 +38,17 @@
 │   ├── Users.cshtml
 │   └── ServiceRequests.cshtml
 
-*/
+
+ 
+ 
+ 
+ 
+ akaml men awl view order change language to arabic and make design more responseve and modern 
+add health services money to dashbord money 
+a3ml live chat and notification system for orders and health services requests and for user if admin accept 
+make admin able to add , edit and delete health services 
+ 
+ 
+ */
+
+

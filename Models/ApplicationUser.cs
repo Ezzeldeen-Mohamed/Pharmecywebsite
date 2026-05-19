@@ -17,7 +17,7 @@ namespace ePharma_asp_mvc.Models
         [Required(ErrorMessage = "رقم الموبايل مطلوب")]
         [RegularExpression(@"^01[0125]\d{8}$", ErrorMessage = "رقم موبايل  غير صحيح")]
         public override string PhoneNumber { get; set; }
-        public List<Order> Orders { get; set; }
+        public List<Order> Orders { get; set; } = new List<Order>();
         public List<Prescription> Prescriptions { get; set; } = new List<Prescription>();
     }
 }

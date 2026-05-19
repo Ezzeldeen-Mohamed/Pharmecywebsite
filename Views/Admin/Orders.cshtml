@@ -2,29 +2,29 @@
 @model IEnumerable<Order>
 
 @{
-    ViewData["Title"] = "Customer Orders";
+    ViewData["Title"] = "طلبات العملاء";
 }
 
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h3 class="mb-1 text-dark fw-bold"><i class="fas fa-shopping-basket text-primary me-2"></i>Customer Orders Management</h3>
-            <p class="text-muted small mb-0">Monitor payments, dispatch updates, and trace delivery statuses dynamically.</p>
+<div class="container py-4" dir="rtl">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-row-reverse">
+        <div class="text-right">
+            <h3 class="mb-1 text-dark fw-bold"><i class="fas fa-shopping-basket text-primary ml-2"></i>إدارة طلبات العملاء</h3>
+            <p class="text-muted small mb-0">مراقبة المدفوعات، تحديث الشحن، وتتبع العمليات اللوجستية بشكل مباشر.</p>
         </div>
     </div>
 
     <div class="card shadow-sm border-0">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+                <table class="table table-hover align-middle mb-0 text-right">
                     <thead class="table-light border-bottom">
                         <tr>
-                            <th class="ps-4" style="width: 12%">Order ID</th>
-                            <th style="width: 25%">Customer</th>
-                            <th style="width: 18%">Date Ordered</th>
-                            <th style="width: 15%">Total Amount</th>
-                            <th style="width: 15%">Status</th>
-                            <th class="text-end pe-4" style="width: 15%">Action</th>
+                            <th class="pr-4" style="width: 15%">رقم الطلب</th>
+                            <th style="width: 25%">العميل</th>
+                            <th style="width: 20%">تاريخ الطلب</th>
+                            <th style="width: 15%">إجمالي المبلغ</th>
+                            <th style="width: 15%">حالة الطلب</th>
+                            <th class="text-left pl-4" style="width: 10%">الإجراء</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,7 +33,7 @@
                             <tr>
                                 <td colspan="6" class="text-center py-5 text-muted">
                                     <i class="fas fa-box-open fa-3x mb-3 d-block text-secondary"></i>
-                                    No customer orders placed yet.
+                                    لا توجد طلبات مسجلة حالياً بالمنظومة.
                                 </td>
                             </tr>
                         }
@@ -42,10 +42,10 @@
                             foreach (var order in Model)
                             {
                                 <tr>
-                                    <td class="ps-4 fw-bold text-secondary">#@order.Id</td>
+                                    <td class="pr-4 fw-bold text-secondary">#@order.Id</td>
                                     <td>
-                                        <span class="d-block fw-bold text-dark">@(order.User != null ? $"{order.User.FirstName} {order.User.LastName}" : "Unknown Customer")</span>
-                                        <small class="text-muted d-block text-truncate" style="max-width: 220px;">@(order.User?.Email ?? "No Email Registered")</small>
+                                        <span class="d-block fw-bold text-dark">@(order.User != null ? $"{order.User.FirstName} {order.User.LastName}" : "عميل مجهول")</span>
+                                        <small class="text-muted d-block text-truncate" style="max-width: 220px;">@(order.User?.Email ?? "بدون بريد إلكتروني")</small>
                                     </td>
                                     <td class="text-muted small">
                                         @order.TimeOrdered.ToString("dd MMM yyyy, hh:mm tt")
@@ -55,23 +55,22 @@
                                     </td>
                                     <td>
                                         @{
-                                            var statusBadge = order.Status switch
+                                            var (statusBadge, statusText) = order.Status switch
                                             {
-                                                OrderStatus.Pending => "bg-warning text-dark",
-                                                OrderStatus.Accepted => "bg-info text-white", // أو Processing حسب اختيارك لخطوط النقل
-                                                OrderStatus.Completed => "bg-success text-white",
-                                                OrderStatus.Cancelled => "bg-danger text-white",
-                                                _ => "bg-dark text-white"
+                                                OrderStatus.Pending => ("bg-warning text-dark", "قيد الانتظار"),
+                                                OrderStatus.Accepted => ("bg-info text-white", "تم القبول"),
+                                                OrderStatus.Completed => ("bg-success text-white", "مكتمل"),
+                                                OrderStatus.Cancelled => ("bg-danger text-white", "ملغي"),
+                                                _ => ("bg-dark text-white", "غير معروف")
                                             };
                                         }
                                         <span class="badge @statusBadge px-3 py-2 rounded-pill" style="font-size: 0.8rem; min-width: 105px; text-align: center;">
-                                            <i class="fas fa-circle me-1" style="font-size: 7px; vertical-align: middle;"></i> @order.Status
+                                            <i class="fas fa-circle ml-1" style="font-size: 7px; vertical-align: middle;"></i> @statusText
                                         </span>
                                     </td>
-                                    <td class="text-end pe-4">
-                                        <!-- زر توجيهي إلى صفحة الفاتورة وإدارة الطلب النهائي -->
-                                        <a asp-action="OrderDetails" asp-controller="Admin" asp-route-id="@order.Id" class="btn btn-sm btn-dark px-3 rounded-pill shadow-sm" title="Manage Order Logistics">
-                                            <i class="fas fa-sliders-h me-1"></i> Manage
+                                    <td class="text-left pl-4">
+                                        <a asp-action="OrderDetails" asp-controller="Admin" asp-route-id="@order.Id" class="btn btn-sm btn-dark px-3 rounded-pill shadow-sm">
+                                            إدارة <i class="fas fa-sliders-h mr-1"></i>
                                         </a>
                                     </td>
                                 </tr>

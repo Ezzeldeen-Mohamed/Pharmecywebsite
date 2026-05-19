@@ -1,25 +1,24 @@
 ﻿@{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "لوحة التحكم الإدارية";
 }
 
-<div class="container-fluid py-4">
+<div class="container-fluid py-4" dir="rtl">
     <div class="row mb-4">
-        <div class="col-12">
-            <h2 class="text-dark font-weight-bold">Pharmacy Management Dashboard</h2>
-            <p class="text-muted">Welcome back, Admin. Here's what's happening with your pharmacy today.</p>
+        <div class="col-12 text-right">
+            <h2 class="text-dark font-weight-bold">لوحة إدارة الصيدلية</h2>
+            <p class="text-muted">مرحباً بك مجدداً، المدير العام. إليك تقرير سريع عن نشاط الصيدلية اليوم.</p>
         </div>
     </div>
 
-    <!-- Quick Stats Section -->
-    <!-- تم تعديل الـ Row لـ col-lg-2.4 أو col-xl عشان يستوعب 5 كروت بشكل متناسق -->
+    <!-- قسم الإحصائيات السريعة -->
     <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-5">
-        <!-- Total Revenue -->
+        <!-- إجمالي الإيرادات -->
         <div class="col">
             <div class="card border-0 shadow-sm bg-primary text-white h-100">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="mb-1 opacity-75">Total Revenue</p>
+                    <div class="d-flex justify-content-between align-items-start w-100">
+                        <div class="text-right">
+                            <p class="mb-1 opacity-75">إجمالي الإيرادات</p>
                             <h4 class="mb-0 font-weight-bold">$@ViewBag.TotalRevenue.ToString("N2")</h4>
                         </div>
                         <div class="icon-shape bg-white text-primary rounded-circle p-3">
@@ -30,53 +29,53 @@
             </div>
         </div>
 
-        <!-- Total Orders -->
+        <!-- إجمالي الطلبات -->
         <div class="col">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="text-muted mb-1">Total Orders</p>
+                    <div class="d-flex justify-content-between align-items-start w-100">
+                        <div class="text-right">
+                            <p class="text-muted mb-1">إجمالي الطلبات</p>
                             <h4 class="mb-0 font-weight-bold">@ViewBag.TotalOrders</h4>
                         </div>
                         <div class="icon-shape bg-light text-success rounded-circle p-3">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                     </div>
-                    <div class="mt-2 small">
-                        <span class="text-warning font-weight-bold">@ViewBag.PendingOrders Pending</span>
+                    <div class="mt-2 small text-right">
+                        <span class="text-warning font-weight-bold">@ViewBag.PendingOrders في الانتظار</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Total Prescriptions (الكارت الجديد لـ إحصائيات الروشتات) -->
+        <!-- إجمالي الروشتات -->
         <div class="col">
-            <div class="card border-0 shadow-sm h-100 border-left-prescription">
+            <div class="card border-0 shadow-sm h-100 border-right-prescription">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="text-muted mb-1">Prescriptions</p>
+                    <div class="d-flex justify-content-between align-items-start w-100">
+                        <div class="text-right">
+                            <p class="text-muted mb-1">الروشتات الطبية</p>
                             <h4 class="mb-0 font-weight-bold">@(((IEnumerable<ePharma_asp_mvc.Models.Prescription>)ViewBag.TotalPrescriptions).Count())</h4>
                         </div>
                         <div class="icon-shape bg-soft-purple text-purple rounded-circle p-3">
                             <i class="fas fa-file-medical"></i>
                         </div>
                     </div>
-                    <div class="mt-2 small">
-                        <span class="text-danger font-weight-bold">@ViewBag.PendingPrescriptions New</span>
+                    <div class="mt-2 small text-right">
+                        <span class="text-danger font-weight-bold">@ViewBag.PendingPrescriptions جديدة</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Total Products -->
+        <!-- إجمالي الأدوية -->
         <div class="col">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="text-muted mb-1">Total Medicines</p>
+                    <div class="d-flex justify-content-between align-items-start w-100">
+                        <div class="text-right">
+                            <p class="text-muted mb-1">إجمالي الأدوية</p>
                             <h4 class="mb-0 font-weight-bold">@ViewBag.TotalProducts</h4>
                         </div>
                         <div class="icon-shape bg-light text-info rounded-circle p-3">
@@ -87,13 +86,13 @@
             </div>
         </div>
 
-        <!-- Total Users -->
+        <!-- المستخدمين المسجلين -->
         <div class="col">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="text-muted mb-1">Registered Users</p>
+                    <div class="d-flex justify-content-between align-items-start w-100">
+                        <div class="text-right">
+                            <p class="text-muted mb-1">المستخدمين المسجلين</p>
                             <h4 class="mb-0 font-weight-bold">@ViewBag.TotalUsers</h4>
                         </div>
                         <div class="icon-shape bg-light text-secondary rounded-circle p-3">
@@ -105,65 +104,64 @@
         </div>
     </div>
 
-    <!-- Management Links Section -->
-    <div class="row mt-5">
-        <div class="col-12 mb-3">
-            <h4 class="text-dark">Quick Actions</h4>
+    <!-- قسم الإجراءات السريعة -->
+    <div class="row mt-5" dir="rtl">
+        <div class="col-12 mb-3 text-right">
+            <h4 class="text-dark fw-bold">إجراءات سريعة</h4>
         </div>
 
-        <!-- Inventory Management -->
+        <!-- إدارة المخزون -->
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card h-100 border-0 shadow-sm text-center p-4">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <div>
                         <i class="fas fa-boxes fa-3x text-primary mb-3"></i>
-                        <h5>Inventory Management</h5>
-                        <p class="text-muted small">Add, update, or remove medicines from your store.</p>
+                        <h5 class="fw-bold">إدارة المخزون</h5>
+                        <p class="text-muted small">إضافة، تحديث، أو حذف الأدوية والمستلزمات من المتجر.</p>
                     </div>
-                    <a asp-action="Products" class="btn btn-outline-primary w-100 mt-3">Go to Products</a>
+                    <a asp-action="Products" class="btn btn-outline-primary w-100 mt-3">الانتقال للأدوية</a>
                 </div>
             </div>
         </div>
 
-        <!-- Orders Tracking -->
+        <!-- تتبع الطلبات -->
         <div class="col-md-6 col-lg-3 mb-4">
-            <div class="card h-100 border-0 shadow-sm text-center p-4 border-left-highlight">
+            <div class="card h-100 border-0 shadow-sm text-center p-4 border-right-highlight">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <div>
                         <i class="fas fa-clipboard-list fa-3x text-success mb-3"></i>
-                        <h5>Orders Tracking</h5>
-                        <p class="text-muted small">Manage customer orders and update their delivery status.</p>
+                        <h5 class="fw-bold">تتبع الطلبات</h5>
+                        <p class="text-muted small">إدارة طلبات العملاء وتحديث حالات الشحن والتوصيل مباشرة.</p>
                     </div>
-                    <a asp-action="Orders" class="btn btn-outline-success w-100 mt-3">View Orders</a>
+                    <a asp-action="Orders" asp-controller="Admin" class="btn btn-outline-success w-100 mt-3">عرض الطلبات</a>
                 </div>
             </div>
         </div>
 
-        <!-- Prescription Approvals (أكشن مراجعة وقبول الروشتات الجديد) -->
+        <!-- مراجعة الروشتات -->
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card h-100 border-0 shadow-sm text-center p-4">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <div>
                         <i class="fas fa-receipt fa-3x text-purple mb-3"></i>
-                        <h5>Prescription Requests</h5>
-                        <p class="text-muted small">Review uploaded user prescriptions and process them.</p>
+                        <h5 class="fw-bold">طلبات الروشتات</h5>
+                        <p class="text-muted small">مراجعة الصور المرفوعة للروشتات الطبية وتحويلها لطلبات فعلية.</p>
                     </div>
-                    <!-- هنا هيروح للأكشن اللي بيعرض كل الروشتات للأدمن -->
-                    <a asp-controller="Prescription" asp-action="All" class="btn btn-outline-purple w-100 mt-3">Review Prescriptions</a>
+                    <a asp-controller="Prescription" asp-action="All" class="btn btn-outline-purple w-100 mt-3">مراجعة الروشتات</a>
                 </div>
             </div>
         </div>
 
-        <!-- Service Requests -->
+        <!-- طلبات الرعاية والخدمات المنزلية -->
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card h-100 border-0 shadow-sm text-center p-4">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <div>
                         <i class="fas fa-hand-holding-medical fa-3x text-info mb-3"></i>
-                        <h5>Service Requests</h5>
-                        <p class="text-muted small">Review healthcare and home-visit service requests.</p>
+                        <h5 class="fw-bold">الخدمات الطبية</h5>
+                        <p class="text-muted small">مراجعة طلبات الرعاية الصحية، الزيارات المنزلية، وخدمات التمريض.</p>
                     </div>
-                    <a asp-action="AllRequests" asp-controller="HealthServices" class="btn btn-outline-info w-100 mt-3">View Requests</a>
+                    <a asp-action="AllRequests" asp-controller="HealthServices" class="btn btn-outline-info w-100 mt-3">عرض الطلبات</a>
                 </div>
             </div>
         </div>
@@ -187,11 +185,6 @@
             transform: translateY(-5px);
         }
 
-    .bg-soft-success {
-        background-color: #e8f5e9;
-    }
-
-    /* ستايل مخصص للون الروشتات البنفسجي المحترفين بيحبوه في الـ Dashboards */
     .text-purple {
         color: #6f42c1 !important;
     }
@@ -210,11 +203,14 @@
             color: #fff;
         }
 
-    .border-left-prescription {
-        border-left: 4px solid #6f42c1 !important;
+    /* التعديل ليتناسب مع اتجاه RTL للحدود الجانبية الملونة */
+    .border-right-prescription {
+        border-right: 4px solid #6f42c1 !important;
+        border-left: none !important;
     }
 
-    .border-left-highlight {
-        border-left: 4px solid #28a745 !important;
+    .border-right-highlight {
+        border-right: 4px solid #28a745 !important;
+        border-left: none !important;
     }
 </style>

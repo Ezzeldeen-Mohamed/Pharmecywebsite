@@ -1,67 +1,125 @@
 ﻿@model ServiceRequest
 @using ePharma_asp_mvc.Models.Enums
 
-<div class="container py-5">
-    <div class="card shadow border-0">
-        <div class="card-header bg-dark text-white d-flex justify-content-between">
-            <h4 class="mb-0">Request Details #@Model.Id</h4>
-            <span class="badge @(Model.Status == ServiceRequestStatus.Pending ? "bg-warning" : "bg-success")">
-                @Model.Status.ToString()
-            </span>
+@{
+    ViewData["Title"] = "تفاصيل طلب الخدمة #" + Model.Id;
+}
+
+<div class="container py-5" dir="rtl">
+    <div class="card shadow-sm border-0 signup-container text-right bg-white">
+
+        <!-- الهيدر الفخم -->
+        <div class="card-header-custom text-white d-flex justify-content-between align-items-center p-4 rounded-top-3">
+            <h4 class="mb-0 fw-bold"><i class="fas fa-file-medical ml-2"></i>تفاصيل الطلب رقم #@Model.Id</h4>
+
+            @if (Model.Status == ServiceRequestStatus.Pending)
+            {
+                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold"><i class="fas fa-clock ml-1"></i>قيد الانتظار</span>
+            }
+            else if (Model.Status == ServiceRequestStatus.Accepted)
+            {
+                <span class="badge bg-info text-white px-3 py-2 rounded-pill fw-bold"><i class="fas fa-user-md ml-1"></i>تم القبول</span>
+            }
+            else if (Model.Status == ServiceRequestStatus.Completed)
+            {
+                <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-bold"><i class="fas fa-check-circle ml-1"></i>مكتمل</span>
+            }
+            else
+            {
+                <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-bold"><i class="fas fa-times-circle ml-1"></i>ملغي</span>
+            }
         </div>
-        <div class="card-body">
+
+        <div class="card-body p-4">
             <div class="row">
-                <div class="col-md-6">
-                    <h5>Customer Information</h5>
-                    <p><strong>Name:</strong> @Model.User.FirstName @Model.User.LastName</p>
-                    <p><strong>Phone:</strong> @Model.ContactPhoneNumber</p>
-                    <p><strong>Address:</strong> @Model.Address</p>
+                <!-- بيانات العميل -->
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="p-3 rounded-3 bg-light h-100 border-right-custom-primary shadow-sm-inset">
+                        <h5 class="text-primary fw-bold mb-3"><i class="fas fa-user-injured ml-2"></i>بيانات العميل</h5>
+                        <p class="mb-2 text-dark"><strong>الاسم بالكامل:</strong> @Model.User.FirstName @Model.User.LastName</p>
+                        <p class="mb-2 text-dark"><strong>رقم الهاتف:</strong> <span dir="ltr">@Model.ContactPhoneNumber</span></p>
+                        <p class="mb-0 text-dark"><strong>عنوان التوصيل:</strong> @Model.Address</p>
+                    </div>
                 </div>
+
+                <!-- بيانات الخدمة الصحية -->
                 <div class="col-md-6">
-                    <h5>Service Information</h5>
-                    <p><strong>Service:</strong> @Model.Service.Name</p>
-                    <p><strong>Price:</strong> $@Model.PriceAtTimeOfRequest</p>
-                    <p><strong>Date:</strong> @Model.RequestTime.ToString("f")</p>
-                    <p><strong>Notes:</strong> @(Model.Notes ?? "No notes provided.")</p>
+                    <div class="p-3 rounded-3 bg-light h-100 border-right-custom-success shadow-sm-inset">
+                        <h5 class="text-success fw-bold mb-3"><i class="fas fa-hand-holding-medical ml-2"></i>تفاصيل الخدمة</h5>
+                        <p class="mb-2 text-dark"><strong>نوع الخدمة:</strong> @Model.Service.Name</p>
+                        <p class="mb-2 text-dark"><strong>التكلفة الإجمالية:</strong> <span class="text-success fw-bold">@Model.PriceAtTimeOfRequest$</span></p>
+                        <p class="mb-2 text-dark"><strong>تاريخ الطلب:</strong> @Model.RequestTime.ToString("dd/MM/yyyy hh:mm tt")</p>
+                        <p class="mb-0 text-muted italic"><strong>ملاحظات إضافية:</strong> @(Model.Notes ?? "لا توجد ملاحظات من العميل.")</p>
+                    </div>
                 </div>
             </div>
 
-            <hr />
+            <hr class="my-4 opacity-25" />
 
-            <div class="d-flex gap-2">
+            <!-- مركز التحكم بالأكشن الذكي والأزرار -->
+            <div class="d-flex flex-wrap gap-2 justify-content-start align-items-center">
                 @if (User.IsInRole("Admin") || User.IsInRole("Pharmacist"))
                 {
-                    <!-- أزرار الصيدلي للأكشن السريع -->
-                    <form asp-action="ChangeStatus" method="post">
+                    <form asp-action="ChangeStatus" method="post" class="m-0">
                         <input type="hidden" name="id" value="@Model.Id" />
                         @if (Model.Status == ServiceRequestStatus.Pending)
                         {
-                            <button name="status" value="@ServiceRequestStatus.Accepted" class="btn btn-primary">Accept Request</button>
+                            <button name="status" value="@ServiceRequestStatus.Accepted" class="btn btn-primary px-4 fw-bold shadow-sm rounded-pill">
+                                <i class="fas fa-clipboard-check ml-1"></i> قبول طلب الخدمة
+                            </button>
                         }
                         else if (Model.Status == ServiceRequestStatus.Accepted)
                         {
-                            <button name="status" value="@ServiceRequestStatus.Completed" class="btn btn-success">Mark Completed</button>
+                            <button name="status" value="@ServiceRequestStatus.Completed" class="btn btn-success px-4 fw-bold shadow-sm rounded-pill">
+                                <i class="fas fa-check ml-1"></i> تعيين كـ مكتمل
+                            </button>
                         }
                     </form>
 
-                    <form asp-action="DeleteRequest" method="post" onsubmit="return confirm('Are you sure?')">
+                    <form asp-action="DeleteRequest" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الطلب نهائياً؟')" class="m-0">
                         <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-danger">Delete Request</button>
+                        <button type="submit" class="btn btn-danger px-4 fw-bold shadow-sm rounded-pill">
+                            <i class="fas fa-trash-alt ml-1"></i> حذف الطلب
+                        </button>
                     </form>
                 }
                 else
                 {
-                    <!-- أزرار المستخدم -->
                     @if (Model.Status == ServiceRequestStatus.Pending)
                     {
-                        <form asp-action="CancelRequest" method="post">
+                        <form asp-action="CancelRequest" method="post" class="m-0">
                             <input type="hidden" name="id" value="@Model.Id" />
-                            <button type="submit" class="btn btn-outline-danger">Cancel My Request</button>
+                            <button type="submit" class="btn btn-outline-danger px-4 fw-bold rounded-pill">
+                                <i class="fas fa-ban ml-1"></i> إلغاء طلبي
+                            </button>
                         </form>
                     }
                 }
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                <a asp-action="Index" class="btn btn-secondary px-4 rounded-pill mr-auto ml-0"><i class="fas fa-chevron-right mr-1"></i> العودة للقائمة</a>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .signup-container {
+        border-radius: 16px !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .card-header-custom {
+        background: linear-gradient(135deg, #1f2d3d, #343a40);
+    }
+
+    .border-right-custom-primary {
+        border-right: 4px solid #007bff;
+    }
+
+    .border-right-custom-success {
+        border-right: 4px solid #28a745;
+    }
+
+    .gap-2 {
+        gap: 10px;
+    }
+</style>
