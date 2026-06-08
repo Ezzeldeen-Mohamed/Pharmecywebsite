@@ -1,161 +1,243 @@
 ﻿@model Product
 
 @{
-    ViewData["Title"] = "Create Product";
+    ViewData["Title"] = "إضافة منتج";
 }
 
-<div class="container mt-5">
+<style>
 
-    <div class="row justify-content-center">
+    body {
+        background: #f5f7fb;
+    }
 
-        <div class="col-md-8">
+    .product-page {
+        direction: rtl;
+    }
 
-            <div class="card shadow border-0 rounded">
+    .product-card {
+        background: #fff;
+        border-radius: 22px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        border: none;
+        overflow: hidden;
+    }
 
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Create Product</h3>
-                </div>
+    .product-header {
+        background: linear-gradient(135deg, #198754, #157347);
+        color: #fff;
+        padding: 20px;
+        font-weight: 700;
+        font-size: 18px;
+    }
 
-                <div class="card-body p-4">
+    .product-body {
+        padding: 25px;
+    }
 
-                    <form asp-controller="Product"
-                          asp-action="Create"
-                          method="post"
-                          enctype="multipart/form-data">
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #333;
+    }
 
-                        <!-- Validation -->
-                        <div asp-validation-summary="All"
-                             class="text-danger mb-3"></div>
+    .form-control {
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 14px;
+    }
 
-                        <!-- Product Name -->
-                        <div class="form-group mb-3">
+    .btn-modern {
+        border-radius: 12px;
+        padding: 10px 18px;
+        font-weight: 600;
+    }
 
-                            <label class="font-weight-bold">
-                                Product Name
-                            </label>
+    .preview-img {
+        max-height: 250px;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.1);
+        display: none;
+    }
 
-                            <input asp-for="Name"
-                                   class="form-control"
-                                   placeholder="Enter product name" />
+    .hint {
+        font-size: 12px;
+        color: #6c757d;
+    }
 
-                            <span asp-validation-for="Name"
-                                  class="text-danger"></span>
+    .btn-group-modern {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
 
-                        </div>
+    .file-box {
+        border: 2px dashed #198754;
+        border-radius: 14px;
+        padding: 15px;
+        text-align: center;
+        background: #f8fff9;
+        cursor: pointer;
+        transition: .3s;
+    }
 
-                        <!-- Description -->
-                        <div class="form-group mb-3">
+        .file-box:hover {
+            background: #eaffea;
+        }
 
-                            <label class="font-weight-bold">
-                                Description
-                            </label>
+    @@media(max-width:768px) {
+        .product-body {
+            padding: 18px;
+        }
+    }
 
-                            <textarea asp-for="Description"
-                                      class="form-control"
-                                      rows="5"
-                                      placeholder="Enter product description"></textarea>
+</style>
 
-                            <span asp-validation-for="Description"
-                                  class="text-danger"></span>
+<div class="product-page">
 
-                        </div>
+    <div class="container mt-5">
 
-                        <!-- Price -->
-                        <div class="form-group mb-3">
+        <div class="row justify-content-center">
 
-                            <label class="font-weight-bold">
-                                Price
-                            </label>
+            <div class="col-lg-8 col-md-10">
 
-                            <input asp-for="Price"
-                                   type="number"
-                                   step="0.01"
-                                   class="form-control"
-                                   placeholder="Enter product price" />
+                <div class="product-card">
 
-                            <span asp-validation-for="Price"
-                                  class="text-danger"></span>
+                    <div class="product-header">
+                        ➕ إضافة منتج جديد
+                    </div>
 
-                        </div>
+                    <div class="product-body">
 
-                        <!-- Stock -->
-                        <div class="form-group mb-3">
+                        <form asp-controller="Product"
+                              asp-action="Create"
+                              method="post"
+                              enctype="multipart/form-data">
 
-                            <label class="font-weight-bold">
-                                Stock
-                            </label>
+                            <!-- VALIDATION -->
+                            <div asp-validation-summary="All"
+                                 class="text-danger mb-3"></div>
 
-                            <input asp-for="Stock"
-                                   type="number"
-                                   class="form-control" />
+                            <!-- NAME -->
+                            <div class="mb-3">
 
-                            <span asp-validation-for="Stock"
-                                  class="text-danger"></span>
+                                <label>اسم المنتج</label>
 
-                        </div>
+                                <input asp-for="Name"
+                                       class="form-control"
+                                       placeholder="أدخل اسم المنتج" />
 
-                        <!-- Category -->
-                        <div class="form-group mb-3">
+                                <span asp-validation-for="Name"
+                                      class="text-danger"></span>
 
-                            <label class="font-weight-bold">
-                                Category
-                            </label>
+                            </div>
 
-                            <input asp-for="Category"
-                                   class="form-control"
-                                   placeholder="Example: Medicine" />
+                            <!-- DESCRIPTION -->
+                            <div class="mb-3">
 
-                            <span asp-validation-for="Category"
-                                  class="text-danger"></span>
+                                <label>الوصف</label>
 
-                        </div>
+                                <textarea asp-for="Description"
+                                          class="form-control"
+                                          rows="4"
+                                          placeholder="وصف المنتج"></textarea>
 
-                        <!-- Product Image -->
-                        <div class="form-group mb-4">
+                                <span asp-validation-for="Description"
+                                      class="text-danger"></span>
 
-                            <label class="font-weight-bold">
-                                Product Image
-                            </label>
+                            </div>
 
-                            <input type="file"
-                                   name="imageFile"
-                                   class="form-control"
-                                   accept=".jpg,.jpeg,.png"
-                                   required />
+                            <!-- PRICE -->
+                            <div class="mb-3">
 
-                        </div>
+                                <label>السعر</label>
 
-                        <!-- Image Preview -->
-                        <div class="mb-4 text-center">
+                                <input asp-for="Price"
+                                       type="number"
+                                       step="0.01"
+                                       class="form-control"
+                                       placeholder="السعر بالجنيه" />
 
-                            <img id="previewImage"
-                                 class="img-fluid rounded shadow"
-                                 style="max-height:250px; display:none;" />
+                                <span asp-validation-for="Price"
+                                      class="text-danger"></span>
 
-                        </div>
+                            </div>
 
-                        <!-- Buttons -->
-                        <div class="d-flex gap-2">
+                            <!-- STOCK -->
+                            <div class="mb-3">
 
-                            <button type="submit"
-                                    class="btn btn-success px-4">
+                                <label>المخزون</label>
 
-                                <i class="fa fa-save"></i>
-                                Create Product
+                                <input asp-for="Stock"
+                                       type="number"
+                                       class="form-control"
+                                       placeholder="عدد القطع المتاحة" />
 
-                            </button>
+                                <span asp-validation-for="Stock"
+                                      class="text-danger"></span>
 
-                            <a asp-controller="Product"
-                               asp-action="Index"
-                               class="btn btn-secondary px-4">
+                            </div>
 
-                                Cancel
+                            <!-- CATEGORY -->
+                            <div class="mb-3">
 
-                            </a>
+                                <label>القسم</label>
 
-                        </div>
+                                <input asp-for="Category"
+                                       class="form-control"
+                                       placeholder="مثال: أدوية / فيتامينات" />
 
-                    </form>
+                                <span asp-validation-for="Category"
+                                      class="text-danger"></span>
+
+                            </div>
+
+                            <!-- IMAGE -->
+                            <div class="mb-3">
+
+                                <label>صورة المنتج</label>
+
+                                <input type="file"
+                                       name="imageFile"
+                                       class="form-control"
+                                       accept="image/*" />
+
+                                <div class="hint mt-1">
+                                    يفضل صورة واضحة بجودة عالية
+                                </div>
+
+                            </div>
+
+                            <!-- PREVIEW -->
+                            <div class="text-center mb-4">
+
+                                <img id="previewImage"
+                                     class="preview-img img-fluid" />
+
+                            </div>
+
+                            <!-- BUTTONS -->
+                            <div class="btn-group-modern">
+
+                                <button type="submit"
+                                        class="btn btn-success btn-modern">
+
+                                    💾 حفظ المنتج
+
+                                </button>
+
+                                <a asp-controller="Product"
+                                   asp-action="Index"
+                                   class="btn btn-outline-secondary btn-modern">
+
+                                    إلغاء
+
+                                </a>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -186,12 +268,11 @@
 
                     reader.onload = function () {
 
-                        const preview =
+                        const img =
                             document.getElementById('previewImage');
 
-                        preview.src = reader.result;
-
-                        preview.style.display = 'block';
+                        img.src = reader.result;
+                        img.style.display = 'block';
                     };
 
                     reader.readAsDataURL(file);

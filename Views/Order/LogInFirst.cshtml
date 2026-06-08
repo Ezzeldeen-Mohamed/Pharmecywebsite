@@ -1,21 +1,163 @@
-﻿<div class="site-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <span class="icon-new_releases display-1 text-info"></span>
-                <h2 class="display-3 text-black">Log In First!</h2>
-                <p class="lead mb-5">If you are new, you can create an account for free.</p>
+﻿@{
+    ViewData["Title"] = "تسجيل الدخول";
+}
 
-                <div class="row mb-5">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                        <p><a asp-controller="ApplicationUser" asp-action="LogIn" class="btn btn-md height-auto px-4 py-3 btn-primary">Log In</a></p>
+<style>
+    .login-required-section {
+        min-height: 75vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 15px;
+        direction: rtl;
+    }
+
+    .login-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 50px 35px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0,0,0,.08);
+        transition: all .3s ease;
+    }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .icon-wrapper {
+        width: 110px;
+        height: 110px;
+        margin: 0 auto 25px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #e8f1ff, #f4f8ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .icon-wrapper i {
+            font-size: 60px;
+            color: #0d6efd;
+        }
+
+    .login-card h1 {
+        font-size: 2.3rem;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 15px;
+    }
+
+    .login-card p {
+        color: #6c757d;
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .action-buttons {
+        margin-top: 35px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-custom-primary,
+    .btn-custom-outline {
+        min-width: 200px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: .3s;
+    }
+
+    .btn-custom-primary {
+        background: #0d6efd;
+        color: #fff;
+    }
+
+        .btn-custom-primary:hover {
+            background: #0b5ed7;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+    .btn-custom-outline {
+        border: 2px solid #0d6efd;
+        color: #0d6efd;
+        background: #fff;
+    }
+
+        .btn-custom-outline:hover {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+    @@media(max-width:768px) {
+
+        .login-card {
+            padding: 35px 20px;
+        }
+
+            .login-card h1 {
+                font-size: 1.8rem;
+            }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn-custom-primary,
+        .btn-custom-outline {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="login-required-section">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7 col-md-9">
+
+                <div class="login-card">
+
+                    <div class="icon-wrapper">
+                        <i class="icon-new_releases"></i>
                     </div>
-                    <div class="col-md-6">
-                        <p><a asp-controller="ApplicationUser" asp-action="SignUp" class="btn btn-md height-auto px-4 py-3 btn-outline-primary">Sign Up</a></p>
+
+                    <h1>يجب تسجيل الدخول أولاً</h1>
+
+                    <p>
+                        للوصول إلى هذه الصفحة أو إتمام عملية الشراء،
+                        يرجى تسجيل الدخول إلى حسابك.
+                    </p>
+
+                    <p>
+                        إذا لم يكن لديك حساب، يمكنك إنشاء حساب جديد مجاناً.
+                    </p>
+
+                    <div class="action-buttons">
+
+                        <a asp-controller="ApplicationUser"
+                           asp-action="LogIn"
+                           class="btn-custom-primary">
+                            تسجيل الدخول
+                        </a>
+
+                        <a asp-controller="ApplicationUser"
+                           asp-action="SignUp"
+                           class="btn-custom-outline">
+                            إنشاء حساب جديد
+                        </a>
+
                     </div>
+
                 </div>
 
             </div>
+
         </div>
     </div>
 </div>

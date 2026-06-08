@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - صيدلية د. محمد عبدالله الشنواني</title>
 
+    <!-- إضافة أيقونة سماعة الدكتور (Favicon) لتبويب المتصفح العلوي -->
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluent/48/stethoscope.png" />
     <!-- Bootstrap 5 RTL لضمان انضباط الاتجاهات -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
 
@@ -34,7 +36,7 @@
 
         /* الـ Navbar المطور بتقنية الشفافية الزجاجية */
         .site-navbar {
-            background: rgba(255, 255, 255, 0.85) !important;
+            background: rgba(255, 255, 255, 0.95) !important;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(241, 245, 249, 0.8);
@@ -51,15 +53,15 @@
         }
 
         .pharmacy-main-title {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: #0284c7; /* لون طبي ذكي */
             transition: color 0.3s ease;
         }
 
-            .pharmacy-main-title i {
-                color: #10b981; /* الزمرد الطبي لإعطاء لمسة حيوية */
-            }
+        .pharmacy-main-title i {
+            color: #10b981; /* الزمرد الطبي لإعطاء لمسة حيوية */
+        }
 
         .pharmacy-sub-title {
             font-size: 0.82rem;
@@ -74,42 +76,66 @@
             color: #475569 !important;
             font-size: 0.95rem;
             position: relative;
-            padding: 8px 12px !important;
+            padding: 10px 15px !important;
             transition: color 0.3s ease !important;
+            display: block;
         }
 
             .site-menu li a:hover, .site-menu li.active a {
                 color: #0284c7 !important;
+                background-color: rgba(2, 132, 199, 0.05);
+                border-radius: 8px;
             }
 
-            .site-menu li a::after {
-                content: '';
-                position: absolute;
-                width: 0;
-                height: 3px;
-                bottom: -2px;
-                left: 50%;
-                background-color: #0284c7;
-                border-radius: 4px;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
+        .site-menu li a:hover::after, .site-menu li.active a::after {
+            width: 80%;
+            left: 10%;
+        }
+
+        }
+
+        .site-menu li a:hover, .site-menu li.active a {
+            color: #0284c7 !important;
+            background-color: rgba(2, 132, 199, 0.05);
+            border-radius: 8px;
+        }
 
             .site-menu li a:hover::after, .site-menu li.active a::after {
                 width: 80%;
                 left: 10%;
             }
 
-        /* تعديل أدوات الأيقونات (البحث والسلة) */
+        } /* <-- القوس ده ملوش قفلة فوق وسايب برضه Error خفي */
+
+        /* تعديل أدوات الأيقونات (البحث والسلة والواتساب) */
         .icons-btn {
             color: #475569 !important;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             transition: all 0.2s ease;
-            padding: 8px;
+            padding: 6px;
             border-radius: 10px;
         }
 
             .icons-btn:hover {
                 color: #0284c7 !important;
+                background: rgba(2, 132, 199, 0.08);
+            }
+
+        /* لمسة خاصة لأيقونة الواتساب في الهيدر */
+        .whatsapp-nav-btn:hover {
+            color: #25d366 !important;
+            background: rgba(37, 211, 102, 0.1);
+        }
+
+        /* تعديل زر القائمة المنسدلة للموبايل */
+        .navbar-toggler {
+            border: none;
+            padding: 6px;
+            color: #475569;
+        }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
                 background: rgba(2, 132, 199, 0.08);
             }
 
@@ -159,14 +185,39 @@
                     color: #10b981 !important;
                     padding-right: 4px;
                 }
+
+        /* زر الواتساب العائم الاحترافي */
+        .whatsapp-floating-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: #25d366;
+            color: #fff !important;
+            width: 55px;
+            height: 55px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+            .whatsapp-floating-btn:hover {
+                transform: scale(1.1);
+                background-color: #20ba5a;
+                box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            }
     </style>
 </head>
 <body>
     <div class="site-wrap">
 
-        <!-- الـ Navbar الرئيسي للبراند -->
-        <div class="site-navbar py-3 sticky-top">
-
+        <!-- الـ Navbar الرئيسي للبراند يدعم التجاوب بالكامل -->
+        <nav class="navbar navbar-expand-lg site-navbar py-3 sticky-top">
             <!-- شريط البحث المنسدل الفاخر -->
             <div class="search-wrap">
                 <div class="container">
@@ -178,45 +229,48 @@
             </div>
 
             <div class="container">
-                <div class="d-flex align-items-center justify-content-between">
+                <!-- الهوية والشعار هيدر -->
+                <a asp-controller="Home" asp-action="Index" class="pharmacy-brand-wrapper">
+                    <span class="pharmacy-main-title">
+                        <i class="fas fa-prescription-bottle-alt me-1"></i> صيدلية د. محمد عبدالله الشنواني
+                    </span>
+                    <span class="pharmacy-sub-title">
+                        <i class="fas fa-user-md me-1"></i> إدارة د. عمر محمد
+                    </span>
+                </a>
 
-                    <!-- لوجو وهوية الصيدلية المحدثة بالكامل -->
-                    <div class="logo">
-                        <a asp-controller="Home" asp-action="Index" class="pharmacy-brand-wrapper">
-                            <span class="pharmacy-main-title">
-                                <i class="fas fa-prescription-bottle-alt me-1"></i> صيدلية الدكتور محمد عبدالله الشنواني
-                            </span>
-                            <span class="pharmacy-sub-title">
-                                <i class="fas fa-user-md me-1"></i> إدارة د. عمر محمد
-                            </span>
-                        </a>
-                    </div>
+                <!-- أزرار التحكم الجانبية (البحث، السلة، الهامبرجر منيو للموبايل) -->
+                <div class="d-flex align-items-center gap-1 order-lg-last">
+                    <a href="https://wa.me/201001193397?text=السلام%20عليكم،%20أريد%20إستشارة%20طبية" target="_blank" class="icons-btn whatsapp-nav-btn" title="استشارة واتساب">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
 
-                    <!-- الـ Navigation Menu المعربة والمطورة -->
-                    <div class="main-nav d-none d-lg-block">
-                        <nav class="site-navigation text-center" role="navigation">
-                            <ul class="site-menu js-clone-nav d-flex align-items-center gap-2 m-0 p-0">
-                                <li class="active"><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
-                                <li><a asp-controller="Home" asp-action="Shop">المتجر الدوائي</a></li>
-                                <li><a asp-controller="HealthServices" asp-action="Index">الخدمات الطبية</a></li>
-                                <li><a asp-controller="Home" asp-action="About">عن الصيدلية</a></li>
+                    <a href="#" class="icons-btn js-search-open"><span class="icon-search"></span></a>
 
-                                <!-- عنصر الهوية والـ Dropdown المطور سابقاً -->
-                                <partial name="_Identity.cshtml"></partial>
-                            </ul>
-                        </nav>
-                    </div>
+                    <!-- مكون سلة المشتريات المدمج الديناميكي -->
+                    @await Component.InvokeAsync("ShoppingCartCount")
 
-                    <!-- أيقونات التفاعل الذكية (بحث وسلة) -->
-                    <div class="icons d-flex align-items-center gap-2">
-                        <a href="#" class="icons-btn js-search-open"><span class="icon-search"></span></a>
-
-                        <!-- مكون سلة المشتريات المدمج الديناميكي -->
-                        @await Component.InvokeAsync("ShoppingCartCount")
-                    </div>
+                    <!-- زر الموبايل التفاعلي الجديد (Hamburger Menu) -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainPharmacyNav" aria-controls="mainPharmacyNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars fs-4"></i>
+                    </button>
                 </div>
+
+                <!-- القائمة المنسدلة (تتحول لقائمة برجر على الموبايل وتفرد تلقائياً على الشاشات الكبيرة) -->
+                <div class="collapse navbar-collapse mt-3 mt-lg-0" id="mainPharmacyNav">
+                    <ul class="navbar-nav site-menu me-auto mb-2 mb-lg-0 gap-lg-2 p-0 text-right">
+                        <li class="@(ViewData["Title"]?.ToString() == "الرئيسية" ? "active" : "")"><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                        <li class="@(ViewData["Title"]?.ToString() == "المتجر الدوائي" ? "active" : "")"><a asp-controller="Home" asp-action="Shop">المتجر الدوائي</a></li>
+                        <li class="@(ViewData["Title"]?.ToString() == "الخدمات الطبية" ? "active" : "")"><a asp-controller="HealthServices" asp-action="Index">الخدمات الطبية</a></li>
+                        <li class="@(ViewData["Title"]?.ToString() == "عن الصيدلية" ? "active" : "")"><a asp-controller="Home" asp-action="About">عن الصيدلية</a></li>
+
+                        <!-- عنصر الهوية والـ Dropdown -->
+                        <partial name="_Identity.cshtml"></partial>
+                    </ul>
+                </div>
+
             </div>
-        </div>
+        </nav>
 
         <!-- الجزء الديناميكي لعرض محتوى الصفحات الداخلية -->
         <main role="main">
@@ -266,60 +320,68 @@
                     <div class="col-lg-4 mx-auto">
                         <h3 class="mb-4">روابط سريعة</h3>
                         <ul class="list-unstyled d-flex flex-column gap-2 p-0">
-                            <li><a href="#"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> المكملات الغذائية</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> الفيتامينات والمعادن</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> رعاية الطفل والأم</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> قسم الحمية والرشاقة</a></li>
+                            <li><a asp-controller="Home" asp-action="Shop"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> المتجر الدوائي الرئيسي</a></li>
+                            <li><a asp-controller="HealthServices" asp-action="Index"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> الخدمات والاستشارات</a></li>
+                            <li><a asp-controller="Home" asp-action="About"><i class="fas fa-chevron-left me-2 text-success fs-7"></i> فريق العمل وقصة البداية</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="block-5">
                             <h3 class="mb-4 text-white">بيانات التواصل المباشر</h3>
-
                             <ul class="list-unstyled d-flex flex-column gap-3 p-0 opacity-85">
-
                                 <li class="d-flex align-items-start gap-2 text-white">
                                     <i class="fas fa-map-marker-alt text-danger mt-1"></i>
                                     <span>جمهورية مصر العربية، قرية سندبسط / محافظة الغربية</span>
                                 </li>
-
                                 <li class="d-flex align-items-center gap-2">
                                     <i class="fas fa-phone-alt text-success"></i>
                                     <a href="tel:+201001193397" dir="ltr" class="text-white">
                                         +20 100 119 3397
                                     </a>
                                 </li>
-
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="fab fa-whatsapp text-success fs-5"></i>
+                                    <a href="https://wa.me/201001193397?text=السلام%20عليكم،%20أريد%20إستشارة%20طبية" target="_blank" class="text-white fw-bold">
+                                        إستشارة عبر الواتساب المباشر
+                                    </a>
+                                </li>
                                 <li class="d-flex align-items-center gap-2">
                                     <i class="fab fa-facebook text-primary"></i>
-                                    <a href="https://www.facebook.com/profile.php?id=61556042277255"
-                                       target="_blank"
-                                       class="text-white">
+                                    <a href="https://www.facebook.com/profile.php?id=61556042277255" target="_blank" class="text-white">
                                         Facebook Profile
                                     </a>
                                 </li>
-
                                 <li class="d-flex align-items-center gap-2 text-white">
                                     <i class="fas fa-envelope text-info"></i>
                                     <span>omarmuhamed176@gmail.com</span>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="row pt-5 mt-5 border-top border-secondary text-center opacity-75">
-                    <div class="col-md-12">
-                        <p class="m-0">
-                            حقوق الطبع والنشر محفوظة &copy; <script>document.write(new Date().getFullYear());</script> | صيدلية د. محمد عبدالله الشنواني (إدارة د. عمر محمد)
+                    <div class="col-md-12 d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                        <p class="m-0 text-white">
+                            حقوق الطبع والنشر محفوظة &copy; @DateTime.Now.Year | صيدلية د. محمد عبدالله الشنواني
+                        </p>
+                        <p class="m-0 small">
+                            تطوير وهندسة الأنظمة:
+                            <a href="https://ezzeldeenmohamed.netlify.app" target="_blank" class="text-info fw-bold text-decoration-underline ms-1">
+                                م. عز الدين محمد <i class="fas fa-globe"></i>
+                            </a>
                         </p>
                     </div>
                 </div>
             </div>
         </footer>
 
-        <!-- ملفات الـ JavaScript المحدثة والمنظمة -->
+        <!-- الزر العائم للواتساب -->
+        <a href="https://wa.me/201001193397?text=السلام%20عليكم،%20أريد%20إستشارة%20طبية" class="whatsapp-floating-btn" target="_blank" title="تواصل معنا مباشرة عبر واتساب">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+        <!-- ملفات الـ JavaScript -->
         <script src="~/js/jquery-3.3.1.min.js"></script>
         <script src="~/js/jquery-ui.js"></script>
         <script src="~/js/popper.min.js"></script>

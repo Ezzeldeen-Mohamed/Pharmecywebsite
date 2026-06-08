@@ -2,31 +2,42 @@
 @model Order
 
 @{
-    ViewData["Title"] = "Order Details";
+    ViewData["Title"] = "تفاصيل الطلب";
 }
 
 <style>
+
     body {
-        background-color: #f8f9fa;
+        background: #f5f7fb;
+    }
+
+    .order-page {
+        direction: rtl;
     }
 
     .order-card {
         background: #fff;
-        border-radius: 16px;
+        border-radius: 20px;
         padding: 25px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
         margin-bottom: 25px;
+        border: none;
+        transition: .3s;
     }
 
+        .order-card:hover {
+            transform: translateY(-3px);
+        }
+
     .section-title {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 700;
         margin-bottom: 20px;
-        color: #222;
+        color: #212529;
     }
 
     .status-badge {
-        padding: 8px 18px;
+        padding: 10px 18px;
         border-radius: 30px;
         font-size: 13px;
         font-weight: 600;
@@ -34,8 +45,8 @@
     }
 
     .product-image {
-        width: 70px;
-        height: 70px;
+        width: 75px;
+        height: 75px;
         object-fit: contain;
         border-radius: 12px;
         background: #fff;
@@ -51,7 +62,7 @@
     .info-label {
         font-size: 13px;
         color: #888;
-        margin-bottom: 3px;
+        margin-bottom: 5px;
     }
 
     .info-value {
@@ -61,20 +72,19 @@
     }
 
     .total-price {
-        font-size: 32px;
+        font-size: 34px;
         font-weight: 700;
         color: #0d6efd;
     }
 
     .custom-table thead {
-        background: #f5f5f5;
+        background: #f8f9fa;
     }
 
     .custom-table th {
         border: none;
-        font-size: 13px;
-        text-transform: uppercase;
         color: #666;
+        font-size: 13px;
         font-weight: 600;
     }
 
@@ -83,7 +93,7 @@
     }
 
     .btn-custom {
-        border-radius: 10px;
+        border-radius: 12px;
         padding: 10px 22px;
         font-weight: 600;
     }
@@ -95,255 +105,335 @@
         color: #777;
         font-size: 14px;
     }
+
+    .breadcrumb-modern {
+        background: white;
+        border-bottom: 1px solid #eee;
+    }
+
+        .breadcrumb-modern a {
+            text-decoration: none;
+        }
+
+    @@media(max-width:768px) {
+
+        .order-card {
+            padding: 18px;
+        }
+
+        .total-price {
+            font-size: 26px;
+        }
+
+        .custom-table {
+            min-width: 700px;
+        }
+
+        .section-title {
+            font-size: 18px;
+        }
+    }
+
 </style>
 
-<!-- Breadcrumb -->
-<div class="bg-white border-bottom py-3">
-    <div class="container">
-        <a asp-controller="Home"
-           asp-action="Index">Home</a>
+<div class="order-page">
 
-        <span class="mx-2">/</span>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-modern py-3">
+        <div class="container">
 
-        <a asp-action="MyOrders">My Orders</a>
+            <a asp-controller="Home"
+               asp-action="Index">
+                الرئيسية
+            </a>
 
-        <span class="mx-2">/</span>
+            <span class="mx-2">/</span>
 
-        <strong>Order #@Model.Id</strong>
+            <a asp-action="MyOrders">
+                طلباتي
+            </a>
+
+            <span class="mx-2">/</span>
+
+            <strong>
+                الطلب رقم #@Model.Id
+            </strong>
+
+        </div>
     </div>
-</div>
 
-<div class="site-section">
-    <div class="container">
+    <div class="site-section py-5">
 
-        <!-- Top Summary -->
-        <div class="order-card">
+        <div class="container">
 
-            <div class="row align-items-center">
+            <!-- Top Summary -->
+            <div class="order-card">
 
-                <div class="col-md-8">
+                <div class="row align-items-center">
 
-                    <h2 class="mb-2">
-                        Order #@Model.Id
-                    </h2>
+                    <div class="col-md-8">
 
-                    <p class="text-muted mb-3">
-                        Ordered on
-                        @Model.TimeOrdered.ToString("dd MMM yyyy - hh:mm tt")
-                    </p>
+                        <h2 class="mb-2">
+                            الطلب رقم #@Model.Id
+                        </h2>
 
-                    @{
-                        var statusClass = Model.Status switch
-                        {
-                            OrderStatus.Pending => "bg-warning text-dark",
-                            OrderStatus.Accepted => "bg-info text-white",
-                            OrderStatus.Completed => "bg-success text-white",
-                            OrderStatus.Cancelled => "bg-danger text-white",
-                            _ => "bg-dark text-white"
-                        };
-                    }
+                        <p class="text-muted mb-3">
+                            تاريخ الطلب :
+                            @Model.TimeOrdered.ToString("dd/MM/yyyy - hh:mm tt")
+                        </p>
 
-                    <span class="status-badge @statusClass">
-                        @Model.Status
-                    </span>
+                        @{
+                            var statusClass = Model.Status switch
+                            {
+                                OrderStatus.Pending => "bg-warning text-dark",
+                                OrderStatus.Accepted => "bg-info text-white",
+                                OrderStatus.Completed => "bg-success text-white",
+                                OrderStatus.Cancelled => "bg-danger text-white",
+                                _ => "bg-dark text-white"
+                            };
+                        }
 
-                </div>
+                        <span class="status-badge @statusClass">
 
-                <div class="col-md-4 text-md-right mt-4 mt-md-0">
+                            @switch (Model.Status)
+                            {
+                                case OrderStatus.Pending:
+                                    @:قيد المراجعة
+                                    break;
 
-                    <div class="info-label">
-                        Total Price
+                                case OrderStatus.Accepted:
+                                    @:تم القبول
+                                    break;
+
+                                case OrderStatus.Completed:
+                                    @:مكتمل
+                                    break;
+
+                                case OrderStatus.Cancelled:
+                                    @:ملغي
+                                    break;
+                            }
+
+                        </span>
+
                     </div>
 
-                    <div class="total-price">
-                        $@Model.TotalPrice
+                    <div class="col-md-4 text-md-left mt-4 mt-md-0">
+
+                        <div class="info-label">
+                            إجمالي الطلب
+                        </div>
+
+                        <div class="total-price">
+                            @Model.TotalPrice.ToString("N2") ج.م
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
+            <!-- Shipping & Payment -->
 
-        <!-- Shipping -->
-        <div class="row">
+            <div class="row">
 
-            <div class="col-md-6 mb-4">
+                <div class="col-md-6 mb-4">
 
-                <div class="order-card h-100">
+                    <div class="order-card h-100">
 
-                    <h3 class="section-title">
-                        Shipping Information
-                    </h3>
+                        <h3 class="section-title">
+                            معلومات التوصيل
+                        </h3>
 
-                    <div class="mb-3">
-                        <div class="info-label">
-                            Delivery Address
-                        </div>
+                        <div class="mb-3">
 
-                        <div class="info-value">
-                            @Model.CustomAddress
-                        </div>
-                    </div>
+                            <div class="info-label">
+                                عنوان التوصيل
+                            </div>
 
-                    <div>
-                        <div class="info-label">
-                            Customer Notes
-                        </div>
-
-                        @if (!string.IsNullOrWhiteSpace(Model.CustomerNotes))
-                        {
                             <div class="info-value">
-                                @Model.CustomerNotes
+                                @Model.CustomAddress
                             </div>
-                        }
-                        else
-                        {
-                            <div class="empty-note">
-                                No additional notes.
+
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                ملاحظات العميل
                             </div>
-                        }
+
+                            @if (!string.IsNullOrWhiteSpace(Model.CustomerNotes))
+                            {
+                                <div class="info-value">
+                                    @Model.CustomerNotes
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="empty-note">
+                                    لا توجد ملاحظات إضافية.
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 mb-4">
+
+                    <div class="order-card h-100">
+
+                        <h3 class="section-title">
+                            معلومات الدفع
+                        </h3>
+
+                        <div class="mb-3">
+
+                            <div class="info-label">
+                                طريقة الدفع
+                            </div>
+
+                            <div class="info-value">
+                                الدفع عند الاستلام
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                حالة الدفع
+                            </div>
+
+                            <div class="info-value">
+                                يتم الدفع عند الاستلام
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
 
-            <div class="col-md-6 mb-4">
+            <!-- Products -->
 
-                <div class="order-card h-100">
+            <div class="order-card">
 
-                    <h3 class="section-title">
-                        Payment Information
-                    </h3>
+                <h3 class="section-title">
+                    المنتجات المطلوبة
+                </h3>
 
-                    <div class="mb-3">
-                        <div class="info-label">
-                            Payment Method
-                        </div>
+                <div class="table-responsive">
 
-                        <div class="info-value">
-                            Cash On Delivery
-                        </div>
-                    </div>
+                    <table class="table custom-table">
 
-                    <div>
-                        <div class="info-label">
-                            Payment Status
-                        </div>
+                        <thead>
 
-                        <div class="info-value">
-                            Pending Until Delivery
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Products -->
-        <div class="order-card">
-
-            <h3 class="section-title">
-                Ordered Products
-            </h3>
-
-            <div class="table-responsive">
-
-                <table class="table custom-table">
-
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Product</th>
-                            <th class="text-center">Price</th>
-                            <th class="text-center">Quantity</th>
-                            <th class="text-right">Total</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @foreach (var item in Model.OrderItems)
-                        {
                             <tr>
-
-                                <td>
-                                    <img src="@item.Product.ImageUrl"
-                                         class="product-image"
-                                         alt="@item.Product.Name" />
-                                </td>
-
-                                <td>
-                                    <strong>
-                                        @item.Product.Name
-                                    </strong>
-                                </td>
-
-                                <td class="text-center">
-                                    $@item.Product.Price
-                                </td>
-
-                                <td class="text-center">
-                                    @item.Quantity
-                                </td>
-
-                                <td class="text-right font-weight-bold">
-                                    $@(item.Product.Price* item.Quantity)
-                                </td>
-
+                                <th>الصورة</th>
+                                <th>المنتج</th>
+                                <th class="text-center">السعر</th>
+                                <th class="text-center">الكمية</th>
+                                <th class="text-center">الإجمالي</th>
                             </tr>
-                        }
 
-                    </tbody>
+                        </thead>
 
-                </table>
+                        <tbody>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <img src="@item.Product.ImageUrl"
+                                             class="product-image"
+                                             alt="@item.Product.Name" />
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            @item.Product.Name
+                                        </strong>
+                                    </td>
+
+                                    <td class="text-center">
+                                        @item.Product.Price.ToString("N2") ج.م
+                                    </td>
+
+                                    <td class="text-center">
+                                        @item.Quantity
+                                    </td>
+
+                                    <td class="text-center fw-bold">
+                                        @((item.Product.Price * item.Quantity).ToString("N2")) ج.م
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
 
-        </div>
+            <!-- Buttons -->
 
-        <!-- Buttons -->
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="d-flex justify-content-between align-items-center flex-wrap mt-4">
 
-            <div class="mb-3">
+                <div class="mb-3">
 
-                <a asp-action="MyOrders"
-                   class="btn btn-outline-primary btn-custom">
-                    Back To Orders
-                </a>
+                    <a asp-action="MyOrders"
+                       class="btn btn-outline-primary btn-custom">
 
-                <a asp-controller="Home"
-                   asp-action="Shop"
-                   class="btn btn-primary btn-custom ml-2">
-                    Continue Shopping
-                </a>
+                        رجوع للطلبات
+
+                    </a>
+
+                    <a asp-controller="Home"
+                       asp-action="Shop"
+                       class="btn btn-primary btn-custom ms-2">
+
+                        متابعة التسوق
+
+                    </a>
+
+                </div>
+
+                @if (Model.Status == OrderStatus.Pending)
+                {
+                    <form asp-action="CancelOrder"
+                          method="post"
+                          onsubmit="return confirm('هل أنت متأكد من إلغاء هذا الطلب؟');">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Model.Id" />
+
+                        <button type="submit"
+                                class="btn btn-danger btn-custom">
+
+                            إلغاء الطلب
+
+                        </button>
+
+                    </form>
+                }
 
             </div>
-
-            @if (Model.Status == OrderStatus.Pending)
-            {
-                <form asp-action="CancelOrder"
-                      method="post"
-                      onsubmit="return confirm('Are you sure you want to cancel this order?');">
-
-                    @Html.AntiForgeryToken()
-
-                    <input type="hidden"
-                           name="id"
-                           value="@Model.Id" />
-
-                    <button type="submit"
-                            class="btn btn-danger btn-custom">
-                        Cancel Order
-                    </button>
-
-                </form>
-            }
 
         </div>
 
     </div>
+
 </div>

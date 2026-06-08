@@ -1,142 +1,137 @@
 ﻿@{
-    ViewData["Title"] = "من نحن";
+    ViewData["Title"] = "عن الصيدلية";
 }
 
-<!-- غطاء الصفحة الرئيسي (Hero Section) -->
-<div class="site-blocks-cover inner-page" style="background-image: url('@Url.Content("~/images/hero_1.jpg")'); background-position: center; background-size: cover;">
+<!-- غطاء الصفحة الرئيسي (Hero Section) المطور -->
+<div class="site-blocks-cover inner-page" style="background: linear-gradient(to left, rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.4)), url('@Url.Content("~/images/G2.png")'); background-position: center; background-size: cover; padding: 100px 0;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-7 mx-auto align-self-center">
-                <div class="text-center text-white py-5" style="background: rgba(0,0,0,0.4); border-radius: 15px;">
-                    <h1 class="display-4 font-weight-bold">من نحن</h1>
-                    <p class="lead">ملتزمون بتقديم أفضل الحلول الرعاية الصحية والأدوية الفعالة لتلبية احتياجاتك اليومية.</p>
+            <div class="col-lg-8 mx-auto align-self-center">
+                <div class="text-center text-white py-4">
+                    <h1 class="display-4 font-weight-bold mb-3" style="color: #4deeea;">عن صيدليتنا</h1>
+                    <p class="lead opacity-85">نحن هنا لنرعاك.. قصة نجاح ممتدة في تقديم الرعاية الصحية الدقيقة والخدمات الدوائية الموثوقة لأهلينا.</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- قسم قصة البداية -->
+<!-- قسم رسالة ورؤية الصيدلية -->
 <div class="site-section bg-light custom-border-bottom" data-aos="fade">
     <div class="container py-5">
         <div class="row align-items-center mb-5">
             <div class="col-md-6 mb-4 mb-md-0">
-                <div class="block-16 shadow rounded overflow-hidden">
+                <div class="block-16 shadow-sm rounded overflow-hidden" style="border-radius: 16px !important;">
                     <figure class="mb-0">
-                        <img src="~/images/bg_1.jpg" alt="عن صيدليتنا" class="img-fluid transform-hover">
+                        <img src="~/images/bg_1.jpg" alt="داخل صيدلية الشنواني" class="img-fluid" style="transition: transform 0.3s;">
                     </figure>
                 </div>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-5 text-right">
                 <div class="site-section-heading pt-3 mb-4">
-                    <h2 class="text-black border-bottom pb-2 font-weight-bold">كيف كانت بدايتنا</h2>
+                    <h2 class="text-black border-bottom pb-2 font-weight-bold" style="border-color: #0284c7 !important; color: #0f172a;">رعايتكم هي مهمتنا الأولى</h2>
                 </div>
-                <p class="text-secondary lead">
-                    بدأت صيدلية "فارما" بمهمة بسيطة: جعل المستلزمات الطبية والوصفات العلاجية عالية الجودة في متناول الجميع وبأسهل طريقة ممكنة.
+                <p class="text-secondary lead" style="font-size: 1.1rem; line-height: 1.8;">
+                    تأسست صيدلية الدكتور محمد عبدالله الشنواني على مبدأ ثابت: تقديم خدمة دوائية متكاملة تفوق مجرد بيع العلاج، لتصبح ركيزة أساسية في المنظومة الصحية لخدمة أهالينا في قرية سندبسط ومحافظة الغربية.
                 </p>
-                <p class="text-secondary">
-                    من صيدلية محلية صغيرة إلى منصة رقمية متكاملة، كان تركيزنا دائمًا ولا يزال ينصب على دقة المواعيد، وسلامة المريض، وتقديم رعاية صحية فائقة.
+                <p class="text-secondary" style="line-height: 1.7;">
+                    بفضل التطوير المستمر وتحت الإدارة الطبية المتميزة للدكتور عمر محمد، نجحنا في دمج الرعاية الصيدلانية التقليدية مع الحلول الرقمية الذكية لتوفير الأدوية ونواقص السوق وتسهيل طلبها من منزلك بكل أمان ودقة.
                 </p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- قسم الشركة الموثوقة -->
-<div class="site-section bg-white custom-border-bottom" data-aos="fade">
-    <div class="container py-5">
-        <div class="row align-items-center mb-5">
-            <div class="col-md-6 order-md-2 mb-4 mb-md-0">
-                <div class="block-16 shadow rounded overflow-hidden">
-                    <figure class="mb-0">
-                        <img src="~/images/hero_1.jpg" alt="صيدلية موثوقة" class="img-fluid transform-hover">
-                    </figure>
-                </div>
-            </div>
-            <div class="col-md-5 mr-auto text-right">
-                <div class="site-section-heading pt-3 mb-4">
-                    <h2 class="text-black border-bottom pb-2 font-weight-bold">نحن شركة موثوقة بالكامل</h2>
-                </div>
-                <p class="text-dark font-weight-medium">
-                    يعمل فريقنا عن كثب مع خبراء ومحترفين معتمدين لضمان أن كل منتج يتم عرضه على منصتنا يطابق المعايير والمواصفات الطبية العالمية.
-                </p>
-                <p class="text-secondary">
-                    مع آلاف العملاء الراضين عن خدماتنا، نواصل النمو والتطور يومًا بعد يوم مع الحفاظ على نفس مستوى الثقة والجودة العالية التي بدأنا بها.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- قسم مميزات الخدمة -->
-<div class="site-section site-section-sm site-blocks-1 border-0 bg-light" data-aos="fade">
+<!-- قسم مميزات الخدمة الحقيقية في مصر -->
+<div class="site-section site-section-sm site-blocks-1 border-0 bg-white" data-aos="fade">
     <div class="container py-5">
         <div class="row text-right">
+            <!-- الميزة الأولى: توفير النواقص -->
             <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 px-4" data-aos="fade-up">
-                <div class="icon ml-3 align-self-start bg-primary text-white p-3 rounded-circle shadow-sm">
-                    <span class="icon-truck h4 mb-0"></span>
+                <div class="icon ml-3 align-self-start p-3 rounded-circle shadow-sm" style="background: rgba(2, 132, 199, 0.1); color: #0284c7;">
+                    <span class="icon-search h4 mb-0"><i class="fas fa-file-prescription"></i></span>
                 </div>
                 <div class="text">
-                    <h3 class="h5 font-weight-bold">شحن مجاني</h3>
-                    <p class="text-muted">توصيل سريع وآمن مباشرة إلى باب منزلك لجميع المستلزمات الطبية والأدوية.</p>
+                    <h3 class="h5 font-weight-bold" style="color: #0f172a;">توفير النواقص والبدائل</h3>
+                    <p class="text-muted small">مهما كان دواؤك نادراً، نبذل أقصى جهدنا لتوفيره فوراً أو إيجاد البديل الطبي الآمن المعتمد وبإشراف صيدلي.</p>
                 </div>
             </div>
+            <!-- الميزة الثانية: الاستشارات والجرعات -->
             <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 px-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="icon ml-3 align-self-start bg-success text-white p-3 rounded-circle shadow-sm">
-                    <span class="icon-refresh2 h4 mb-0"></span>
+                <div class="icon ml-3 align-self-start p-3 rounded-circle shadow-sm" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <span class="icon-refresh2 h4 mb-0"><i class="fas fa-user-md"></i></span>
                 </div>
                 <div class="text">
-                    <h3 class="h5 font-weight-bold">إرجاع مجاني</h3>
-                    <p class="text-muted">سياسة إرجاع سهلة ومرنة خلال 30 يومًا إذا لم تكن راضيًا تمامًا عن طلبك.</p>
+                    <h3 class="h5 font-weight-bold" style="color: #0f172a;">إرشادات دقيقة للجرعات</h3>
+                    <p class="text-muted small">شرح وافي لكل مريض حول كيفية استخدام العلاج، التداخلات الدوائية، والنصائح الطبية لضمان الشفاء العاجل.</p>
                 </div>
             </div>
+            <!-- الميزة الثالثة: الدعم والتوصيل -->
             <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 px-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="icon ml-3 align-self-start bg-warning text-white p-3 rounded-circle shadow-sm">
-                    <span class="icon-help h4 mb-0"></span>
+                <div class="icon ml-3 align-self-start p-3 rounded-circle shadow-sm" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                    <span class="icon-help h4 mb-0"><i class="fab fa-whatsapp"></i></span>
                 </div>
                 <div class="text">
-                    <h3 class="h5 font-weight-bold">دعم عملاء 24/7</h3>
-                    <p class="text-muted">طاقم من الصيادلة وفريق الدعم متواجدون على مدار الساعة للإجابة على استفساراتكم.</p>
+                    <h3 class="h5 font-weight-bold" style="color: #0f172a;">تواصل ومتابعة سريعة</h3>
+                    <p class="text-muted small">فريقنا متاح للرد على صور الروشتات، حساب جرعات الأطفال، والاستشارات العاجلة عبر الواتساب والاتصال المباشر.</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- قسم فريق العمل -->
-<div class="site-section bg-white" data-aos="fade">
+<!-- قسم الإدارة وفريق العمل الحقيقي -->
+<div class="site-section bg-light" data-aos="fade">
     <div class="container py-5">
         <div class="row justify-content-center mb-5">
             <div class="col-md-7 site-section-heading text-center pt-4">
-                <h2 class="font-weight-bold border-bottom d-inline-block pb-2 px-4">فريق العمل</h2>
+                <h2 class="font-weight-bold border-bottom d-inline-block pb-2 px-4" style="color: #0f172a; border-color: #0284c7 !important;">الإشراف الإداري والطبي</h2>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-4 mb-5">
-                <div class="block-38 text-center bg-light p-4 rounded shadow-sm custom-card-hover">
+        <div class="row justify-content-center gap-4">
+
+            <!-- دكتور محمد الشنواني -->
+            <div class="col-md-5 col-lg-4 mb-5">
+                <div class="block-38 text-center bg-white p-4 rounded shadow-sm" style="border-radius: 16px !important; border-top: 4px solid #0284c7;">
                     <div class="block-38-img">
-                        <img src="~/images/person_1.jpg" alt="إليزابيث جراهام" class="mb-4 rounded-circle shadow" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;">
-                        <h3 class="block-38-heading h5 font-weight-bold mb-1">إليزابيث جراهام</h3>
-                        <p class="text-primary text-uppercase small font-weight-bold">الرئيس التنفيذي / المؤسس الشريك</p>
+                        @* <img src="~/images/person_1.jpg" alt="د. محمد عبدالله الشنواني" class="mb-4 rounded-circle shadow-sm" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;"> *@
+                        <h3 class="block-38-heading h5 font-weight-bold mb-1" style="color: #0f172a;">د. محمد عبدالله الشنواني</h3>
+                        <p class="text-uppercase small font-weight-bold" style="color: #0284c7;">صاحب الصيدلية والمؤسس</p>
                     </div>
-                    <div class="block-38-body mt-3">
-                        <p class="text-muted small">تقود الرؤية الطموحة لرقمنة الرعاية الصحية وتسهيل الوصول للأدوية في المنطقة.</p>
+                    <div class="block-38-body mt-3 border-top pt-3">
+                        <p class="text-muted small m-0">صاحب الرؤية الأولى لبناء كيان طبي يخدم المجتمع المحلي بكل أمانة ومصداقية مهنية.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-5">
-                <div class="block-38 text-center bg-light p-4 rounded shadow-sm custom-card-hover">
+
+            <!-- دكتور عمر محمد -->
+            <div class="col-md-5 col-lg-4 mb-5">
+                <div class="block-38 text-center bg-white p-4 rounded shadow-sm" style="border-radius: 16px !important; border-top: 4px solid #10b981;">
                     <div class="block-38-img">
-                        <img src="~/images/person_2.jpg" alt="جينيفر جريف" class="mb-4 rounded-circle shadow" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;">
-                        <h3 class="block-38-heading h5 font-weight-bold mb-1">جينيفر جريف</h3>
-                        <p class="text-primary text-uppercase small font-weight-bold">مدير العمليات</p>
+                        @* <img src="~/images/person_2.jpg" alt="د. عمر محمد" class="mb-4 rounded-circle shadow-sm" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;"> *@
+                        <h3 class="block-38-heading h5 font-weight-bold mb-1" style="color: #0f172a;">د. عمر محمد</h3>
+                        <p class="text-uppercase small font-weight-bold" style="color: #10b981;">المدير المسؤول والمطور للخدمات</p>
                     </div>
-                    <div class="block-38-body mt-3">
-                        <p class="text-muted small">تضمن معالجة وتحضير كل طلب طبي بدقة متناهية تبلغ 100% ورعاية فائقة.</p>
+                    <div class="block-38-body mt-3 border-top pt-3">
+                        <p class="text-muted small m-0">يتولى إدارة الصيدلية اليومية، وتطوير المنصة الرقمية، وضمان تقديم الاستشارات العلاجية بدقة متناهية.</p>
                     </div>
                 </div>
             </div>
+            <!-- المهندس عز الدين محمد (إضافتك الاحترافية) -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="block-38 text-center bg-white p-4 rounded shadow-sm h-100" style="border-radius: 16px !important; border-top: 4px solid #6366f1;">
+                    <div class="block-38-img">
+                        <img src="~/images/Ezzeldeen.png" alt="Eng.Ezzeldeen Mohamed" class="mb-4 rounded-circle shadow-sm" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;">
+                        <h3 class="block-38-heading h5 font-weight-bold mb-1" style="color: #0f172a;">Eng.Ezzeldeen Mohamed</h3>
+                        <p class="text-uppercase small font-weight-bold" style="color: #6366f1;">Software Engineer at Elsewedy Electrometer</p>
+                    </div>
+                    <div class="block-38-body mt-3 border-top pt-3">
+                        <p class="text-muted small m-0">العقل الهندسي وراء المنصة؛ قام ببناء وتطوير البنية التحتية البرمجية وقواعد البيانات (ASP.NET MVC) لضمان تجربة مستخدم سريعة، آمنة، وذكية.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -1,38 +1,173 @@
-﻿<div class="bg-light py-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mb-0">
-                <a asp-controller="Home" asp-action="Index">Home</a>
-                <span class="mx-2 mb-0">/</span>
-                <strong class="text-black">Thank You</strong>
-            </div>
+﻿@{
+    ViewData["Title"] = "شكراً لك";
+}
+
+<style>
+
+    body {
+        background: #f5f7fb;
+    }
+
+    .thankyou-page {
+        direction: rtl;
+    }
+
+    .thank-card {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 15px 40px rgba(0,0,0,.08);
+        padding: 50px 25px;
+        text-align: center;
+        transition: .3s;
+    }
+
+        .thank-card:hover {
+            transform: translateY(-3px);
+        }
+
+    .success-icon {
+        font-size: 80px;
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #212529;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        color: #6c757d;
+        margin-bottom: 30px;
+    }
+
+    .btn-modern {
+        border-radius: 14px;
+        padding: 12px 25px;
+        font-weight: 600;
+        transition: .3s;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+        }
+
+    .breadcrumb-modern {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+    }
+
+    @@media(max-width:768px) {
+
+        .title {
+            font-size: 28px;
+        }
+
+        .thank-card {
+            padding: 35px 15px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+        }
+    }
+
+</style>
+
+<div class="thankyou-page">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-modern py-3">
+        <div class="container">
+
+            <a asp-controller="Home"
+               asp-action="Index">
+                الرئيسية
+            </a>
+
+            <span class="mx-2">/</span>
+
+            <strong>شكراً لك</strong>
+
         </div>
     </div>
-</div>
 
-<div class="site-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <span class="icon-check_circle display-3 text-success"></span>
-                <h2 class="display-3 text-black">Thank you!</h2>
+    <div class="site-section py-5">
 
-                <!-- تعديل الصياغة هنا لتقرأ بشكل طبيعي -->
-                <p class="lead mb-5">Your @ViewBag.nama has been successfully processed.</p>
+        <div class="container">
 
-                <p>
-                    @if (ViewBag.nama == "Prescription")
-                    {
-                        <!-- لو جاي من رفع روشتة نوجهه لصفحة الروشتات بتاعته -->
-                        <a asp-controller="Prescription" asp-action="MyPrescriptions" class="btn btn-md height-auto px-4 py-3 btn-primary">Track Your Prescriptions</a>
-                    }
-                    else
-                    {
-                        <!-- لو جاي من الشراء العادي يروح لطلباته -->
-                        <a asp-controller="Order" asp-action="MyOrders" class="btn btn-md height-auto px-4 py-3 btn-primary">Check your Orders</a>
-                    }
-                </p>
+            <div class="row justify-content-center">
+
+                <div class="col-lg-7">
+
+                    <div class="thank-card">
+
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+
+                        <h1 class="title">
+                            شكراً لك!
+                        </h1>
+
+                        <p class="subtitle">
+
+                            @if (ViewBag.nama == "Prescription")
+                            {
+                                @:تم رفع الروشتة بنجاح
+                            }
+                            else
+                            {
+                                @:تم تنفيذ طلبك بنجاح
+                            }
+
+                        </p>
+
+                        <p class="text-muted mb-4">
+
+                            @if (ViewBag.nama == "Prescription")
+                            {
+                                @:يمكنك الآن متابعة الروشتات الخاصة بك من حسابك.
+                            }
+                            else
+                            {
+                                @:يمكنك الآن متابعة طلباتك ومعرفة حالة الشحن.
+                            }
+
+                        </p>
+
+                        @if (ViewBag.nama == "Prescription")
+                        {
+                            <a asp-controller="Prescription"
+                               asp-action="MyPrescriptions"
+                               class="btn btn-success btn-modern">
+
+                                متابعة الروشتات
+
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Order"
+                               asp-action="MyOrders"
+                               class="btn btn-primary btn-modern">
+
+                                عرض الطلبات
+
+                            </a>
+                        }
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
+
     </div>
+
 </div>

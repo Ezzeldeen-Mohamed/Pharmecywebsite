@@ -29,9 +29,18 @@
             </div>
             <div class="col-md-6 text-md-left">
                 <!-- زر رفع الروشتة -->
-                <a asp-controller="Prescription" asp-action="Upload" class="btn btn-outline-primary ml-2 shadow-sm rounded-pill py-2 font-weight-bold">
-                    <i class="fa fa-file-medical ml-2"></i> رفع روشتة طبية
-                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Prescription" asp-action="Upload" class="btn btn-outline-primary ml-2 shadow-sm rounded-pill py-2 font-weight-bold">
+                        <i class="fa fa-file-medical ml-2"></i> رفع روشتة طبية
+                    </a>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-controller="ApplicationUser" asp-action="LogIn" asp-route-ReturnUrl="/Prescription/Upload" class="btn btn-outline-primary ml-2 shadow-sm rounded-pill py-2 font-weight-bold">
+                        <i class="fa fa-sign-in-alt ml-2"></i> سجل دخول لرفع الروشتة
+                    </a>
+                }
 
                 <!-- زر إضافة منتج للـ Admin -->
                 @if (User.IsInRole("Admin"))
@@ -68,8 +77,7 @@
 
                         <!-- تفاصيل المنتج داخل الـ Card Body -->
                         <div class="card-body p-2 d-flex flex-column flex-grow-1 text-right mt-3">
-                            <!-- التصنيف أو القسم -->
-                            <span class="badge badge-info align-self-start mb-2 px-3 py-2 rounded-pill font-weight-bold text-white shadow-sm">
+                            <span class="badge badge-info align-self-start mb-2 px-3 py-2 rounded-pill font-weight-bold text-dark shadow-sm">
                                 @item.Category
                             </span>
 
@@ -91,7 +99,7 @@
 
                                 <!-- السعر وحالة المخزن -->
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 class="text-primary font-weight-bold mb-0">$@item.Price</h4>
+                                    <h4 class="text-primary font-weight-bold mb-0">@item.Price ج.م</h4>
                             @if (item.Stock > 0)
                                     {
                                         <span class="badge badge-success px-3 py-2 rounded-pill font-weight-bold">متوفر بالمخزن</span>

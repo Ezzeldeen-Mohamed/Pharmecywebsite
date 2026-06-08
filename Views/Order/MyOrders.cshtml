@@ -2,100 +2,249 @@
 @model List<Order>
 
 @{
-    ViewData["Title"] = "My Orders";
+    ViewData["Title"] = "طلباتي";
 }
 
-<div class="bg-light py-3 border-bottom">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mb-0">
-                <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted">Home</a>
-                <span class="mx-2 text-secondary">/</span>
-                <strong class="text-dark">My Orders</strong>
-            </div>
+<style>
+    .orders-page {
+        direction: rtl;
+    }
+
+    .orders-card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    .orders-header {
+        background: #f8f9fa;
+    }
+
+    .orders-table th {
+        font-weight: 600;
+        color: #495057;
+        white-space: nowrap;
+    }
+
+    .orders-table td {
+        vertical-align: middle;
+    }
+
+    .status-badge {
+        min-width: 120px;
+        padding: 10px 15px;
+        border-radius: 50px;
+        font-size: .85rem;
+        display: inline-block;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .order-btn {
+        border-radius: 30px;
+        padding: 8px 18px;
+        transition: .3s;
+    }
+
+        .order-btn:hover {
+            transform: translateY(-2px);
+        }
+
+    .empty-orders {
+        padding: 70px 20px;
+    }
+
+        .empty-orders i {
+            font-size: 70px;
+            color: #adb5bd;
+            margin-bottom: 20px;
+        }
+
+    .page-title {
+        font-weight: 700;
+        color: #212529;
+    }
+
+    @@media (max-width: 768px) {
+
+        .orders-table {
+            min-width: 700px;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+<div class="orders-page">
+
+    <!-- Breadcrumb -->
+    <div class="bg-light py-3 border-bottom">
+        <div class="container">
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="text-decoration-none text-muted">
+                الرئيسية
+            </a>
+
+            <span class="mx-2">/</span>
+
+            <strong>طلباتي</strong>
         </div>
     </div>
-</div>
 
-<div class="site-section py-5">
-    <div class="container">
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <h3 class="fw-bold text-dark mb-1"><i class="fas fa-history text-primary me-2"></i>My Orders History</h3>
-                <p class="text-muted small">Track and view the statuses of your purchases.</p>
+    <div class="site-section py-5">
+
+        <div class="container">
+
+            <div class="mb-4">
+                <h2 class="page-title">
+                    <i class="fas fa-shopping-bag text-primary ms-2"></i>
+                    سجل الطلبات
+                </h2>
+
+                <p class="text-muted">
+                    متابعة جميع الطلبات وحالة كل طلب.
+                </p>
             </div>
-        </div>
 
-        <div class="row mb-5">
-            <div class="col-md-12">
-                <div class="card shadow-sm border-0 bg-white rounded-3 overflow-hidden">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light border-bottom">
-                                <tr class="text-dark">
-                                    <th class="ps-4 py-3">Order ID</th>
-                                    <th>Total Price</th>
-                                    <th>Date Ordered</th>
-                                    <th>Status</th>
-                                    <th class="text-end pe-4">Action</th>
+            <div class="orders-card bg-white">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover orders-table mb-0">
+
+                        <thead class="orders-header">
+
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>إجمالي السعر</th>
+                                <th>تاريخ الطلب</th>
+                                <th>الحالة</th>
+                                <th class="text-center">التفاصيل</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @if (Model == null || !Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="5">
+
+                                        <div class="empty-orders text-center">
+
+                                            <i class="fas fa-shopping-cart"></i>
+
+                                            <h5>
+                                                لا توجد طلبات حتى الآن
+                                            </h5>
+
+                                            <p class="text-muted">
+                                                ابدأ التسوق الآن وأضف منتجاتك المفضلة.
+                                            </p>
+
+                                        </div>
+
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model == null || !Model.Any())
+                            }
+                            else
+                            {
+                                foreach (var item in Model)
                                 {
+                                    var statusColor = item.Status switch
+                                    {
+                                        OrderStatus.Pending => "bg-warning text-dark",
+                                        OrderStatus.Accepted => "bg-info text-white",
+                                        OrderStatus.Completed => "bg-success text-white",
+                                        OrderStatus.Cancelled => "bg-danger text-white",
+                                        _ => "bg-secondary text-white"
+                                    };
+
                                     <tr>
-                                        <td colspan="5" class="text-center py-5 text-muted">
-                                            <i class="fas fa-shopping-bag fa-3x mb-3 d-block text-secondary opacity-50"></i>
-                                            You haven't placed any orders yet.
+
+                                        <td>
+                                            <strong>#@item.Id</strong>
                                         </td>
+
+                                        <td>
+                                            @item.TotalPrice.ToString("C2")
+                                        </td>
+
+                                        <td>
+                                            @item.TimeOrdered.ToString("dd/MM/yyyy hh:mm tt")
+                                        </td>
+
+                                        <td>
+
+                                            <span class="status-badge @statusColor">
+                                                @switch (item.Status)
+                                                {
+                                                    case OrderStatus.Pending:
+                                                        @:قيد المراجعة
+                                                        break;
+
+                                                    case OrderStatus.Accepted:
+                                                        @:تم القبول
+                                                        break;
+
+                                                    case OrderStatus.Completed:
+                                                        @:مكتمل
+                                                        break;
+
+                                                    case OrderStatus.Cancelled:
+                                                        @:ملغي
+                                                        break;
+                                                }
+                                            </span>
+
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <a asp-controller="Order"
+                                               asp-action="OrderDetails"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-outline-primary order-btn">
+
+                                                <i class="fas fa-eye ms-1"></i>
+                                                عرض التفاصيل
+
+                                            </a>
+
+                                        </td>
+
                                     </tr>
                                 }
-                                else
-                                {
-                                    foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td class="ps-4 fw-bold text-secondary">#@item.Id</td>
-                                            <td class="fw-bold text-dark">@item.TotalPrice.ToString("C2")</td>
-                                            <td class="text-muted small">@item.TimeOrdered.ToString("dd MMM yyyy, hh:mm tt")</td>
-                                            <td>
-                                                @{
-                                                    // تم تعديل الألوان هنا لتهندل الـ 4 حالات بتوعك بالظبط بالملي!
-                                                    var statusColor = item.Status switch
-                                                    {
-                                                        OrderStatus.Pending => "bg-warning text-dark",
-                                                        OrderStatus.Accepted => "bg-info text-white",
-                                                        OrderStatus.Completed => "bg-success text-white",
-                                                        OrderStatus.Cancelled => "bg-danger text-white",
-                                                        _ => "bg-dark text-white"
-                                                    };
-                                                }
-                                                <span class="badge @statusColor px-3 py-2 rounded-pill" style="min-width: 100px; text-align: center; font-size: 0.8rem;">
-                                                    <i class="fas fa-circle me-1" style="font-size: 6px; vertical-align: middle;"></i> @item.Status
-                                                </span>
-                                            </td>
-                                            <td class="text-end pe-4">
-                                                <a asp-controller="Order" asp-action="OrderDetails" asp-route-id="@item.Id"
-                                                   class="btn btn-outline-dark btn-sm px-3 rounded-pill shadow-sm">
-                                                    <i class="fas fa-file-invoice me-1"></i> View Details
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+
+                        </tbody>
+
+                    </table>
+
                 </div>
+
             </div>
+
+            <div class="mt-4">
+
+                <a asp-controller="Home"
+                   asp-action="Shop"
+                   class="btn btn-primary px-4 py-2 rounded-pill">
+
+                    <i class="fas fa-arrow-right ms-2"></i>
+                    متابعة التسوق
+
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <a asp-controller="Home" asp-action="Shop" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
-                    Continue Shopping
-                </a>
-            </div>
-        </div>
     </div>
+
 </div>

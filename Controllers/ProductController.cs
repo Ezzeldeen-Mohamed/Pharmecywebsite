@@ -186,14 +186,13 @@ namespace ePharma_asp_mvc.Controllers
 
             return View("/Views/Product/Edit.cshtml", product);
         }
-
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-            int id,
-            Product product,
-            IFormFile imageFile)
+    int id,
+    Product product,
+    IFormFile imageFile)
         {
             if (!ModelState.IsValid)
             {
@@ -204,11 +203,20 @@ namespace ePharma_asp_mvc.Controllers
                 await _productsService.GetByID(id);
 
             if (oldProduct == null)
-            {
                 return NotFound();
-            }
 
-            // Upload New Image
+            // =========================
+            // UPDATE FIELDS مباشرة
+            // =========================
+            oldProduct.Name = product.Name;
+            oldProduct.Description = product.Description;
+            oldProduct.Price = product.Price;
+            oldProduct.Stock = product.Stock;
+            oldProduct.Category = product.Category;
+
+            // =========================
+            // IMAGE
+            // =========================
             if (imageFile != null && imageFile.Length > 0)
             {
                 string uploadsFolder = Path.Combine(
@@ -227,22 +235,16 @@ namespace ePharma_asp_mvc.Controllers
                 string filePath =
                     Path.Combine(uploadsFolder, uniqueFileName);
 
-                using (var stream = new FileStream(
-                    filePath,
-                    FileMode.Create))
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(stream);
                 }
 
-                product.ImageUrl =
+                oldProduct.ImageUrl =
                     "/images/products/" + uniqueFileName;
             }
-            else
-            {
-                product.ImageUrl = oldProduct.ImageUrl;
-            }
 
-            await _productsService.Update(id, product);
+            await _productsService.Update(id, oldProduct);
 
             return RedirectToAction(nameof(Index));
         }

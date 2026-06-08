@@ -1,192 +1,162 @@
 ﻿@model List<ShoppingCartItem>
 
 @{
-    ViewData["Title"] = "Check Out";
+    ViewData["Title"] = "إتمام الطلب";
 }
 
-<!-- Breadcrumb -->
-<div class="bg-light py-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mb-0">
-                <a asp-controller="Home" asp-action="Index">Home</a>
-                <span class="mx-2 mb-0">/</span>
-                <strong class="text-black">Checkout</strong>
-            </div>
+<div dir="rtl">
+
+    <!-- Breadcrumb -->
+    <div class="bg-light py-3 border-bottom">
+        <div class="container">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none">
+                الرئيسية
+            </a>
+            <span class="mx-2">/</span>
+            <strong>إتمام الطلب</strong>
         </div>
     </div>
-</div>
 
-<div class="site-section">
-    <div class="container">
-            
-        @* <div asp-validation-summary="All" class="alert alert-danger"></div> *@
+    <div class="site-section py-5">
+        <div class="container">
 
-        <form asp-controller="Order"
-              asp-action="CheckOut"
-              method="post"
-              enctype="multipart/form-data"
-              class="row">
+            <form asp-controller="Order"
+                  asp-action="CheckOut"
+                  method="post"
+                  enctype="multipart/form-data">
 
-            <!-- LEFT SIDE -->
-            <div class="col-md-6 mb-5 mb-md-0">
+                <div class="row g-4">
 
-                <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                    <!-- بيانات العميل -->
+                    <div class="col-lg-7">
 
-                <div class="p-4 border rounded bg-white shadow-sm">
+                        <div class="card border-0 shadow-sm rounded-4">
+                            <div class="card-body p-4">
 
-                    <!-- Address -->
-                    <div class="form-group mb-4">
-                        <label class="text-black">
-                            Delivery Address
-                        </label>
+                                <h3 class="mb-4 fw-bold">
+                                    📍 بيانات التوصيل
+                                </h3>
 
-                        <textarea name="customAddress"
-                                  class="form-control"
-                                  rows="4"
-                                  required
-                                  placeholder="Enter your address here..."></textarea>
+                                <div class="form-floating mb-4">
+                                    <textarea name="customAddress"
+                                              class="form-control"
+                                              placeholder="العنوان"
+                                              style="height:120px"
+                                              required></textarea>
+                                    <label>عنوان التوصيل</label>
+                                </div>
+
+                                <div class="form-floating mb-4">
+                                    <textarea name="customerNotes"
+                                              class="form-control"
+                                              placeholder="ملاحظات"
+                                              style="height:100px"></textarea>
+                                    <label>ملاحظات إضافية</label>
+                                </div>
+
+                                <div class="alert alert-success rounded-3 mb-0">
+                                    <h6 class="fw-bold mb-2">
+                                        💵 الدفع عند الاستلام
+                                    </h6>
+
+                                    <small>
+                                        يمكنك الدفع نقداً عند استلام الطلب.
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- Notes -->
-                    <div class="form-group mb-4">
-                        <label class="text-black">
-                            Customer Notes
-                        </label>
+                    <!-- ملخص الطلب -->
+                    <div class="col-lg-5">
 
-                        <textarea name="customerNotes"
-                                  class="form-control"
-                                  rows="3"
-                                  placeholder="Any extra notes..."></textarea>
-                    </div>
+                        <div class="card border-0 shadow-sm rounded-4 sticky-top"
+                             style="top:20px;">
 
-                    <!-- Prescription -->
-                    @* @if (Model.Any(item => item.Product.NeedsPrescription))
-                    {
-                        <div class="form-group mb-4 p-3 border border-danger rounded bg-light">
+                            <div class="card-body p-4">
 
-                            <label class="text-danger font-weight-bold d-block mb-2">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                Prescription Required
-                            </label>
+                                <h3 class="fw-bold mb-4">
+                                    🛒 ملخص الطلب
+                                </h3>
 
-                            <p class="small text-muted">
-                                One or more products require a prescription.
-                            </p>
+                                <table class="table align-middle">
 
-                            <input type="file"
-                                   name="prescriptionPhoto"
-                                   class="form-control"
-                                   accept=".jpg,.jpeg,.png"
-                                   required />
+                                    <thead>
+                                        <tr>
+                                            <th>المنتج</th>
+                                            <th class="text-center">الإجمالي</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        @{
+                                            decimal cartTotal = 0;
+                                        }
+
+                                        @foreach (var item in Model)
+                                        {
+                                            decimal itemTotal =
+                                            item.Product.Price * item.Quantity;
+
+                                            cartTotal += itemTotal;
+
+                                            <tr>
+                                                <td>
+                                                    <div>
+                                                        <strong>
+                                                            @item.Product.Name
+                                                        </strong>
+                                                        <br />
+                                                        <small class="text-muted">
+                                                            الكمية: @item.Quantity
+                                                        </small>
+                                                    </div>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    @itemTotal.ToString("N2") ج.م
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                                <hr />
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>المجموع الفرعي</span>
+                                    <strong>
+                                        @cartTotal.ToString("N2") ج.م
+                                    </strong>
+                                </div>
+
+                                <div class="d-flex justify-content-between fs-5 fw-bold text-primary">
+                                    <span>الإجمالي</span>
+                                    <span>
+                                        @cartTotal.ToString("N2") ج.م
+                                    </span>
+                                </div>
+
+                                <button type="submit"
+                                        class="btn btn-primary btn-lg w-100 mt-4 rounded-3">
+
+                                    تأكيد الطلب
+                                </button>
+
+                            </div>
                         </div>
-                    } *@
 
-
-                    @* <div class="form-group mb-4">
-                        <label>Prescription Photo (Optional)</label>
-
-                        <input type="file"
-                               name="prescriptionPhoto"
-                               class="form-control"
-                               accept=".jpg,.jpeg,.png" />
-                    </div> *@
-
-                    <!-- Payment -->
-                    <div class="border p-3 rounded mb-3">
-                        <h3 class="h6 mb-0">
-                            <a class="d-block"
-                               data-toggle="collapse"
-                               href="#collapsecash">
-                                Cash on Delivery
-                            </a>
-                        </h3>
-
-                        <div class="collapse show" id="collapsecash">
-                            <p class="py-2 mb-0 small">
-                                Pay when you receive your order.
-                            </p>
-                        </div>
                     </div>
 
                 </div>
-            </div>
 
-            <!-- RIGHT SIDE -->
-            <div class="col-md-6">
+            </form>
 
-                <h2 class="h3 mb-3 text-black">Your Order</h2>
-
-                <div class="p-4 border rounded bg-white shadow-sm">
-
-                    <table class="table site-block-order-table mb-4">
-
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @{
-                                decimal cartTotal = 0;
-                            }
-
-                            @for (int i = 0; i < Model.Count; i++)
-                            {
-                                var item = Model[i];
-
-                                decimal itemTotal =
-                                item.Product.Price * item.Quantity;
-
-                                cartTotal += itemTotal;
-
-                                <tr>
-                                    <td>
-                                        @item.Product.Name
-                                        <strong class="mx-2">x</strong>
-                                        @item.Quantity
-                                    </td>
-
-                                    <td>
-                                        $@itemTotal.ToString("N2")
-                                    </td>
-                                </tr>
-                            }
-
-                            <tr>
-                                <td class="font-weight-bold">
-                                    Cart Subtotal
-                                </td>
-
-                                <td class="font-weight-bold">
-                                    $@cartTotal.ToString("N2")
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-primary font-weight-bold">
-                                    Order Total
-                                </td>
-
-                                <td class="text-primary font-weight-bold">
-                                    $@cartTotal.ToString("N2")
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-
-                    <button type="submit"
-                            class="btn btn-primary btn-lg btn-block shadow">
-                        Place Order
-                    </button>
-
-                </div>
-            </div>
-
-        </form>
+        </div>
     </div>
+
 </div>

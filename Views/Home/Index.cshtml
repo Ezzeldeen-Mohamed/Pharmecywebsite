@@ -4,16 +4,20 @@
     ViewData["Title"] = "الصفحة الرئيسية";
 }
 
-<!-- غطاء الصفحة الترحيبي (Hero Banner) -->
-<div class="site-blocks-cover" style="background-image: url('../images/hero_1.jpg'); background-size: cover; background-position: center;">
+<!-- غطاء الصفحة الترحيبي المتناسق (Hero Banner) -->
+<div class="site-blocks-cover" style="background: linear-gradient(to left, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.2)), url('../images/G2.png'); background-size: cover; background-position: center; position: relative; padding: 120px 0 160px 0;">
     <div class="container">
         <div class="row">
+            <!-- تم توجيه النص لليمين ليتناسق تماماً مع توزيع العناصر في التصميم العربي -->
             <div class="col-lg-7 mr-auto align-self-center text-right">
-                <div class="site-block-cover-content p-4 p-md-5 bg-white-opacity-8 rounded shadow">
-                    <h2 class="text-primary font-weight-bold h5 mb-3">أدوية فعالة ورعاية طبية متجددة يومياً</h2>
-                    <h1 class="display-4 font-weight-bold text-black mb-4">مرحباً بكم في فارما</h1>
-                    <p>
-                        <a asp-action="Shop" class="btn btn-primary px-5 py-3 rounded-pill shadow font-weight-bold">تسوق الآن</a>
+                <div class="site-block-cover-content p-4 p-md-5" style="background: transparent;">
+                    <!-- استخدام لون تيل طبي مريح للعين ومتناسق مع الإضاءة -->
+                    <h2 style="color: #4deeea; font-size: 1.15rem;" class="font-weight-bold mb-3">أدوية فعالة ورعاية طبية متجددة يومياً</h2>
+                    <!-- النص الأساسي باللون الأبيض الصريح لتباين مثالي مع الكبسولات الداكنة خلفه -->
+                    <h1 style="color: #ffffff;" class="display-4 font-weight-bold mb-4">مرحباً بكم في صيدلياتنا</h1>
+                    <p class="mt-4">
+                        <!-- زر أبيض بتصميم انسيابي مريح يسهل الضغط عليه -->
+                        <a asp-action="Shop" class="btn btn-light px-5 py-3 rounded-pill shadow font-weight-bold transition-btn" style="color: #0d233a; border: none;">تسوق الآن</a>
                     </p>
                 </div>
             </div>
@@ -21,34 +25,141 @@
     </div>
 </div>
 
-<!-- صناديق العروض الترويجية المتداخلة (Overlap Banners) -->
-<div class="site-section pt-0">
+<!-- صناديق العروض الترويجية المطور بتأثير الطيران (Premium Floating Cards) -->
+<style>
+    /* تحسين تأثير التداخل وجعله يبدو طائراً فوق الهيدر */
+    .premium-overlap-section {
+        margin-top: -80px;
+        position: relative;
+        z-index: 10;
+    }
+
+    /* تصميم الكروت الجديد بالكامل */
+    .floating-banner-card {
+        background: #ffffff !important;
+        border-radius: 16px !important;
+        border: none !important;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* خط ملون علوي خفيف لتمييز كل كارت بهوية بصرية مميزة */
+        .floating-banner-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+    .card-shipping::before {
+        background: #0284c7;
+    }
+    /* أزرق طبي */
+    .card-discount::before {
+        background: #10b981;
+    }
+    /* زمردي */
+    .card-gift::before {
+        background: #f59e0b;
+    }
+    /* ذهبي دافئ */
+
+    /* الأيقونات الدائرية المريحة للعين */
+    .banner-icon-box {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
+    .icon-shipping {
+        background: rgba(2, 132, 199, 0.08);
+        color: #0284c7;
+    }
+
+    .icon-discount {
+        background: rgba(16, 115, 129, 0.08);
+        color: #10b981;
+    }
+
+    .icon-gift {
+        background: rgba(245, 158, 11, 0.08);
+        color: #f59e0b;
+    }
+
+    /* تأثيرات الماوس الاحترافية عند التمرير */
+    .floating-banner-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12) !important;
+    }
+
+    .floating-banner-card h5 {
+        color: #1e293b !important;
+        font-size: 1.15rem;
+    }
+
+    .floating-banner-card p {
+        color: #64748b !important;
+        line-height: 1.6;
+    }
+
+    .transition-btn:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="site-section pt-0 premium-overlap-section">
     <div class="container">
-        <div class="row align-items-stretch section-overlap text-right">
+        <div class="row align-items-stretch text-right">
+
+            <!-- كارت التوصيل السريع للمنازل -->
             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                <div class="banner-wrap bg-primary h-100 p-4 rounded shadow-sm text-white custom-card-hover">
-                    <a href="#" class="h-100 d-block text-white text-decoration-none">
-                        <h5 class="font-weight-bold mb-3"><i class="fa fa-truck ml-2"></i> شحن مجاني بالكامل</h5>
-                        <p class="small text-white-50">نوفر لك خدمة التوصيل المجاني والسريع لجميع طلبيات الأدوية والمستلزمات الطبية.</p>
+                <div class="floating-banner-card card-shipping h-100 p-4">
+                    <a href="tel:+201001193397" class="h-100 d-block text-decoration-none">
+                        <div class="banner-icon-box icon-shipping">
+                            <i class="fa fa-motorcycle"></i>
+                        </div>
+                        <h5 class="font-weight-bold mb-2">توصيل سريع لباب بيتك</h5>
+                        <p class="small m-0">اطلب علاجك ومستلزماتك الطبية الآن، وهتوصلك لحد عندك في أسرع وقت وبأعلى معايير الأمان الصحي.</p>
                     </a>
                 </div>
             </div>
+
+            <!-- كارت العناية والتجميل (العنصر الجاذب للمبيعات) -->
             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                <div class="banner-wrap bg-info h-100 p-4 rounded shadow-sm text-white custom-card-hover">
-                    <a href="#" class="h-100 d-block text-white text-decoration-none">
-                        <h5 class="font-weight-bold mb-3"><i class="fa fa-percentage ml-2"></i> خصومات الموسم 50%</h5>
-                        <p class="small text-white-50">تخفيضات هائلة وحصرية تصل إلى نصف الثمن على مستحضرات التجميل والعناية الشخصية.</p>
+                <div class="floating-banner-card card-discount h-100 p-4">
+                    <a asp-action="Shop" class="h-100 d-block text-decoration-none">
+                        <div class="banner-icon-box icon-discount">
+                            <!-- تم التغيير لأيقونة مجانية ومدعومة بالكامل وتناسب التجميل -->
+                            <i class="fa fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h5 class="font-weight-bold mb-2">عروض العناية والتجميل</h5>
+                        <p class="small m-0">أقوى التخفيضات الحصرية على منتجات العناية بالبشرة، الشعر، ورعاية الطفل من أشهر الماركات العالمية المعتمدة.</p>
                     </a>
                 </div>
             </div>
+
+            <!-- كارت خدمات الروشتة والاستشارة (بيحل مشكلة حقيقية للزبون) -->
             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                <div class="banner-wrap bg-warning h-100 p-4 rounded shadow-sm text-dark custom-card-hover">
-                    <a href="#" class="h-100 d-block text-dark text-decoration-none">
-                        <h5 class="font-weight-bold mb-3"><i class="fa fa-gift ml-2"></i> شراء بطاقة هدايا</h5>
-                        <p class="small text-dark-50">أهدِ من تحب بطاقة مشتريات طبية لتضمن لهم رعاية صحية متكاملة في أي وقت.</p>
+                <div class="floating-banner-card card-gift h-100 p-4">
+                    <a href="https://wa.me/201001193397?text=السلام%20عليكم،%20معايا%20روشتة%20عايز%20أجهزها" target="_blank" class="h-100 d-block text-decoration-none">
+                        <div class="banner-icon-box icon-gift">
+                            <i class="fa fa-file-medical"></i>
+                        </div>
+                        <h5 class="font-weight-bold mb-2">ابعت الروشتة ع الواتساب</h5>
+                        <p class="small m-0">مش قادر تقرأ خط الدكتور؟ صور الروشتة وابعتها لينا فوراً، وهنجهزلك بروتوكول العلاج ونشرحلك جرعاته بدقة.</p>
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -58,7 +169,7 @@
     <div class="container py-4">
         <div class="row mb-5 text-center">
             <div class="col-12">
-                <h2 class="text-uppercase font-weight-bold border-bottom d-inline-block pb-2 px-4">المنتجات الأكثر شعبية</h2>
+                <h2 class="text-uppercase font-weight-bold border-bottom d-inline-block pb-2 px-4" style="color: #1e293b; border-color: #0284c7 !important;">المنتجات الأكثر شعبية</h2>
             </div>
         </div>
 
@@ -68,7 +179,7 @@
                 @foreach (var product in Model.Take(6))
                 {
                     <div class="col-sm-6 col-lg-4 item mb-5">
-                        <div class="card p-3 border shadow-sm rounded h-100 product-card custom-card-hover">
+                        <div class="card p-3 border shadow-sm rounded h-100 product-card custom-card-hover" style="border-radius: 12px !important; transition: transform 0.3s, box-shadow 0.3s;">
                             <!-- صورة المنتج قابلة للضغط -->
                             <a asp-action="SingleProduct" asp-route-id="@product.Id" class="d-block overflow-hidden rounded bg-white p-3">
                                 <img src="@Url.Content(product.ImageUrl)" alt="@product.Name" class="img-fluid" style="height: 220px; object-fit: contain; transition: transform 0.3s;">
@@ -80,11 +191,11 @@
                             </h3>
 
                             <!-- السعر -->
-                            <p class="price text-primary font-weight-bold h4 mb-3">$@product.Price</p>
+                            <p class="price text-primary font-weight-bold h4 mb-3" style="color: #0284c7 !important;">@product.Price ج.م</p>
 
                             <!-- زر الإضافة السريعة للكارت -->
                             <div class="mt-auto">
-                                <a asp-controller="Order" asp-action="AddToShoppingCart" asp-route-id="@product.Id" class="btn btn-sm btn-primary btn-block py-2 rounded-pill shadow-sm font-weight-bold">
+                                <a asp-controller="Order" asp-action="AddToShoppingCart" asp-route-id="@product.Id" class="btn btn-sm btn-primary btn-block py-2 rounded-pill shadow-sm font-weight-bold" style="background-color: #0284c7; border: none;">
                                     <span class="icon-shopping-basket ml-2"></span> أضف إلى السلة
                                 </a>
                             </div>
@@ -103,7 +214,7 @@
         <!-- زر استعراض باقي المنتجات -->
         <div class="row mt-4">
             <div class="col-12 text-center">
-                <a asp-action="Shop" class="btn btn-outline-primary px-5 py-3 rounded-pill font-weight-bold shadow-sm">عرض جميع المنتجات</a>
+                <a asp-action="Shop" class="btn btn-outline-primary px-5 py-3 rounded-pill font-weight-bold shadow-sm" style="color: #0284c7; border-color: #0284c7;">عرض جميع المنتجات</a>
             </div>
         </div>
     </div>

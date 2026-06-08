@@ -47,7 +47,7 @@
                     <div class="p-3 rounded-3 bg-light h-100 border-right-custom-success shadow-sm-inset">
                         <h5 class="text-success fw-bold mb-3"><i class="fas fa-hand-holding-medical ml-2"></i>تفاصيل الخدمة</h5>
                         <p class="mb-2 text-dark"><strong>نوع الخدمة:</strong> @Model.Service.Name</p>
-                        <p class="mb-2 text-dark"><strong>التكلفة الإجمالية:</strong> <span class="text-success fw-bold">@Model.PriceAtTimeOfRequest$</span></p>
+                        <p class="mb-2 text-dark"><strong>التكلفة الإجمالية:</strong> <span class="text-success fw-bold">@Model.PriceAtTimeOfRequest ج.م</span></p>
                         <p class="mb-2 text-dark"><strong>تاريخ الطلب:</strong> @Model.RequestTime.ToString("dd/MM/yyyy hh:mm tt")</p>
                         <p class="mb-0 text-muted italic"><strong>ملاحظات إضافية:</strong> @(Model.Notes ?? "لا توجد ملاحظات من العميل.")</p>
                     </div>

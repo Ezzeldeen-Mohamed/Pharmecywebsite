@@ -1,273 +1,278 @@
 ﻿@model ePharma_asp_mvc.Models.Prescription
 
 @{
-    ViewData["Title"] = "Prescription Details";
+    ViewData["Title"] = "تفاصيل الروشتة";
 }
-
-<!-- Breadcrumb -->
-<div class="bg-light py-3 border-bottom">
-
-    <div class="container">
-
-        <div class="row">
-
-            <div class="col-md-12 mb-0">
-
-                <a asp-controller="Home"
-                   asp-action="Index">
-
-                    Home
-
-                </a>
-
-                <span class="mx-2">/</span>
-
-                <a asp-controller="Prescription"
-                   asp-action="MyPrescriptions">
-
-                    My Prescriptions
-
-                </a>
-
-                <span class="mx-2">/</span>
-
-                <strong class="text-black">
-                    Prescription #@Model.Id
-                </strong>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- Details -->
-<div class="site-section bg-light">
-
-    <div class="container">
-
-        <div class="row">
-
-            <!-- Image -->
-            <div class="col-lg-5 mb-4">
-
-                <div class="card border-0 shadow-sm rounded-lg overflow-hidden">
-
-                    <div class="card-header bg-primary text-white">
-
-                        <h5 class="mb-0">
-                            Prescription Image
-                        </h5>
-
-                    </div>
-
-                    <div class="card-body text-center bg-white">
-
-                        @if (!string.IsNullOrEmpty(Model.ImagePath))
-                        {
-                            <img src="@Url.Content(Model.ImagePath)"
-                                 class="img-fluid rounded shadow-sm"
-                                 style="max-height:500px; object-fit:contain;" />
-                        }
-                        else
-                        {
-                            <img src="~/images/no-image.png"
-                                 class="img-fluid"
-                                 style="max-height:400px;" />
-                        }
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Info -->
-            <div class="col-lg-7">
-
-                <div class="card border-0 shadow-sm rounded-lg">
-
-                    <div class="card-header bg-dark text-white">
-
-                        <h5 class="mb-0">
-                            Prescription Information
-                        </h5>
-
-                    </div>
-
-                    <div class="card-body">
-
-                        <table class="table table-bordered mb-0">
-
-                            <tbody>
-
-                                <tr>
-                                    <th>Status</th>
-                                    <td>
-                                        @if (Model.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Accepted) // فرضاً إن دي القيم عندك
-                                        {
-                                            <span class="badge bg-warning text-dark">Accepted</span>
-                                        }
-                                        else if (Model.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Pending)
-                                        {
-                                            <span class="badge bg-warning text-dark">Pending</span>
-                                        }   
-                                        else if (Model.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Cancelled)
-                                        {
-                                            <span class="badge bg-danger">Cancelled</span>
-                                        }
-                                        else if (Model.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Completed)
-                                        {
-                                            <span class="badge bg-success">Completed</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">@Model.Status</span>
-                                        }
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <th width="35%">
-                                        Prescription ID
-                                    </th>
-
-                                    <td>
-                                        #@Model.Id
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Uploaded At
-                                    </th>
-
-                                    <td>
-                                        @Model.CreatedAt.ToString("dd MMM yyyy - hh:mm tt")
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Address
-                                    </th>
-
-                                    <td>
-                                        @Model.Address
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Phone Number
-                                    </th>
-
-                                    <td>
-                                        @Model.PhoneNumber
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Notes
-                                    </th>
-
-                                    <td>
-                                        @if (!string.IsNullOrEmpty(Model.Notes))
-                                        {
-                                            @Model.Notes
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">
-                                                No notes added.
-                                            </span>
-                                        }
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Uploaded By
-                                    </th>
-
-                                    <td>
-                                        @Model.User?.UserName
-                                    </td>
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-                <!-- Buttons -->
-                <div class="mt-4 d-flex flex-wrap gap-2">
-
-                    <a asp-controller="Prescription"
-                       asp-action="MyPrescriptions"
-                       class="btn btn-outline-primary">
-
-                        <i class="fa fa-arrow-left mr-2"></i>
-                        Back
-
-                    </a>
-
-                    <a href="@Url.Content(Model.ImagePath)"
-                       target="_blank"
-                       class="btn btn-primary">
-
-                        <i class="fa fa-eye mr-2"></i>
-                        View Full Image
-
-                    </a>
-
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <form asp-controller="Prescription"
-                              asp-action="Delete"
-                              asp-route-id="@Model.Id"
-                              method="post"
-                              onsubmit="return confirm('Delete this prescription?')">
-
-                            @Html.AntiForgeryToken()
-
-                            <button type="submit"
-                                    class="btn btn-danger">
-
-                                <i class="fa fa-trash mr-2"></i>
-                                Delete
-
-                            </button>
-
-                        </form>
-                    }
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 <style>
 
-    .gap-2 {
-        gap: .5rem;
+    body {
+        background: #f5f7fb;
+    }
+
+    .pres-page {
+        direction: rtl;
+    }
+
+    .breadcrumb-modern {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+    }
+
+    .card-modern {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        border: none;
+        overflow: hidden;
+    }
+
+    .card-header-modern {
+        padding: 15px 20px;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .img-box {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .pres-img {
+        max-height: 450px;
+        max-width: 100%;
+        object-fit: contain;
+        border-radius: 12px;
     }
 
     .table th {
-        background-color: #f8f9fa;
+        background: #f8f9fa;
+        font-size: 13px;
+        color: #666;
+        width: 35%;
         white-space: nowrap;
     }
 
+    .table td {
+        font-size: 14px;
+    }
+
+    .badge-modern {
+        padding: 8px 14px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .btn-modern {
+        border-radius: 12px;
+        padding: 10px 18px;
+        font-weight: 600;
+    }
+
+    .actions {
+        gap: 10px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    @@media(max-width:768px) {
+        .pres-img {
+            max-height: 300px;
+        }
+    }
+
 </style>
+
+<div class="pres-page">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-modern py-3">
+        <div class="container">
+
+            <a asp-controller="Home" asp-action="Index">
+                الرئيسية
+            </a>
+
+            <span class="mx-2">/</span>
+
+            <a asp-controller="Prescription"
+               asp-action="MyPrescriptions">
+                روشتاتي
+            </a>
+
+            <span class="mx-2">/</span>
+
+            <strong>
+                روشتة #@Model.Id
+            </strong>
+
+        </div>
+    </div>
+
+    <div class="site-section py-5">
+
+        <div class="container">
+
+            <div class="row">
+
+                <!-- IMAGE -->
+                <div class="col-lg-5 mb-4">
+
+                    <div class="card-modern">
+
+                        <div class="card-header-modern bg-primary text-white">
+                            صورة الروشتة
+                        </div>
+
+                        <div class="img-box">
+
+                            @if (!string.IsNullOrEmpty(Model.ImagePath))
+                            {
+                                <img src="@Url.Content(Model.ImagePath)"
+                                     class="pres-img" />
+                            }
+                            else
+                            {
+                                <img src="~/images/no-image.png"
+                                     class="pres-img" />
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- INFO -->
+                <div class="col-lg-7">
+
+                    <div class="card-modern">
+
+                        <div class="card-header-modern bg-dark text-white">
+                            بيانات الروشتة
+                        </div>
+
+                        <div class="p-3">
+
+                            <table class="table mb-0">
+
+                                <tbody>
+
+                                    <tr>
+                                        <th>الحالة</th>
+                                        <td>
+
+                                            @{
+                                                var statusClass = Model.Status switch
+                                                {
+                                                    ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Pending => "bg-warning text-dark",
+                                                    ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Accepted => "bg-info text-white",
+                                                    ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Completed => "bg-success text-white",
+                                                    ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Cancelled => "bg-danger text-white",
+                                                    _ => "bg-secondary text-white"
+                                                };
+                                            }
+
+                                            <span class="badge-modern @statusClass">
+                                                @Model.Status
+                                            </span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>رقم الروشتة</th>
+                                        <td>#@Model.Id</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>تاريخ الرفع</th>
+                                        <td>
+                                            @Model.CreatedAt.ToString("dd/MM/yyyy - hh:mm tt")
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>العنوان</th>
+                                        <td>@Model.Address</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>رقم الهاتف</th>
+                                        <td>@Model.PhoneNumber</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>الملاحظات</th>
+                                        <td>
+                                            @(string.IsNullOrEmpty(Model.Notes)
+                                                                                        ? "لا توجد ملاحظات"
+                                                                                        : Model.Notes)
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>المستخدم</th>
+                                        <td>@Model.User?.UserName</td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ACTIONS -->
+                    <div class="card-modern mt-4 p-3">
+
+                        <div class="actions">
+
+                            <a asp-controller="Prescription"
+                               asp-action="MyPrescriptions"
+                               class="btn btn-outline-primary btn-modern">
+
+                                رجوع
+
+                            </a>
+
+                            <a href="@Url.Content(Model.ImagePath)"
+                               target="_blank"
+                               class="btn btn-primary btn-modern">
+
+                                عرض الصورة
+
+                            </a>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <form asp-action="Delete"
+                                      method="post"
+                                      onsubmit="return confirm('هل تريد حذف الروشتة؟');">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden" name="id" value="@Model.Id" />
+
+                                    <button class="btn btn-danger btn-modern">
+                                        حذف
+                                    </button>
+
+                                </form>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

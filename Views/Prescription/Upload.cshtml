@@ -1,83 +1,169 @@
 ﻿@{
-    ViewData["Title"] = "Upload Prescription";
+    ViewData["Title"] = "رفع روشتة";
 }
 
-<div class="container mt-5">
+<style>
 
-    <div class="row justify-content-center">
+    body {
+        background: #f5f7fb;
+    }
 
-        <div class="col-md-7">
+    .upload-page {
+        direction: rtl;
+    }
 
-            <div class="card shadow border-0">
+    .upload-card {
+        background: #fff;
+        border-radius: 22px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        border: none;
+        overflow: hidden;
+    }
 
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">
-                        Upload Prescription
-                    </h3>
+    .upload-header {
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        color: #fff;
+        padding: 20px;
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .upload-body {
+        padding: 25px;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #333;
+    }
+
+    .btn-upload {
+        border-radius: 14px;
+        padding: 12px;
+        font-weight: 700;
+        font-size: 16px;
+        transition: .3s;
+    }
+
+        .btn-upload:hover {
+            transform: translateY(-2px);
+        }
+
+    .file-box {
+        border: 2px dashed #0d6efd;
+        border-radius: 14px;
+        padding: 20px;
+        text-align: center;
+        background: #f8f9ff;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+        .file-box:hover {
+            background: #eef3ff;
+        }
+
+    .hint {
+        font-size: 12px;
+        color: #6c757d;
+    }
+
+</style>
+
+<div class="upload-page">
+
+    <div class="container mt-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7 col-md-9">
+
+                <div class="upload-card">
+
+                    <div class="upload-header">
+                        📄 رفع روشتة جديدة
+                    </div>
+
+                    <div class="upload-body">
+
+                        <form asp-action="Upload"
+                              method="post"
+                              enctype="multipart/form-data">
+
+                            @Html.AntiForgeryToken()
+
+                            <!-- FILE -->
+                            <div class="mb-4">
+
+                                <label>صورة الروشتة</label>
+
+                                <input type="file"
+                                       name="imageFile"
+                                       class="form-control"
+                                       accept="image/*" />
+
+                                <div class="hint mt-1">
+                                    يمكنك رفع صورة واضحة للروشتة (JPG - PNG)
+                                </div>
+
+                            </div>
+
+                            <!-- ADDRESS -->
+                            <div class="mb-4">
+
+                                <label>العنوان</label>
+
+                                <input type="text"
+                                       name="address"
+                                       class="form-control"
+                                       placeholder="ادخل عنوان التوصيل" />
+
+                            </div>
+
+                            <!-- PHONE -->
+                            <div class="mb-4">
+
+                                <label>رقم الهاتف</label>
+
+                                <input type="text"
+                                       name="phoneNumber"
+                                       class="form-control"
+                                       placeholder="01xxxxxxxxx" />
+
+                            </div>
+
+                            <!-- NOTES -->
+                            <div class="mb-4">
+
+                                <label>ملاحظات</label>
+
+                                <textarea name="notes"
+                                          class="form-control"
+                                          rows="4"
+                                          placeholder="أي ملاحظات إضافية..."></textarea>
+
+                            </div>
+
+                            <!-- BUTTON -->
+                            <button type="submit"
+                                    class="btn btn-primary btn-upload w-100">
+
+                                رفع الروشتة
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
                 </div>
-
-                <div class="card-body">
-
-                    <form asp-action="Upload"
-                          method="post"
-                          enctype="multipart/form-data">
-
-                        @Html.AntiForgeryToken()
-
-                        <div class="form-group mb-4">
-
-                            <label>
-                                Prescription Image
-                            </label>
-
-                            <input type="file"
-                                   name="imageFile"
-                                   class="form-control" />
-
-                        </div>
-
-                        <div class="form-group mb-4">
-
-                            <label>
-                                Address
-                            </label>
-
-                            <input type="text"
-                                   name="address"
-                                   class="form-control" />
-
-                        </div>
-
-                        <div class="form-group mb-4">
-
-                            <label>
-                                Phone Number
-                            </label>
-
-                            <input type="text"
-                                   name="phoneNumber"
-                                   class="form-control" />
-
-                        </div>
-
-                        <div class="form-group mb-4">
-
-                            <label>
-                                Notes
-                            </label>
-
-                            <textarea name="notes"class="form-control"rows="4"></textarea>
-
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-primary w-100">
-
-                            Upload Prescription
-
-                        </button>
-
-                    </form>
 
             </div>
 

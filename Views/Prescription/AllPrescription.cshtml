@@ -1,57 +1,202 @@
-﻿@model IEnumerable<Prescription>
+﻿@using ePharma_asp_mvc.Models.Enums
+@model IEnumerable<Prescription>
 
 @{
-    ViewData["Title"] = User.IsInRole("Admin") ? "Manage Prescriptions" : "My Prescriptions";
+    ViewData["Title"] = User.IsInRole("Admin") ? "إدارة الروشتات" : "روشتاتي";
 }
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold text-dark">@(User.IsInRole("Admin") ? "Prescription Service Requests" : "Your Uploaded Prescriptions")</h2>
-            <p class="text-muted small">
-                @(User.IsInRole("Admin") ? "Review, approve, or reject user health service prescriptions." : "Track the status of your uploaded medical prescriptions.")
-            </p>
-        </div>
-        @if (!User.IsInRole("Admin"))
-        {
-            <a asp-action="Upload" asp-controller="Prescription" class="btn btn-primary"><i class="fas fa-upload me-2"></i>Upload New One</a>
-        }
-    </div>
+<style>
 
-    <!-- Alert Messages -->
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    body {
+        background: #f5f7fb;
     }
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body p-0">
+    .pres-page {
+        direction: rtl;
+    }
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .page-title {
+        font-weight: 800;
+        color: #212529;
+    }
+
+    .page-desc {
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .card-modern {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        border: none;
+        overflow: hidden;
+    }
+
+    .table th {
+        font-size: 13px;
+        color: #666;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .pres-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 1px solid #eee;
+    }
+
+    .badge-status {
+        padding: 8px 14px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .btn-icon {
+        border-radius: 10px;
+        padding: 6px 10px;
+    }
+
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+
+    .empty-box {
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .empty-box i {
+        font-size: 60px;
+        color: #adb5bd;
+        margin-bottom: 15px;
+    }
+
+    .upload-btn {
+        border-radius: 12px;
+        padding: 10px 18px;
+        font-weight: 600;
+    }
+
+    .alert-modern {
+        border-radius: 14px;
+    }
+
+    @@media(max-width:768px) {
+
+        .table {
+            min-width: 800px;
+        }
+
+        .page-title {
+            font-size: 20px;
+        }
+    }
+
+</style>
+
+<div class="pres-page">
+
+    <div class="container mt-5">
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap page-header">
+
+            <div>
+                <h2 class="page-title">
+                    @(User.IsInRole("Admin") ? "طلبات الروشتات" : "روشتاتي")
+                </h2>
+
+                <p class="page-desc">
+                    @(User.IsInRole("Admin")
+                        ? "إدارة ومراجعة طلبات الروشتات من المستخدمين"
+                        : "متابعة حالة الروشتات التي قمت برفعها")
+                </p>
+            </div>
+
+            @if (!User.IsInRole("Admin"))
+            {
+                <a asp-action="Upload"
+                   asp-controller="Prescription"
+                   class="btn btn-primary upload-btn">
+
+                    رفع روشتة جديدة
+
+                </a>
+            }
+
+        </div>
+
+        <!-- Success Alert -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-modern alert-dismissible fade show">
+                <i class="fas fa-check-circle me-2"></i>
+                @TempData["Success"]
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <!-- Card -->
+        <div class="card-modern">
+
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+
+                <table class="table table-hover mb-0">
+
                     <thead class="table-light">
+
                         <tr>
-                            <th class="ps-4">Image</th>
+                            <th>الصورة</th>
+
                             @if (User.IsInRole("Admin"))
                             {
-                                <th>User</th>
+                                <th>المستخدم</th>
                             }
-                            <th>Contact Info</th>
-                            <th>Notes</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th class="text-end pe-4">Actions</th>
+
+                            <th>التواصل</th>
+                            <th>الملاحظات</th>
+                            <th>الحالة</th>
+                            <th>التاريخ</th>
+                            <th class="text-center">الإجراءات</th>
                         </tr>
+
                     </thead>
+
                     <tbody>
+
                         @if (!Model.Any())
                         {
                             <tr>
-                                <td colspan="@(User.IsInRole("Admin") ? 7 : 6)" class="text-center py-5 text-muted">
-                                    <i class="fas fa-folder-open fa-3x mb-3 d-block text-secondary"></i>
-                                    No prescriptions found.
+                                <td colspan="7">
+                                    <div class="empty-box">
+
+                                        <i class="fas fa-folder-open"></i>
+
+                                        <h5>لا توجد روشتات</h5>
+
+                                        <p class="text-muted">
+                                            لم يتم رفع أي روشتة حتى الآن
+                                        </p>
+
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -59,117 +204,153 @@
                         {
                             foreach (var item in Model)
                             {
+                                var badgeClass = item.Status switch
+                                {
+                                    PrescriptionStatus.Pending => "bg-warning text-dark",
+                                    PrescriptionStatus.Accepted => "bg-info text-white",
+                                    PrescriptionStatus.Completed => "bg-success text-white",
+                                    PrescriptionStatus.Cancelled => "bg-danger text-white",
+                                    _ => "bg-secondary text-white"
+                                };
+
                                 <tr>
-                                    <!-- Image Column -->
-                                    <td class="ps-4">
-                                        <a href="@Url.Content(item.ImagePath)" target="_blank">
-                                            <img src="@Url.Content(item.ImagePath)" class="rounded border shadow-sm img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;" alt="Prescription" />
-                                        </a>
+
+                                    <!-- Image -->
+                                    <td>
+                                        <img src="@Url.Content(item.ImagePath)"
+                                             class="pres-img" />
                                     </td>
 
-                                    <!-- User Column (Admin Only) -->
+                                    <!-- User -->
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <td>
-                                            <span class="fw-bold d-block text-dark">@(item.User?.UserName ?? "Guest User")</span>
-                                            <small class="text-muted">Email: @(item.User?.Email ?? "N/A")</small>
+                                            <strong>
+                                                @(item.User?.UserName ?? "مستخدم")
+                                            </strong>
+                                            <br />
+                                            <small class="text-muted">
+                                                @(item.User?.Email ?? "")
+                                            </small>
                                         </td>
                                     }
 
-                                    <!-- Contact Info Column -->
+                                    <!-- Contact -->
                                     <td>
-                                        <span class="d-block small text-dark"><i class="fas fa-phone text-muted me-1"></i> @item.PhoneNumber</span>
-                                        <span class="d-block small text-muted"><i class="fas fa-map-marker-alt text-muted me-1"></i> @item.Address</span>
+                                        <div class="small">
+                                            📞 @item.PhoneNumber
+                                        </div>
+
+                                        <div class="text-muted small">
+                                            📍 @item.Address
+                                        </div>
                                     </td>
 
-                                    <!-- Notes Column -->
+                                    <!-- Notes -->
                                     <td>
-                                        <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@item.Notes">
-                                            @(string.IsNullOrEmpty(item.Notes) ? "No notes provided" : item.Notes)
+                                        @(string.IsNullOrEmpty(item.Notes)
+                                            ? "لا توجد ملاحظات"
+                                            : item.Notes)
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td>
+                                        <span class="badge-status @badgeClass">
+                                            @switch (item.Status)
+                                            {
+                                                case PrescriptionStatus.Pending:
+                                                    @:قيد المراجعة
+                                                    break;
+
+                                                case PrescriptionStatus.Accepted:
+                                                    @:تم القبول
+                                                    break;
+
+                                                case PrescriptionStatus.Completed:
+                                                    @:مكتمل
+                                                    break;
+
+                                                case PrescriptionStatus.Cancelled:
+                                                    @:ملغي
+                                                    break;
+                                            }
                                         </span>
                                     </td>
 
-                                    <!-- Status Badge Column -->
-                                    <td>
-                                        @{
-                                            var badgeClass = item.Status switch
-                                            {
-                                                ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Pending => "bg-warning text-dark",
-                                                ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Accepted => "bg-info text-white",
-                                                ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Completed => "bg-success text-white",
-                                                ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Cancelled => "bg-danger text-white",
-                                                _ => "bg-secondary text-white"
-                                            };
-                                        }
-                                        <span class="badge @badgeClass px-2 py-1.5" style="min-width: 85px;">@item.Status</span>
-                                    </td>
-
-                                    <!-- Date Column -->
+                                    <!-- Date -->
                                     <td class="text-muted small">
-                                        @item.CreatedAt.ToString("dd MMM yyyy, hh:mm tt")
+                                        @item.CreatedAt.ToString("dd/MM/yyyy hh:mm tt")
                                     </td>
 
-                                    <!-- Actions Column (التحكم الذكي حسب الـ Workflow) -->
-                                    <td class="text-end pe-4">
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <!-- زر التفاصيل متاح دائماً للجميع -->
-                                            <a asp-action="Details" asp-controller="Prescription" asp-route-id="@item.Id" class="btn btn-outline-secondary" title="View Full Details">
+                                    <!-- Actions -->
+                                    <td class="text-center">
+
+                                        <div class="btn-group btn-group-sm">
+
+                                            <a asp-action="Details"
+                                               asp-controller="Prescription"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-outline-secondary btn-icon">
                                                 <i class="fas fa-eye"></i>
                                             </a>
 
                                             @if (User.IsInRole("Admin"))
                                             {
-                                                <!-- 1. لو الحالة لسه منتظرة المراجعة (Pending) -->
-                                                @if (item.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Pending)
+                                                @if (item.Status == PrescriptionStatus.Pending)
                                                 {
-                                                    <form asp-action="UpdateStatus" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-status="Accepted" method="post" class="d-inline">
+                                                    <form asp-action="UpdateStatus" method="post" class="d-inline">
                                                         @Html.AntiForgeryToken()
-                                                        <button type="submit" class="btn btn-outline-success" title="Accept & Prepare">
+                                                        <input type="hidden" name="id" value="@item.Id" />
+                                                        <input type="hidden" name="status" value="Accepted" />
+
+                                                        <button class="btn btn-outline-success btn-icon">
                                                             <i class="fas fa-check"></i>
                                                         </button>
                                                     </form>
 
-                                                    <form asp-action="UpdateStatus" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-status="Cancelled" method="post" class="d-inline">
+                                                    <form asp-action="UpdateStatus" method="post" class="d-inline">
                                                         @Html.AntiForgeryToken()
-                                                        <button type="submit" class="btn btn-outline-danger" title="Reject / Cancel Request">
+                                                        <input type="hidden" name="id" value="@item.Id" />
+                                                        <input type="hidden" name="status" value="Cancelled" />
+
+                                                        <button class="btn btn-outline-danger btn-icon">
                                                             <i class="fas fa-times"></i>
                                                         </button>
                                                     </form>
                                                 }
 
-                                                else if (item.Status == ePharma_asp_mvc.Models.Enums.PrescriptionStatus.Accepted)
-                                                {
-                                                    <form asp-action="UpdateStatus" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-status="Completed" method="post" class="d-inline">
-                                                        @Html.AntiForgeryToken()
-                                                        <button type="submit" class="btn btn-success text-white" title="Mark as Completed">
-                                                            <i class="fas fa-check-double"></i>
-                                                        </button>
-                                                    </form>
+                                                <form asp-action="Delete"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('هل تريد الحذف نهائياً؟');">
 
-                                                    <form asp-action="UpdateStatus" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-status="Cancelled" method="post" class="d-inline">
-                                                        @Html.AntiForgeryToken()
-                                                        <button type="submit" class="btn btn-outline-danger" title="Cancel Request">
-                                                            <i class="fas fa-times"></i>
-                                                        </button>
-                                                    </form>
-                                                }
-
-                                                <!-- زر الحذف النهائي للأدمن متوفر دائماً -->
-                                                <form asp-action="Delete" asp-controller="Prescription" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this record permanently?');">
                                                     @Html.AntiForgeryToken()
-                                                    <button type="submit" class="btn btn-outline-dark" title="Delete Permanently">
-                                                        <i class="fas fa-trash-alt"></i>
+
+                                                    <input type="hidden" name="id" value="@item.Id" />
+
+                                                    <button class="btn btn-dark btn-icon">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
+
                                                 </form>
                                             }
+
                                         </div>
+
                                     </td>
+
                                 </tr>
                             }
                         }
+
                     </tbody>
+
                 </table>
+
             </div>
+
         </div>
+
     </div>
+
 </div>

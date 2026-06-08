@@ -49,7 +49,7 @@ namespace ePharma_asp_mvc
             // Cookie Configuration
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/Account/Login";
+                options.LoginPath = "/ApplicationUser/LogIn";
                 options.LogoutPath = "/Account/Logout";
                 options.AccessDeniedPath = "/Account/AccessDenied";
             });
